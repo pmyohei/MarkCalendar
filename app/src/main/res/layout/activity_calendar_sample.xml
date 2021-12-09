@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <!-- タイトル -->
+        <TextView
+            android:id="@+id/calendarTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="17sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="SERIF"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="#fecfb1">
+        </LinearLayout>
+
+        <!-- 年行 -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="0">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="2015"
+                    android:id="@+id/yearTextView"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:layout_gravity="center"
+                    android:fontFamily="SERIF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/monthTextView"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="17sp" />
+                
+            </TableRow>
+        </TableLayout>
+
+        <!-- 月、月切り替え -->
+<!--
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="26.25dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/backMonthImageViewButton"
+                    android:background="@drawable/move_back"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/monthTextView"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="17sp" />
+
+                <ImageButton
+                    android:layout_width="26.25dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/moveMonthImageButton"
+                    android:background="@drawable/move_on"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center_vertical" />
+
+            </TableRow>
+
+        </TableLayout>
+-->
+
+        <!-- 曜日 -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/calendarDateLayout">
+
+            <TableRow
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUN"
+                    android:id="@+id/sunTextView"
+                    android:layout_weight=".2"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MON"
+                    android:id="@+id/monTextView"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TUE"
+                    android:id="@+id/tueTextView"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WED"
+                    android:id="@+id/wedTextView"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="THU"
+                    android:id="@+id/thuTextView"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FRI"
+                    android:id="@+id/friTextView"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAT"
+                    android:id="@+id/satTextView"
+                    android:layout_weight=".2"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:fontFamily="SERIF"
+                    android:textSize="11sp" />
+            </TableRow>
+            
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="#fecfb1">
+            </LinearLayout>
+
+        </TableLayout>
+        
+    </LinearLayout>
+
+</RelativeLayout>
