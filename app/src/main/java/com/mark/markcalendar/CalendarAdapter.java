@@ -76,22 +76,30 @@ public class CalendarAdapter extends BaseAdapter {
 
         //日付のみ表示させる
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
-        holder.dateText.setText(dateFormat.format(dateArray.get(position)));
+        //holder.dateText.setText(dateFormat.format(dateArray.get(position)));
+
+        //今月のセルをまず色付け
+        convertView.setBackgroundColor(Color.WHITE);
+
+        TextView tv_date = holder.dateText;
+        //tv_date.setTypeface( Typeface.SERIF );
 
         //セルに対する色の設定
         if (mDateManager.isCurrentMonth(dateArray.get(position))){
             //今月のセルをまず色付け
-            convertView.setBackgroundColor(Color.WHITE);
+            //convertView.setBackgroundColor(Color.WHITE);
+
+            tv_date.setText(dateFormat.format(dateArray.get(position)));
 
         }else {
             //先月・来月のセルは、グレーアウト
-            convertView.setBackgroundColor(parent.getResources().getColor(R.color.gray));
+            //convertView.setBackgroundColor(parent.getResources().getColor(R.color.gray));
         }
 
         //日曜日を赤、土曜日を青に
         int colorId;
         Typeface boldtype;
-        switch (mDateManager.getDayOfWeek(dateArray.get(position))){
+/*        switch (mDateManager.getDayOfWeek(dateArray.get(position))){
             case 1:
                 colorId = Color.RED;
                 break;
@@ -108,18 +116,20 @@ public class CalendarAdapter extends BaseAdapter {
                     colorId = Color.GRAY;
                 }
                 break;
-        }
+        }*/
 
-        //今日の日付のみ、太字
+        //今日の日付のみ、黒太字
         if(mDateManager.isCurrentDay(dateArray.get(position))) {
+            colorId = Color.BLACK;
             boldtype = Typeface.DEFAULT_BOLD;
         }else{
+            colorId = Color.GRAY;
             boldtype = Typeface.DEFAULT;
         }
 
         //色と太さを設定設定
-        holder.dateText.setTextColor(colorId);
-        holder.dateText.setTypeface(boldtype);
+        tv_date.setTextColor(colorId);
+        //tv_date.setTypeface(boldtype);
 
         return convertView;
     }

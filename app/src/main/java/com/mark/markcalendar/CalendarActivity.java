@@ -1,13 +1,17 @@
 package com.mark.markcalendar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridView;
+import android.widget.TextView;
 
 /*
  * カレンダーActivity
@@ -19,17 +23,40 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
+        //ステータスバーの設定
+        int color = getResources().getColor(R.color.main);
+        getWindow().setStatusBarColor(color);
+
         //ツールバー設定
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("選択中マークを表示");
         setSupportActionBar(toolbar);
 
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayShowTitleEnabled(false);
+
+
+/*
+        actionbar.setDisplayShowTitleEnabled(false);
+        actionbar.setNavigationMode(
+                ActionBar.NAVIGATION_MODE_LIST
+        );
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(
+                        this,
+                        R.array.planets_array,
+                        R.layout.actionbar_spinner);
+        adapter.setDropDownViewResource(
+                R.layout.actionbar_spinner_dropdown
+        );
+        actionbar.setListNavigationCallbacks(adapter, this);
+*/
+
+
         //カレンダーの表示
         GridView calendarGridView = findViewById(R.id.calendarGridView);
         CalendarAdapter mCalendarAdapter = new CalendarAdapter(this);
         calendarGridView.setAdapter(mCalendarAdapter);
-
-
 
     }
 

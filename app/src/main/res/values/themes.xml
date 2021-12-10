@@ -3,7 +3,7 @@
     <!--  ツールバー  -->
     <!--  ※デフォルトの文字サイズは20dp(abc_text_size_title_material_toolbar)  -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 
