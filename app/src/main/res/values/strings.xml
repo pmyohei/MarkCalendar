@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">MarkCalendar</string>
 
+    <string name="sample_date">10</string>a
+
     <!--  曜日  -->
     <string name="week_sunday">Sun</string>
     <string name="week_monday">Mon</string>

@@ -1,19 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="main">#4C3F91</color>
-    <color name="gray">#989898</color>
+    <color name="primary">#222831</color>
+    <color name="substitute1">#393e46</color>
+<!--
+    <color name="substitute2">#eeeeee</color>
+-->
+    <color name="substitute2">#f9f7f7</color>
+
+<!--
+    <color name="accent">#00adb5</color>
+    <color name="accent">#f95959</color>
+    <color name="accent">#f8b500</color>
+    <color name="accent">#155e63</color>
+    <color name="accent">#7bc74d</color>
+-->
+    <color name="accent">#986ead</color>
+
+
+<!--
+    <color name="primary">#222831</color>
+    <color name="substitute1">#393e46</color>
+    <color name="substitute2">#eeeeee</color>
+    <color name="accent">#00adb5</color>
+    -->
+    <!--
+    <color name="primary">#233142</color>
+    <color name="substitute1">#455d7a</color>
+    <color name="substitute2">#e3e3e3</color>
+    <color name="accent">#f95959</color>
+    -->
+
+    <!--
+    <color name="primary">#525252</color>
+    <color name="substitute1">#414141</color>
+    <color name="substitute2">#e4dcef</color>
+    <color name="accent">#ec625f</color>
+    -->
+
+    <!--
+    <color name="primary">#363540</color>
+    <color name="substitute1">#505458</color>
+    <color name="substitute2">#e4dcef</color>
+    <color name="accent">#ee0e51</color>
+-->
+
+
+<!--
+    <color name="primary">#4C3F91</color>
+    <color name="substitute1">#989898</color>
+    <color name="substitute2">#003FFF</color>
+    <color name="accent">#FF0000</color>
+-->
+
+
+
     <color name="red">#FF0000</color>
     <color name="blue">#003FFF</color>
-
-
-
-
-
-
-
-
-
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

@@ -25,7 +25,8 @@ public class CalendarAdapter extends BaseAdapter {
 
     //カスタムセルを拡張したらここでWigetを定義
     private static class ViewHolder {
-        public TextView dateText;
+        public TextView tv_date;
+        public MarkView v_mark;
         //public long     title_id;
     }
 
@@ -57,7 +58,8 @@ public class CalendarAdapter extends BaseAdapter {
 
             //割り当てたセルにタグをつける
             holder = new ViewHolder();
-            holder.dateText = convertView.findViewById(R.id.dateText);
+            holder.tv_date = convertView.findViewById(R.id.tv_date);
+            holder.v_mark = convertView.findViewById(R.id.v_mark);
             convertView.setTag(holder);
 
         } else {
@@ -70,18 +72,18 @@ public class CalendarAdapter extends BaseAdapter {
         float dp = mContext.getResources().getDisplayMetrics().density;
         //セルの幅と高さ
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                parent.getWidth()/7 - (int)dp,
+                parent.getWidth() / 7 - (int)dp,
                 (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
         convertView.setLayoutParams(params);
 
         //日付のみ表示させる
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
-        //holder.dateText.setText(dateFormat.format(dateArray.get(position)));
+        //holder.tv_date.setText(dateFormat.format(dateArray.get(position)));
 
         //今月のセルをまず色付け
-        convertView.setBackgroundColor(Color.WHITE);
+        //convertView.setBackgroundColor(Color.WHITE);
 
-        TextView tv_date = holder.dateText;
+        TextView tv_date = holder.tv_date;
         //tv_date.setTypeface( Typeface.SERIF );
 
         //セルに対する色の設定
@@ -90,6 +92,18 @@ public class CalendarAdapter extends BaseAdapter {
             //convertView.setBackgroundColor(Color.WHITE);
 
             tv_date.setText(dateFormat.format(dateArray.get(position)));
+
+            //デザイン確認用
+            if( dateFormat.format(dateArray.get(position)).equals("1") ){
+                holder.v_mark.setVisibility(View.VISIBLE);
+            }
+            if( dateFormat.format(dateArray.get(position)).equals("10") ){
+                holder.v_mark.setVisibility(View.VISIBLE);
+            }
+            if( dateFormat.format(dateArray.get(position)).equals("13") ){
+                holder.v_mark.setVisibility(View.VISIBLE);
+            }
+            //デザイン確認用-----
 
         }else {
             //先月・来月のセルは、グレーアウト
@@ -128,7 +142,7 @@ public class CalendarAdapter extends BaseAdapter {
         }
 
         //色と太さを設定設定
-        tv_date.setTextColor(colorId);
+        //tv_date.setTextColor(colorId);
         //tv_date.setTypeface(boldtype);
 
         return convertView;

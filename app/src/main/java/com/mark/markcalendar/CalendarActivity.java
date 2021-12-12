@@ -4,14 +4,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridView;
-import android.widget.TextView;
 
 /*
  * カレンダーActivity
@@ -24,7 +21,7 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         //ステータスバーの設定
-        int color = getResources().getColor(R.color.main);
+        int color = getResources().getColor(R.color.primary);
         getWindow().setStatusBarColor(color);
 
         //ツールバー設定
