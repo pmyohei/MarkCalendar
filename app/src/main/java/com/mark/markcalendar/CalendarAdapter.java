@@ -59,7 +59,7 @@ public class CalendarAdapter extends BaseAdapter {
             //割り当てたセルにタグをつける
             holder = new ViewHolder();
             holder.tv_date = convertView.findViewById(R.id.tv_date);
-            holder.v_mark = convertView.findViewById(R.id.v_mark);
+            holder.v_mark  = convertView.findViewById(R.id.v_mark);
             convertView.setTag(holder);
 
         } else {
