@@ -12,5 +12,9 @@
     <string name="week_friday">Fri</string>
     <string name="week_saturday">Sat</string>
 
+    <!--  マーク数  -->
+    <string name="mark_slash">／</string>
+    <string name="mark_unit">Marks</string>
+
 
 </resources>

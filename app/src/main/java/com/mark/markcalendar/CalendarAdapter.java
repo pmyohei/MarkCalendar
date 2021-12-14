@@ -3,6 +3,7 @@ package com.mark.markcalendar;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,146 +19,120 @@ import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
 
-    private List<Date> dateArray = new ArrayList();
-    private Context mContext;
-    private DateManager mDateManager;
-    private LayoutInflater mLayoutInflater;
+    private Context         mContext;                       //コンテキスト
+    private List<Date>      mDaysInMonth = new ArrayList(); //選択月の日リスト
+    private DateManager     mDateManager;                   //カレンダー管理用
+    private LayoutInflater  mLayoutInflater;                //描画高速化のために必要
 
-    //カスタムセルを拡張したらここでWigetを定義
+    /*
+     * 日付レイアウト用クラス
+     */
     private static class ViewHolder {
         public TextView tv_date;
         public MarkView v_mark;
-        //public long     title_id;
     }
 
+    /*
+     * コンストラクタ
+     */
     public CalendarAdapter(Context context){
         mContext = context;
-        //描画高速化のために必要
         mLayoutInflater = LayoutInflater.from(mContext);
-        //カレンダー管理用
         mDateManager = new DateManager();
-        //その月の日にちをリストで保持
-        dateArray = mDateManager.getDays();
+        mDaysInMonth = mDateManager.getDays();
     }
 
     @Override
     public int getCount() {
-        //その月の日の数
-        return dateArray.size();
+        //その月の日数
+        return mDaysInMonth.size();
     }
 
+    /*
+     * セル一つ一つを描画する際にコールされる。
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //これは、セル一つ一つを描画する際にコールされる。
 
         //findViewById()で取得した参照を保持するためのクラス
         ViewHolder holder;
-        //初めて表示されるなら、セルを割り当て。セルはレイアウトファイルを使用する。
-        if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);
 
-            //割り当てたセルにタグをつける
+        //初めて表示されるなら、セルを割り当て。セルはレイアウトファイルを使用。
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.calendar_day_cell, null);
+
+            //ビューを生成。レイアウト内のビューを保持。
             holder = new ViewHolder();
             holder.tv_date = convertView.findViewById(R.id.tv_date);
             holder.v_mark  = convertView.findViewById(R.id.v_mark);
+
+            //タグ設定
             convertView.setTag(holder);
 
         } else {
-            //一度、表示されているなら、それをそのまま活用
+            //一度表示されているなら、そのまま活用
             holder = (ViewHolder)convertView.getTag();
         }
+
+        //１週間の日数
+        final int WEEK_DAYS_NUM = 7;
+
+        //当月の週数
+        int weekNum = mDateManager.getWeeks();
 
         //セルのサイズを指定
         //画面解像度の比率を取得
         float dp = mContext.getResources().getDisplayMetrics().density;
         //セルの幅と高さ
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                parent.getWidth() / 7 - (int)dp,
-                (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
+                parent.getWidth() / WEEK_DAYS_NUM - (int)dp,
+                (parent.getHeight() - (int)dp * weekNum ) / weekNum);
+                //parent.getHeight());
         convertView.setLayoutParams(params);
 
-        //日付のみ表示させる
+        //日付フォーマット
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
-        //holder.tv_date.setText(dateFormat.format(dateArray.get(position)));
 
-        //今月のセルをまず色付け
-        //convertView.setBackgroundColor(Color.WHITE);
+        //日付セルを初期化
+        holder.tv_date.setText("");
+        holder.v_mark.setVisibility(View.INVISIBLE);
 
-        TextView tv_date = holder.tv_date;
-        //tv_date.setTypeface( Typeface.SERIF );
+        //セルの日付が当月のものである場合
+        if (mDateManager.isCurrentMonth(mDaysInMonth.get(position))){
 
-        //セルに対する色の設定
-        if (mDateManager.isCurrentMonth(dateArray.get(position))){
-            //今月のセルをまず色付け
-            //convertView.setBackgroundColor(Color.WHITE);
+            Log.i("CalendarAdapter", "position=" + position + " 日=" + dateFormat.format(mDaysInMonth.get(position)));
 
-            tv_date.setText(dateFormat.format(dateArray.get(position)));
+            //日付設定
+            holder.tv_date.setText(dateFormat.format(mDaysInMonth.get(position)));
 
-            //デザイン確認用
-            if( dateFormat.format(dateArray.get(position)).equals("1") ){
+            //デザイン確認用----
+            if( dateFormat.format(mDaysInMonth.get(position)).equals("1") ){
                 holder.v_mark.setVisibility(View.VISIBLE);
             }
-            if( dateFormat.format(dateArray.get(position)).equals("10") ){
+            if( dateFormat.format(mDaysInMonth.get(position)).equals("10") ){
                 holder.v_mark.setVisibility(View.VISIBLE);
             }
-            if( dateFormat.format(dateArray.get(position)).equals("13") ){
+            if( dateFormat.format(mDaysInMonth.get(position)).equals("13") ){
                 holder.v_mark.setVisibility(View.VISIBLE);
             }
             //デザイン確認用-----
 
-        }else {
-            //先月・来月のセルは、グレーアウト
-            //convertView.setBackgroundColor(parent.getResources().getColor(R.color.gray));
+        } else{
+            Log.i("CalendarAdapter", "not month position=" + position + " 日=" + dateFormat.format(mDaysInMonth.get(position)));
+
         }
 
-        //日曜日を赤、土曜日を青に
-        int colorId;
-        Typeface boldtype;
-/*        switch (mDateManager.getDayOfWeek(dateArray.get(position))){
-            case 1:
-                colorId = Color.RED;
-                break;
-
-            case 7:
-                colorId = Color.BLUE;
-                break;
-
-            default:
-                if(mDateManager.isCurrentDay(dateArray.get(position))) {
-                    //今日の日付のみ、黒とする
-                    colorId = Color.BLACK;
-                }else{
-                    colorId = Color.GRAY;
-                }
-                break;
-        }*/
-
-        //今日の日付のみ、黒太字
-        if(mDateManager.isCurrentDay(dateArray.get(position))) {
-            colorId = Color.BLACK;
-            boldtype = Typeface.DEFAULT_BOLD;
-        }else{
-            colorId = Color.GRAY;
-            boldtype = Typeface.DEFAULT;
-        }
-
-        //色と太さを設定設定
-        //tv_date.setTextColor(colorId);
-        //tv_date.setTypeface(boldtype);
-
+        //設定したビューを返す(このビューが日付セルとして表示される)
         return convertView;
     }
 
     //指定位置の日付を取得する
     public String getDate(int position){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
-        return format.format(dateArray.get(position));
-
-        //Date型で返す
-        //return dateArray.get(position);
+        return format.format(mDaysInMonth.get(position));
     }
 
-    //表示月を取得
+    //当月を取得
     public String getMonth(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
         return format.format(mDateManager.mCalendar.getTime());
@@ -173,17 +148,17 @@ public class CalendarAdapter extends BaseAdapter {
         List<String> dateArrayString = new ArrayList();
 
         //リスト生成
-        for(int i = 0; i < dateArray.size(); i++){
-            dateArrayString.add(sdf.format(dateArray.get(i)));
+        for(int i = 0; i < mDaysInMonth.size(); i++){
+            dateArrayString.add(sdf.format(mDaysInMonth.get(i)));
         }
 
         //指定された日付けの位置を返す。
         return  dateArrayString.indexOf(target);
     }
 
-    //表示月の日を取得
+    //当月の日を取得
     public List<Date> getMonthDays(){
-        return dateArray;
+        return mDaysInMonth;
     }
 
     //翌月表示
@@ -191,14 +166,18 @@ public class CalendarAdapter extends BaseAdapter {
         //翌月
         mDateManager.nextMonth();
         //保持する日数リストも更新する。
-        dateArray = mDateManager.getDays();
+        mDaysInMonth = mDateManager.getDays();
+
+        //自身へ変更通知
         this.notifyDataSetChanged();
     }
 
     //前月表示
     public void prevMonth(){
         mDateManager.prevMonth();
-        dateArray = mDateManager.getDays();
+        mDaysInMonth = mDateManager.getDays();
+
+        //自身へ変更通知
         this.notifyDataSetChanged();
     }
 
