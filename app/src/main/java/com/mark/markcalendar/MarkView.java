@@ -6,13 +6,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 public class MarkView extends View {
     private final Paint paint;
 
@@ -36,7 +29,7 @@ public class MarkView extends View {
 
         int width = getWidth();
 
-        paint.setColor(getResources().getColor(R.color.accent));
+        paint.setColor(getResources().getColor(R.color.mark_5));
         paint.setAntiAlias(true);
         canvas.drawCircle(width / 2, getHeight() / 2, (width / 5), paint);
     }

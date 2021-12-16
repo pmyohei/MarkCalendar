@@ -3,26 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.2109375" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_arrow_forward_ios_20.xml" value="0.21041666666666667" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_arrow_forward_ios_24.xml" value="0.2109375" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_chevron_left_18.xml" value="0.2109375" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_chevron_left_24.xml" value="0.17592592592592593" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_chevron_right_18.xml" value="0.2109375" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_chevron_right_24.xml" value="0.21041666666666667" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_keyboard_arrow_down_24.xml" value="0.3145833333333333" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_more_vert_24.xml" value="0.3145833333333333" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/frame_item_mark.xml" value="0.1787037037037037" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar.xml" value="0.23324275362318841" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_information.xml" value="0.1911231884057971" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_cell.xml" value="0.152" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_day_cell.xml" value="0.19479166666666667" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/item_mark.xml" value="0.1911231884057971" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/menu/toolbar.xml" value="0.13072916666666667" />
-        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar.xml" value="0.3020833333333333" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_keyboard_arrow_down_24.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_more_vert_24.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar.xml" value="0.1441717791411043" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar_init.xml" value="0.1157548125633232" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar_old.xml" value="0.1640625" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar_old2.xml" value="0.1640625" />
         <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar_sample.xml" value="0.28802083333333334" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_information.xml" value="0.136" />
         <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_cell.xml" value="0.28802083333333334" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_day_cell.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/entry_mark_dialog.xml" value="0.15364583333333334" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/mark_num_area.xml" value="0.1640625" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/mark_num_area_2.xml" value="0.1640625" />
         <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/menu/toolbar.xml" value="0.3020833333333333" />
+        <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/menu/toolbar_calendar.xml" value="0.1640625" />
       </map>
     </option>
   </component>

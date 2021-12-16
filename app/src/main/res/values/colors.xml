@@ -8,16 +8,13 @@
 -->
     <color name="substitute2">#f9f7f7</color>
 
-<!--
-    <color name="accent">#00adb5</color>
-    <color name="accent">#f95959</color>
-    <color name="accent">#f8b500</color>
-    <color name="accent">#155e63</color>
-    <color name="accent">#7bc74d</color>
--->
-    <color name="accent">#986ead</color>
-
-
+    <color name="mark_1">#00adb5</color>
+    <color name="mark_2">#f95959</color>
+    <color name="mark_3">#f8b500</color>
+    <color name="mark_4">#155e63</color>
+    <color name="mark_5">#7bc74d</color>
+    <color name="mark_6">#986ead</color>
+    
 <!--
     <color name="primary">#222831</color>
     <color name="substitute1">#393e46</color>

@@ -159,25 +159,13 @@
         android:verticalSpacing="0dp">
     </GridView>
 
-    <!--  ジェスチャー検知用  -->
-    <LinearLayout
-        android:id="@+id/ll_markEria"
+    <!--  マーク数  -->
+    <com.mark.markcalendar.MarkNumView_old
+        android:id="@+id/mv_markEria"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@color/substitute2">
+        android:layout_weight="0.3">
 
-        <!--  マーク数  -->
-        <com.mark.markcalendar.MarkCountView
-            android:id="@+id/mv_markEria"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
-
-        </com.mark.markcalendar.MarkCountView>
-
-    </LinearLayout>
+    </com.mark.markcalendar.MarkNumView_old>
 
 </LinearLayout>

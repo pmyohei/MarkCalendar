@@ -1,8 +1,6 @@
 package com.mark.markcalendar;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarAdapter extends BaseAdapter {
+public class CalendarAdapter_old extends BaseAdapter {
 
     private Context         mContext;                       //コンテキスト
     private List<Date>      mDaysInMonth = new ArrayList(); //選択月の日リスト
@@ -41,20 +39,12 @@ public class CalendarAdapter extends BaseAdapter {
             tv_date = view.findViewById(R.id.tv_date);
             v_mark  = view.findViewById(R.id.v_mark);
         }
-
-        /*
-         * 表示情報の初期化
-         */
-        public void clearData( ){
-            tv_date.setText("");
-            v_mark.setVisibility( View.INVISIBLE );
-        }
     }
 
     /*
      * コンストラクタ
      */
-    public CalendarAdapter(Context context){
+    public CalendarAdapter_old(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
@@ -78,8 +68,7 @@ public class CalendarAdapter extends BaseAdapter {
 
         //初めて表示されるなら、セルを割り当て。セルはレイアウトファイルを使用。
         if (convertView == null) {
-            //convertView = mLayoutInflater.inflate(R.layout.calendar_day_cell, null);
-            convertView = new DateCellView(mContext);
+            convertView = mLayoutInflater.inflate(R.layout.calendar_day_cell, null);
 
             //ビューを生成。レイアウト内のビューを保持。
             holder = new ViewHolder();
@@ -127,9 +116,8 @@ public class CalendarAdapter extends BaseAdapter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
 
         //日付セルを初期化
-        holder.clearData();
-/*        holder.tv_date.setText("");
-        holder.v_mark.setVisibility(View.INVISIBLE);*/
+        holder.tv_date.setText("");
+        holder.v_mark.setVisibility(View.INVISIBLE);
 
         //セルの日付が当月のものである場合
         if (mDateManager.isCurrentMonth(mDaysInMonth.get(position))){
@@ -138,6 +126,19 @@ public class CalendarAdapter extends BaseAdapter {
 
             //日付設定
             holder.tv_date.setText(dateFormat.format(mDaysInMonth.get(position)));
+
+            //マーク付与リスナー
+            holder.ll_cell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //マークの付与・削除
+                    if( holder.v_mark.getVisibility() == View.INVISIBLE ){
+                        holder.v_mark.setVisibility( View.VISIBLE );
+                    } else {
+                        holder.v_mark.setVisibility( View.INVISIBLE );
+                    }
+                }
+            });
 
             //デザイン確認用----
             if( dateFormat.format(mDaysInMonth.get(position)).equals("1") ){

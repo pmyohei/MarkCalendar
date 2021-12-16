@@ -159,7 +159,7 @@
         android:verticalSpacing="0dp">
     </GridView>
 
-    <!--  ジェスチャー検知用  -->
+    <!--  マーク数  -->
     <LinearLayout
         android:id="@+id/ll_markEria"
         android:layout_width="match_parent"
@@ -169,15 +169,51 @@
         android:orientation="horizontal"
         android:background="@color/substitute2">
 
-        <!--  マーク数  -->
-        <com.mark.markcalendar.MarkCountView
-            android:id="@+id/mv_markEria"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        </com.mark.markcalendar.MarkCountView>
+            <TextView
+                android:id="@+id/tv_markNumMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:text="8"
+                android:textSize="24sp"
+                android:textColor="@color/substitute1"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:text="@string/mark_slash"
+                android:textSize="24sp"
+                android:textColor="@color/substitute1"/>
+
+            <TextView
+                android:id="@+id/tv_markNumTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:text="24"
+                android:textSize="24sp"
+                android:textColor="@color/substitute1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:gravity="bottom"
+                android:fontFamily="serif"
+                android:text="@string/mark_unit"
+                android:textSize="16sp"
+                android:textColor="@color/substitute1"/>
+
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
