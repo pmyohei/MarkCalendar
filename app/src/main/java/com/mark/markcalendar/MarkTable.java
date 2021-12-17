@@ -4,11 +4,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /*
  * マークテーブル
  */
 @Entity(tableName = "mark")
-public class MarkTable {
+public class MarkTable implements Serializable {
+
+    //シリアルID
+    private static final long serialVersionUID = 1L;
 
     //主キー
     @PrimaryKey(autoGenerate = true)
@@ -20,7 +25,7 @@ public class MarkTable {
 
     //マークカラー（ColorHex）
     @ColumnInfo(name = "color")
-    private long color;
+    private int color;
 
     public int getPid() {
         return pid;
@@ -36,10 +41,10 @@ public class MarkTable {
         this.name = name;
     }
 
-    public long getColor() {
+    public int getColor() {
         return color;
     }
-    public void setColor(long color) {
+    public void setColor(int color) {
         this.color = color;
     }
 

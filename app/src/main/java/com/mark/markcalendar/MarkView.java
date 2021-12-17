@@ -19,8 +19,16 @@ public class MarkView extends View {
         paint = new Paint();
     }
 
-    public void setColor(int color){
-        paint.setColor(getResources().getColor(color));
+/*    public void setColorID(int colorID){
+        paint.setColor(getResources().getColor(colorID));
+        invalidate();
+    }*/
+
+    public int getColorHex(){
+        return paint.getColor();
+    }
+    public void setColorHex(int colorHex){
+        paint.setColor(colorHex);
         invalidate();
     }
 

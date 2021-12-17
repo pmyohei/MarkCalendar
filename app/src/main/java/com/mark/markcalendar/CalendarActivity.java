@@ -293,7 +293,7 @@ public class CalendarActivity extends AppCompatActivity {
             //マーク一覧画面へ
             case R.id.action_markMenu:
                 //画面遷移
-                Intent intent = new Intent(this, MarkInformationActivity.class);
+                Intent intent = new Intent(this, MarkListActivity.class);
                 //選択中マーク情報を渡す
                 intent.putExtra(INTENT_MARK_PID, 0);
                 //画面遷移

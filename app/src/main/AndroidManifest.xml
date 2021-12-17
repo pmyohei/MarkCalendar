@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".MarkInformationActivity"
+            android:name=".MarkEntryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MarkListActivity"
             android:exported="true" />
         <activity
             android:name=".CalendarActivity"
