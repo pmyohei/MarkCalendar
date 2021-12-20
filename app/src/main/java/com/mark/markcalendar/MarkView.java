@@ -19,10 +19,13 @@ public class MarkView extends View {
 
         paint = new Paint();
 
-        //背景色を取得
+        //背景色が設定されているなら、マーク色として設定する
         ColorDrawable colorDrawable = (ColorDrawable)this.getBackground();
         if( colorDrawable != null ){
+            //マーク色として設定
             paint.setColor( colorDrawable.getColor() );
+
+            //色なしを設定
             this.setBackgroundColor( getResources().getColor( R.color.clear ) );
         }
 

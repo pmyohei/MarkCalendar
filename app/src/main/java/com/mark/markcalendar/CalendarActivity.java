@@ -1,5 +1,9 @@
 package com.mark.markcalendar;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,12 +37,11 @@ public class CalendarActivity extends AppCompatActivity {
     public static String INTENT_MARK_PID = "MarkPid";
 
     //フリック検知
-    private GestureDetector mFlingTest;
-
+    private GestureDetector mFlingDetector;
     //カレンダーアダプタ
     CalendarAdapter mCalendarAdapter;
-    //
-
+    //画面遷移ランチャー
+    ActivityResultLauncher<Intent> mMarkListLauncher;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -46,6 +49,43 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        //マークリスト画面遷移ランチャー
+        //※クリックリスナー内で定義しないこと！（ライフサイクルの関係でエラーになるため）
+        mMarkListLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+
+                    /*
+                     * 画面遷移先からの戻り処理
+                     */
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                        Log.i("CalendarActivity", "画面リストからの戻り");
+
+                        //インテント
+                        Intent intent = result.getData();
+                        //リザルトコード
+                        int resultCode = result.getResultCode();
+
+                        //新規作成結果
+                        if(resultCode == MarkEntryActivity.RESULT_CREATED) {
+
+                            //Log.i("MarkInformationActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
+
+                        //編集結果
+                        } else if( resultCode == MarkEntryActivity.RESULT_EDITED) {
+
+                        //その他
+                        } else {
+                            //do nothing
+                        }
+                    }
+                }
+        );
+
+
 
         //ステータスバーの設定
         int color = getResources().getColor(R.color.primary);
@@ -103,7 +143,7 @@ public class CalendarActivity extends AppCompatActivity {
         });
 
         //フリック検知リスナー
-        mFlingTest = new GestureDetector(this, new FlingListener());
+        mFlingDetector = new GestureDetector(this, new FlingListener());
 
         //マーク表示エリア
         LinearLayout ll_markEria = findViewById(R.id.ll_markEria);
@@ -115,7 +155,7 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.i("onTouch", "onTouch");
 
                 //フリング検知に渡す
-                mFlingTest.onTouchEvent(motionEvent);
+                mFlingDetector.onTouchEvent(motionEvent);
 
                 return false;
             }
@@ -148,6 +188,18 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /*
+     * 画面遷移-マークリスト画面
+     */
+    private void transitionMarkList(){
+        //画面遷移
+        Intent intent = new Intent(this, MarkListActivity.class);
+        //選択中マーク情報を渡す
+        intent.putExtra(INTENT_MARK_PID, 0);
+        //画面遷移
+        mMarkListLauncher.launch( intent );
+    }
+
+    /*
      * スワイプ操作リスナー\
      *   ・フリング
      */
@@ -166,6 +218,20 @@ public class CalendarActivity extends AppCompatActivity {
         @Override
         public boolean onDown(MotionEvent e) {
             Log.i("onFling", "onDown e1 x=" + e.getX() + "e1 y=" + e.getY());
+            return true;
+        }
+
+        /*
+         * ダブルタップリスナー
+         */
+        @Override
+        public boolean onDoubleTap(MotionEvent event) {
+
+            Log.i("tap", "onDoubleTap");
+
+            //マークリスト画面を開く
+            transitionMarkList();
+
             return true;
         }
 
@@ -292,13 +358,7 @@ public class CalendarActivity extends AppCompatActivity {
 
             //マーク一覧画面へ
             case R.id.action_markMenu:
-                //画面遷移
-                Intent intent = new Intent(this, MarkListActivity.class);
-                //選択中マーク情報を渡す
-                intent.putExtra(INTENT_MARK_PID, 0);
-                //画面遷移
-                ((Activity)this).startActivityForResult(intent, REQ_MARK_INFORMATION);
-
+                transitionMarkList();
                 return true;
 
             default:
