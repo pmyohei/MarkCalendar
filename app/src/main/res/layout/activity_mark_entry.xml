@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/substitute_light">
 
     <com.mark.markcalendar.MarkView
         android:id="@+id/v_mark"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/et_markName"
@@ -18,38 +19,144 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:textCursorDrawable="@color/primary"
+        android:textColor="@color/primary"
+        android:backgroundTint="@color/primary"
         android:hint="@string/craate_mark_hint"
         android:maxLength="16"/>
 
-    <!--  カラー選択リスト  -->
-    <GridView
-        android:id="@+id/gv_colors"
+    <!--  カラー選択エリア  -->
+    <LinearLayout
+        android:id="@+id/ll_colorSelectArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="4"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp">
-    </GridView>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bt_positive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:stateListAnimator="@null"
-        android:text="作成"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
 
-    <Button
-        android:id="@+id/bt_negative"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:stateListAnimator="@null"
-        android:text="キャンセル"/>
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_1"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_2"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_3"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_4"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_5"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_6"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_6"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_7"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_7"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_8"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_8"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--  ボタンエリア  -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/bt_positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:stateListAnimator="@null"
+            android:text="@string/ok"
+            android:textColor="@color/substitute_middle"
+            android:background="@color/primary"/>
+
+        <Button
+            android:id="@+id/bt_negative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:stateListAnimator="@null"
+            android:text="@string/cancel"
+            android:textColor="@color/substitute_middle"
+            android:background="@color/primary"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class MarkEntryActivity extends AppCompatActivity {
 
@@ -61,11 +63,52 @@ public class MarkEntryActivity extends AppCompatActivity {
         });
 
         //色選択リストの設定
-
+        setSelectColor();
 
         //
 
     }
+
+    /*
+     * 色選択エリアの設定
+     */
+    private void setSelectColor(){
+        //色選択エリア
+        LinearLayout ll_colorSelectArea = findViewById(R.id.ll_colorSelectArea);
+        //選択マーク
+        MarkView v_mark = findViewById(R.id.v_mark);
+
+        //選択エリアビューの直下のビューを取得
+        int parentNum = ll_colorSelectArea.getChildCount();
+        for( int i = 0; i < parentNum; i++ ){
+
+            View v_parent = ll_colorSelectArea.getChildAt(i);
+            //親ビューの場合、その直下のビューを設定
+            if( v_parent instanceof ViewGroup) {
+                int colorNum = ((ViewGroup)v_parent).getChildCount();
+                for (int j = 0; j < colorNum; j++) {
+                    View selectMark = ((ViewGroup)v_parent).getChildAt(j);
+
+                    //MarkViewに対して、クリックリスナーを設定
+                    if( selectMark instanceof MarkView ){
+                        selectMark.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //クリックマークの色を取得
+                                int color = ((MarkView)view).getColorHex();
+                                //選択中マークに色を反映
+                                v_mark.setColorHex(color);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
 
 
     /*
@@ -125,7 +168,7 @@ public class MarkEntryActivity extends AppCompatActivity {
 
             //マーク名
             EditText et_markName = findViewById(R.id.et_markName);
-            String markName = et_markName.toString();
+            String markName = et_markName.getText().toString();
 
             //空かどうか
             return markName.isEmpty();

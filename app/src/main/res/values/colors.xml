@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#222831</color>
-    <color name="substitute1">#393e46</color>
-<!--
-    <color name="substitute2">#eeeeee</color>
--->
-    <color name="substitute2">#f9f7f7</color>
+    <color name="clear">#00000000</color>
 
-    <color name="mark_1">#00adb5</color>
+    <color name="primary">#222831</color>
+    <color name="substitute_dark">#393e46</color>
+    <color name="substitute_middle">#eeeeee</color>
+    <color name="substitute_light">#f9f7f7</color>
+
+    <color name="mark_1">#3e92a3</color>
     <color name="mark_2">#f95959</color>
     <color name="mark_3">#f8b500</color>
     <color name="mark_4">#155e63</color>
     <color name="mark_5">#7bc74d</color>
     <color name="mark_6">#986ead</color>
-    
+    <color name="mark_7">#fd7014</color>
+    <color name="mark_8">#e99b9b</color>
+
+
 <!--
     <color name="primary">#222831</color>
     <color name="substitute1">#393e46</color>

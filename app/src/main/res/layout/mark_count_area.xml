@@ -15,7 +15,7 @@
         android:fontFamily="serif"
         android:text="8"
         android:textSize="24sp"
-        android:textColor="@color/substitute1"/>
+        android:textColor="@color/substitute_dark"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
         android:fontFamily="serif"
         android:text="@string/mark_slash"
         android:textSize="24sp"
-        android:textColor="@color/substitute1"/>
+        android:textColor="@color/substitute_dark"/>
 
     <TextView
         android:id="@+id/tv_markNumTotal"
@@ -34,7 +34,7 @@
         android:fontFamily="serif"
         android:text="24"
         android:textSize="24sp"
-        android:textColor="@color/substitute1"/>
+        android:textColor="@color/substitute_dark"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,5 +44,5 @@
         android:fontFamily="serif"
         android:text="@string/mark_unit"
         android:textSize="20sp"
-        android:textColor="@color/substitute1"/>
+        android:textColor="@color/substitute_dark"/>
 </LinearLayout>
