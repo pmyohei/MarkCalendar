@@ -30,7 +30,13 @@ public class MarkEntryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean isCreate = intent.getBooleanExtra( MarkListActivity.KEY_IS_CREATE, false );
 
+        //選択マーク
+        MarkView markView = findViewById( R.id.mv_selectedMark );
+
         if( isCreate ){
+            //選択マークは先頭の色にする
+            markView.setColorHex( getResources().getColor( R.color.mark_1 ) );
+            
             //OKボタンリスナー
             findViewById(R.id.bt_positive).setOnClickListener( new PositiveClickListener(null) );
 
@@ -42,7 +48,6 @@ public class MarkEntryActivity extends AppCompatActivity {
             EditText et_markName = findViewById( R.id.et_markName );
             et_markName.setText( mark.getName() );
 
-            MarkView markView = findViewById( R.id.v_mark );
             markView.setColorHex( mark.getColor() );
 
             //OKボタンリスナー
@@ -76,7 +81,7 @@ public class MarkEntryActivity extends AppCompatActivity {
         //色選択エリア
         LinearLayout ll_colorSelectArea = findViewById(R.id.ll_colorSelectArea);
         //選択マーク
-        MarkView v_mark = findViewById(R.id.v_mark);
+        MarkView mv_selectedMark = findViewById(R.id.mv_selectedMark);
 
         //選択エリアビューの直下のビューを取得
         int parentNum = ll_colorSelectArea.getChildCount();
@@ -97,7 +102,7 @@ public class MarkEntryActivity extends AppCompatActivity {
                                 //クリックマークの色を取得
                                 int color = ((MarkView)view).getColorHex();
                                 //選択中マークに色を反映
-                                v_mark.setColorHex(color);
+                                mv_selectedMark.setColorHex(color);
                             }
                         });
                     }
@@ -148,7 +153,7 @@ public class MarkEntryActivity extends AppCompatActivity {
 
             //入力データを設定
             String markName  = ((EditText)findViewById( R.id.et_markName )).getText().toString();
-            int    markColor = ((MarkView)findViewById( R.id.v_mark )).getColorHex();
+            int    markColor = ((MarkView)findViewById( R.id.mv_selectedMark )).getColorHex();
 
             mMark.setName( markName );
             mMark.setColor( markColor );

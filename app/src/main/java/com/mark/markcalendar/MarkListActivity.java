@@ -27,36 +27,19 @@ public class MarkListActivity extends AppCompatActivity {
     public static String KEY_IS_CREATE = "isCreate";
     public static String KEY_MARK      = "Mark";
 
+    //マークリスト
+    List<MarkTable> mMarks;
+    //マークリストアダプタ
+    MarkListAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_information);
 
-        //
-        //ArrayList<MarkTable> marks = new ArrayList<>();
-
-        //DB保存処理
-        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
-
-            @Override
-            public void onFinish(List<MarkTable> marks) {
-
-                //レイアウトからリストビューを取得
-                RecyclerView rv_markList = findViewById(R.id.rv_markList);
-                //アダプタの生成
-                MarkListAdapter adapter = new MarkListAdapter((ArrayList<MarkTable>) marks);
-                //アダプタの設定
-                rv_markList.setAdapter(adapter);
-                //レイアウトマネージャの設定
-                rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
-            }
-        });
-        //非同期処理開始
-        db.execute();
-
         //マーク新規作成・編集画面遷移ランチャー
         //※クリックリスナー内で定義しないこと！（ライフサイクルの関係でエラーになるため）
-        ActivityResultLauncher<Intent> startForResult = registerForActivityResult(
+        ActivityResultLauncher<Intent> MarkEntryLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
 
@@ -66,7 +49,7 @@ public class MarkListActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
 
-                        Log.i("MarkInformationActivity", "onActivityResult()");
+                        Log.i("MarkListActivity", "onActivityResult()");
 
                         //インテント
                         Intent intent = result.getData();
@@ -75,9 +58,13 @@ public class MarkListActivity extends AppCompatActivity {
 
                         //新規作成結果
                         if(resultCode == MarkEntryActivity.RESULT_CREATED) {
-
+                            //生成マーク
                             MarkTable mark = (MarkTable) intent.getSerializableExtra(MarkEntryActivity.KEY_MARK);
-                            Log.i("MarkInformationActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
+                            Log.i("MarkListActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
+
+                            //リストに追加し、アダプタに追加を通知
+                            mMarks.add( mark );
+                            mAdapter.notifyItemInserted(mMarks.size() - 1);
 
                         //編集結果
                         } else if( resultCode == MarkEntryActivity.RESULT_EDITED) {
@@ -91,7 +78,30 @@ public class MarkListActivity extends AppCompatActivity {
                 }
         );
 
-        //マーク新規作成リスナー
+        //DB読み込み処理
+        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
+
+            @Override
+            public void onFinish(List<MarkTable> marks) {
+
+                //DBから読み込んだマークをリストとして保持
+                mMarks = marks;
+
+                //レイアウトからリストビューを取得
+                RecyclerView rv_markList = findViewById(R.id.rv_markList);
+                //アダプタの生成
+                mAdapter = new MarkListAdapter((ArrayList<MarkTable>) mMarks);
+                //アダプタの設定
+                rv_markList.setAdapter(mAdapter);
+                //レイアウトマネージャの設定
+                rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
+            }
+        });
+        //非同期処理開始
+        db.execute();
+
+
+        //マーク新規作成ボタンリスナー
         findViewById(R.id.tv_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +111,7 @@ public class MarkListActivity extends AppCompatActivity {
                 intent.putExtra(KEY_IS_CREATE, true);
 
                 //画面遷移開始
-                startForResult.launch( intent );
+                MarkEntryLauncher.launch( intent );
             }
         });
 

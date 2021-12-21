@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,10 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
     class MarkViewHolder extends RecyclerView.ViewHolder {
 
         private final ConstraintLayout cl_markItem;
-        private final View             v_mark;
+        private final MarkView         v_mark;
         private final TextView         tv_MarkName;
+        private final ImageButton      ib_edit;
+        private final ImageButton      ib_delete;
 
         /*
          * コンストラクタ
@@ -37,8 +40,51 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
             cl_markItem = itemView.findViewById(R.id.cl_markItem);
             v_mark      = itemView.findViewById(R.id.v_mark);
             tv_MarkName = itemView.findViewById(R.id.tv_markName);
-
+            ib_edit     = itemView.findViewById(R.id.ib_edit);
+            ib_delete   = itemView.findViewById(R.id.ib_delete);
         }
+
+        /*
+         * ビューの設定
+         */
+        public void setView( MarkTable mark ){
+            //マーク名
+            tv_MarkName.setText( mark.getName() );
+            //マーク色
+            v_mark.setColorHex( mark.getColor() );
+
+            //編集リスナー
+            ib_edit.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Context context = view.getContext();
+
+                    //マーク画面へ遷移
+                    //Intent intent = new Intent(context, MarkActivity.class);
+                    //intent.putExtra(ResourceManager.INTENT_ID_MarkLIST_TO_Mark, mark.getPid());
+
+                    //context.startActivity(intent);
+                }
+            });
+
+            //削除リスナー
+            ib_delete.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Context context = view.getContext();
+
+                    //確認ダイアログ
+
+
+                    //DB非同期処理
+
+
+                }
+            });
+        }
+
     }
 
     /*
@@ -76,27 +122,11 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
      */
     @Override
     public void onBindViewHolder(@NonNull MarkViewHolder viewHolder, final int i) {
-
+        //対象マーク
         MarkTable mark = mData.get(i);
 
-        //マーク名
-        viewHolder.tv_MarkName.setText( mark.getName() );
-
-        //クリックリスナー
-        viewHolder.cl_markItem.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Context context = view.getContext();
-
-                //マーク画面へ遷移
-                //Intent intent = new Intent(context, MarkActivity.class);
-                //intent.putExtra(ResourceManager.INTENT_ID_MarkLIST_TO_Mark, mark.getPid());
-
-                //context.startActivity(intent);
-            }
-        });
-
+        //ビューにマーク情報を反映
+        viewHolder.setView( mark );
     }
 
     /*

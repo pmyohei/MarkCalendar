@@ -7,7 +7,7 @@
     android:background="@color/substitute_light">
 
     <com.mark.markcalendar.MarkView
-        android:id="@+id/v_mark"
+        android:id="@+id/mv_selectedMark"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"/>
