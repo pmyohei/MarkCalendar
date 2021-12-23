@@ -17,7 +17,7 @@
     <string name="mark_unit">Marks</string>
 
     <!--  マークリスト  -->
-    <string name="craate_mark">マーク作成</string>
+    <string name="craate_mark">New</string>
     <string name="craate_mark_hint">マーク名(最大16文字)</string>
 
     <!--  マーク作成  -->

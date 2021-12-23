@@ -12,18 +12,24 @@
     <color name="mark_2">#f95959</color>
     <color name="mark_3">#f8b500</color>
     <color name="mark_4">#155e63</color>
+
     <color name="mark_5">#7bc74d</color>
     <color name="mark_6">#986ead</color>
     <color name="mark_7">#fd7014</color>
     <color name="mark_8">#e99b9b</color>
 
+    <color name="mark_9">#4ecca3</color>
+    <color name="mark_10">#93deff</color>
+    <color name="mark_11">#363540</color>
+    <color name="mark_12">#a80038</color>
 
-<!--
-    <color name="primary">#222831</color>
-    <color name="substitute1">#393e46</color>
-    <color name="substitute2">#eeeeee</color>
-    <color name="accent">#00adb5</color>
-    -->
+
+    <!--
+        <color name="primary">#222831</color>
+        <color name="substitute1">#393e46</color>
+        <color name="substitute2">#eeeeee</color>
+        <color name="accent">#00adb5</color>
+        -->
     <!--
     <color name="primary">#233142</color>
     <color name="substitute1">#455d7a</color>

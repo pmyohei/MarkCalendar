@@ -21,6 +21,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:fontFamily="serif"
         android:textCursorDrawable="@color/primary"
         android:textColor="@color/primary"
         android:backgroundTint="@color/primary"
@@ -123,6 +124,50 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_9"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_9"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_10"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_10"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_11"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_11"/>
+
+            <com.mark.markcalendar.MarkView
+                android:id="@+id/v_markColor_12"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="center"
+                android:background="@color/mark_12"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <!--  ボタンエリア  -->
@@ -140,6 +185,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:stateListAnimator="@null"
+            android:fontFamily="serif"
             android:text="@string/ok"
             android:textColor="@color/substitute_middle"
             android:background="@color/primary"/>
@@ -153,6 +199,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:stateListAnimator="@null"
+            android:fontFamily="serif"
             android:text="@string/cancel"
             android:textColor="@color/substitute_middle"
             android:background="@color/primary"/>

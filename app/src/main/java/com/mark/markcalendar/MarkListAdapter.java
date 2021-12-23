@@ -25,9 +25,9 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
      */
     class MarkViewHolder extends RecyclerView.ViewHolder {
 
-        private final ConstraintLayout cl_markItem;
         private final MarkView         v_mark;
         private final TextView         tv_MarkName;
+        private final ImageButton      ib_markInfo;
         private final ImageButton      ib_edit;
         private final ImageButton      ib_delete;
 
@@ -37,9 +37,9 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
         public MarkViewHolder(View itemView) {
             super(itemView);
 
-            cl_markItem = itemView.findViewById(R.id.cl_markItem);
             v_mark      = itemView.findViewById(R.id.v_mark);
             tv_MarkName = itemView.findViewById(R.id.tv_markName);
+            ib_markInfo = itemView.findViewById(R.id.ib_markInfo);
             ib_edit     = itemView.findViewById(R.id.ib_edit);
             ib_delete   = itemView.findViewById(R.id.ib_delete);
         }
@@ -52,6 +52,23 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
             tv_MarkName.setText( mark.getName() );
             //マーク色
             v_mark.setColorHex( mark.getColor() );
+
+
+            //マーク情報表示リスナー
+            ib_markInfo.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Context context = view.getContext();
+
+                    //マーク画面へ遷移
+                    //Intent intent = new Intent(context, MarkActivity.class);
+                    //intent.putExtra(, mark.getPid());
+
+                    //context.startActivity(intent);
+                }
+            });
+
 
             //編集リスナー
             ib_edit.setOnClickListener( new View.OnClickListener() {

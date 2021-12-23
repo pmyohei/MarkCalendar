@@ -35,7 +35,7 @@ public class MarkListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mark_information);
+        setContentView(R.layout.activity_mark_list);
 
         //マーク新規作成・編集画面遷移ランチャー
         //※クリックリスナー内で定義しないこと！（ライフサイクルの関係でエラーになるため）

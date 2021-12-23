@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     android:id="@+id/cl_markItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp"
-    android:paddingBottom="8dp"
-    android:background="@drawable/frame_item_mark"
+    android:orientation="vertical"
     tools:context=".MarkListActivity">
 
     <LinearLayout
         android:id="@+id/ll_markTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
         <com.mark.markcalendar.MarkView
             android:id="@+id/v_mark"
@@ -28,20 +22,21 @@
 
         <TextView
             android:id="@+id/tv_markName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="serif"
             android:text="Sample"/>
 
-<!--
         <ImageButton
-            android:id="@+id/ib_expand"
-            android:layout_width="fill_parent"
+            android:id="@+id/ib_order"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="12dp"
-            app:srcCompat="@drawable/baseline_arrow_down_24_for_mark" />
--->
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="12dp"
+            android:background="@color/substitute_light"
+            app:srcCompat="@drawable/baseline_order_24" />
 
     </LinearLayout>
 
@@ -51,9 +46,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
-        android:gravity="end"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_markTitle">
+        android:gravity="end">
+
+        <ImageButton
+            android:id="@+id/ib_markInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/substitute_light"
+            app:srcCompat="@drawable/baseline_mark_info_24" />
 
         <ImageButton
             android:id="@+id/ib_edit"
@@ -61,8 +63,8 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/circle_icon"
-            app:srcCompat="@drawable/baseline_edit_24_marklist" />
+            android:background="@color/substitute_light"
+            app:srcCompat="@drawable/baseline_edit_24" />
 
         <ImageButton
             android:id="@+id/ib_delete"
@@ -70,9 +72,19 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/circle_icon"
-            app:srcCompat="@drawable/baseline_delete_outline_24" />
+            android:background="@color/substitute_light"
+            app:srcCompat="@drawable/baseline_delete_24" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/substitute_middle">
+    </View>
+
+</LinearLayout>
