@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -23,26 +23,37 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 /*
  * カレンダーActivity
  */
 public class CalendarActivity extends AppCompatActivity {
 
     /*-- 定数 --*/
-    /* 画面遷移-リクエストコード */
-    //マーク一覧画面へ
-    public static final int REQ_MARK_INFORMATION = 100;
-
-    /* 画面遷移-キー */
+    //画面遷移-キー
     public static String INTENT_MARK_PID = "MarkPid";
+
+    //SharedPreferences
+    public  static final String SHARED_DATA_NAME         = "UIData";       //SharedPreferences保存名
+    private        final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
+    public  static final String SHARED_KEY_MARK_ORDER    = "MarkOrder";    //マークの並び順
+    private        final int    INVALID_SELECTED_MARK    = -1;             //選択中マーク（取得エラー時）
+    public  static final String INVALID_MARK_ORDER       = "";             //マークの並び順（取得エラー時）
+
 
     //フリック検知
     private GestureDetector mFlingDetector;
     //カレンダーアダプタ
-    CalendarAdapter mCalendarAdapter;
+    private CalendarAdapter mCalendarAdapter;
     //画面遷移ランチャー
-    ActivityResultLauncher<Intent> mMarkListLauncher;
+    private ActivityResultLauncher<Intent> mMarkListLauncher;
 
+    //マークリスト
+    private MarkArrayList<MarkTable> mMarks;
+    //選択中マーク
+    //★pidにするかも（最後に見直しする）
+    private MarkTable                mSelectedMark;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -70,14 +81,14 @@ public class CalendarActivity extends AppCompatActivity {
                         int resultCode = result.getResultCode();
 
                         //新規作成結果
-                        if(resultCode == MarkEntryActivity.RESULT_CREATED) {
+                        if (resultCode == MarkEntryActivity.RESULT_CREATED) {
 
                             //Log.i("MarkInformationActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
 
-                        //編集結果
-                        } else if( resultCode == MarkEntryActivity.RESULT_EDITED) {
+                            //編集結果
+                        } else if (resultCode == MarkEntryActivity.RESULT_EDITED) {
 
-                        //その他
+                            //その他
                         } else {
                             //do nothing
                         }
@@ -85,7 +96,61 @@ public class CalendarActivity extends AppCompatActivity {
                 }
         );
 
+        //DB読み込み処理
+        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
 
+            @Override
+            public void onFinish(MarkArrayList<MarkTable> marks) {
+
+                //SharedPreferences
+                SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
+                //マーク並び順を取得
+                String order = spData.getString( SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER );
+
+                //DBから読み込んだマークをリストとして保持
+                mMarks = new MarkArrayList<>();
+                //mMarks.addAll(marks);
+                mMarks.addInOrder( marks, order );
+
+                //カレンダーの表示
+                GridView calendarGridView = findViewById(R.id.gv_calendar);
+                mCalendarAdapter = new CalendarAdapter(calendarGridView.getContext());
+                calendarGridView.setAdapter(mCalendarAdapter);
+
+                //アプリ起動時点の年月を表示
+                TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
+                tv_yearMonth.setText(mCalendarAdapter.getMonth());
+
+                if( marks.size() == 0 ){
+                    return;
+                }
+
+                //前回の選択中マークを取得
+                int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
+
+                MarkTable mark;
+
+                //前回情報なし
+                if( selectedMarkPid == INVALID_SELECTED_MARK ){
+                    //先頭のマークを選択中とする
+                    mark = mMarks.get(0);
+
+                } else {
+                    //選択中マークを取得
+                    mark = mMarks.getMark(selectedMarkPid);
+                    if( mark == null ){
+                        //Failsafe
+                        //もしなければ、先頭マークにする
+                        mark = mMarks.get(0);
+                    }
+                }
+
+                //選択中マーク設定
+                setSelectedMark( mark );
+            }
+        });
+        //非同期処理開始
+        db.execute();
 
         //ステータスバーの設定
         int color = getResources().getColor(R.color.primary);
@@ -93,7 +158,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         //ツールバー設定
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("選択中マークを表示");
+        //toolbar.setTitle("選択中マークを表示");
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
@@ -116,14 +181,7 @@ public class CalendarActivity extends AppCompatActivity {
         actionbar.setListNavigationCallbacks(adapter, this);
 */
 
-        //カレンダーの表示
-        GridView calendarGridView = findViewById(R.id.gv_calendar);
-        mCalendarAdapter = new CalendarAdapter(this);
-        calendarGridView.setAdapter(mCalendarAdapter);
 
-        //アプリ起動時点の年月を表示
-        TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
-        tv_yearMonth.setText(mCalendarAdapter.getMonth());
 
         //前月に変更
         findViewById(R.id.ib_preMonth).setOnClickListener(new View.OnClickListener() {
@@ -163,6 +221,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+
+
     /*
      * 次月を表示
      */
@@ -185,6 +245,65 @@ public class CalendarActivity extends AppCompatActivity {
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
+    }
+
+    /*
+     * 次のマークに変更
+     */
+    private void nextMark(){
+
+        //マークがなし or マーク1つ なら何もしない
+        if( mMarks.size() <= 1 ){
+            return;
+        }
+
+        //選択中マークの変更
+        MarkTable mark = mMarks.getNextMark(mSelectedMark.getPid());
+        setSelectedMark( mark );
+    }
+
+    /*
+     * 前のマークに変更
+     */
+    private void previousMark(){
+
+        //マークがなし or マーク1つ なら何もしない
+        if( mMarks.size() <= 1 ){
+            return;
+        }
+
+        //選択中マークの変更
+        MarkTable mark = mMarks.getPreviousMark( mSelectedMark.getPid() );
+        setSelectedMark( mark );
+    }
+
+    /*
+     * 選択中マークの変更
+     */
+    private void setSelectedMark(MarkTable mark){
+
+        //選択中マークを更新
+        mSelectedMark = mark;
+
+        //選択中マークビュー
+        TextView tv_selectedMark = findViewById(R.id.tv_selectedMark);
+        tv_selectedMark.setText(mSelectedMark.getName());
+
+        //選択マークの日付マーク情報を取得
+        //★
+
+        //★取得後、アダプタに日付マーク情報を渡す(更新させる)
+
+
+        //カレンダーのマーク情報を変更
+        mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
+
+        //選択中マークを保存
+        //★保存用クラスを作成して、それに任せた方がよいかも→現状、複数個所で保存処理あり
+        SharedPreferences spData = getSharedPreferences( SHARED_DATA_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = spData.edit();
+        editor.putInt( SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
+        editor.apply();
     }
 
     /*
@@ -265,10 +384,12 @@ public class CalendarActivity extends AppCompatActivity {
 
                 case FLING_UP:
                     Log.i("onFling", "FLING_UP");
+                    nextMark();
                     break;
 
                 case FLING_DOWN:
                     Log.i("onFling", "FLING_DOWN");
+                    previousMark();
                     break;
 
                 default:

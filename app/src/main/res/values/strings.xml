@@ -24,4 +24,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+    <!--  Sample  -->
+    <string name="sample">Sample</string>
+
+
 </resources>

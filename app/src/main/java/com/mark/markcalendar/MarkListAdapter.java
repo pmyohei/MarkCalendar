@@ -2,6 +2,7 @@ package com.mark.markcalendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
             ib_markInfo.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    Log.i("MarkListAdapter", "ib_markInfo click()");
 
                     Context context = view.getContext();
 

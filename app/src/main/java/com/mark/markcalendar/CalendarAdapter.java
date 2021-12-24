@@ -24,6 +24,7 @@ public class CalendarAdapter extends BaseAdapter {
     private List<Date>      mDaysInMonth = new ArrayList(); //選択月の日リスト
     private DateManager     mDateManager;                   //カレンダー管理用
     private LayoutInflater  mLayoutInflater;                //描画高速化のために必要
+    public int              mMarkColor;                     //マーク色
 
     /*
      * 日付レイアウトクラス
@@ -45,9 +46,10 @@ public class CalendarAdapter extends BaseAdapter {
         /*
          * 表示情報の初期化
          */
-        public void clearData( ){
+        public void clearData( int color ){
             tv_date.setText("");
             v_mark.setVisibility( View.INVISIBLE );
+            v_mark.setColorHex( color );
         }
     }
 
@@ -59,6 +61,14 @@ public class CalendarAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
         mDaysInMonth = mDateManager.getDays();
+
+        //マーク色
+        //mMarkColor = markColor;
+
+        //日付マークリスト
+
+        //選択月の日付マークリスト
+
     }
 
     @Override
@@ -127,9 +137,7 @@ public class CalendarAdapter extends BaseAdapter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
 
         //日付セルを初期化
-        holder.clearData();
-/*        holder.tv_date.setText("");
-        holder.v_mark.setVisibility(View.INVISIBLE);*/
+        holder.clearData( mMarkColor );
 
         //セルの日付が当月のものである場合
         if (mDateManager.isCurrentMonth(mDaysInMonth.get(position))){
@@ -140,7 +148,7 @@ public class CalendarAdapter extends BaseAdapter {
             holder.tv_date.setText(dateFormat.format(mDaysInMonth.get(position)));
 
             //デザイン確認用----
-            if( dateFormat.format(mDaysInMonth.get(position)).equals("1") ){
+/*            if( dateFormat.format(mDaysInMonth.get(position)).equals("1") ){
                 holder.v_mark.setVisibility(View.VISIBLE);
             }
             if( dateFormat.format(mDaysInMonth.get(position)).equals("10") ){
@@ -148,7 +156,7 @@ public class CalendarAdapter extends BaseAdapter {
             }
             if( dateFormat.format(mDaysInMonth.get(position)).equals("13") ){
                 holder.v_mark.setVisibility(View.VISIBLE);
-            }
+            }*/
             //デザイン確認用-----
 
         } else{
@@ -215,6 +223,17 @@ public class CalendarAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    /*
+     * マーク色の設定
+     */
+    public void setMarkColor( int color ){
+        //設定変更
+        mMarkColor = color;
+        //自身へ変更通知
+        this.notifyDataSetChanged();
+    }
+
+
     @Override
     public long getItemId(int position) {
         return 0;
@@ -224,6 +243,5 @@ public class CalendarAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return null;
     }
-
 
 }

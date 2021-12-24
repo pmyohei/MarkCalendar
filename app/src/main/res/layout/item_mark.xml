@@ -27,7 +27,8 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:fontFamily="serif"
-            android:text="Sample"/>
+            android:text="Sample"
+            android:textColor="@color/primary"/>
 
         <ImageButton
             android:id="@+id/ib_order"

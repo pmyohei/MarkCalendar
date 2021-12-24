@@ -4,16 +4,21 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MarkListActivity extends AppCompatActivity {
@@ -28,7 +33,7 @@ public class MarkListActivity extends AppCompatActivity {
     public static String KEY_MARK      = "Mark";
 
     //マークリスト
-    List<MarkTable> mMarks;
+    MarkArrayList<MarkTable> mMarks;
     //マークリストアダプタ
     MarkListAdapter mAdapter;
 
@@ -82,7 +87,7 @@ public class MarkListActivity extends AppCompatActivity {
         AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
 
             @Override
-            public void onFinish(List<MarkTable> marks) {
+            public void onFinish(MarkArrayList<MarkTable> marks) {
 
                 //DBから読み込んだマークをリストとして保持
                 mMarks = marks;
@@ -95,6 +100,9 @@ public class MarkListActivity extends AppCompatActivity {
                 rv_markList.setAdapter(mAdapter);
                 //レイアウトマネージャの設定
                 rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
+
+                //ソート可能にする
+                attachMarkListSort();
             }
         });
         //非同期処理開始
@@ -114,8 +122,79 @@ public class MarkListActivity extends AppCompatActivity {
                 MarkEntryLauncher.launch( intent );
             }
         });
-
-
-
     }
+
+    /*
+     * マークリスト並び替え設定
+     */
+    private void attachMarkListSort(){
+
+        RecyclerView rv_markList = findViewById(R.id.rv_markList);
+
+        //ドラッグアンドドロップ、スワイプの設定(リサイクラービュー)
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.ACTION_STATE_IDLE) {
+
+            //入れ替えフラグ
+            private boolean isMove = false;
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+
+                //移動位置取得
+                final int fromPos = viewHolder.getAdapterPosition();
+                final int toPos   = target.getAdapterPosition();
+
+                //log-----
+                Log.i("attachMarkListSort", "fromPos=" + fromPos + " toPos=" + toPos);
+                for( MarkTable mark: mMarks ){
+                    Log.i("attachMarkListSort", "before mark=" + mark.getName());
+                }
+                //log-----
+
+                //マークリストの順番を変更
+                Collections.swap(mMarks, fromPos, toPos);
+                //アダプタへ通知
+                mAdapter.notifyItemMoved(fromPos, toPos);
+
+                //log-----
+                for( MarkTable mark: mMarks ){
+                    Log.i("attachMarkListSort", "after  mark=" + mark.getName());
+                }
+                //log-----
+
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            }
+
+            /*
+             * 最終的な処理終了時にコールされる
+             */
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder) {
+
+                //並び順を文字列として生成
+                String order = mMarks.getOrder();
+
+                //並び順を保存
+                SharedPreferences spData = getSharedPreferences( CalendarActivity.SHARED_DATA_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = spData.edit();
+                editor.putString( CalendarActivity.SHARED_KEY_MARK_ORDER, order);
+                editor.apply();
+            }
+        });
+
+        //マークリストをアタッチ
+        helper.attachToRecyclerView(rv_markList);
+    }
+
+
 }

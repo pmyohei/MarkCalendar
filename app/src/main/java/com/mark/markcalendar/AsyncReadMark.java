@@ -13,7 +13,7 @@ public class AsyncReadMark {
 
     private final AppDatabase         mDB;
     private final onFinishListener    mOnFinishListener;
-    private List<MarkTable>           mMarks;
+    private MarkArrayList<MarkTable>  mMarks;
 
     /*
      * コンストラクタ
@@ -22,7 +22,7 @@ public class AsyncReadMark {
         mDB               = AppDatabaseManager.getInstance(context);
         mOnFinishListener = listener;
 
-        mMarks = new ArrayList<>();
+        mMarks = new MarkArrayList<>();
     }
 
     /*
@@ -59,7 +59,8 @@ public class AsyncReadMark {
             MarkTableDao markDao = mDB.daoMarkTable();
 
             //ノードを挿入し、レコードに割り当てられたpidを取得
-            mMarks = markDao.getAll();
+            List<MarkTable> marks = markDao.getAll();
+            mMarks.addAll( marks );
         }
     }
 
@@ -100,7 +101,7 @@ public class AsyncReadMark {
         /*
          * 生成完了時、コールされる
          */
-        void onFinish( List<MarkTable> marks );
+        void onFinish( MarkArrayList<MarkTable> marks );
     }
 
 
