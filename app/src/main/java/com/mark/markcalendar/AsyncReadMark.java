@@ -4,25 +4,28 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AsyncReadMark {
 
-    private final AppDatabase         mDB;
-    private final onFinishListener    mOnFinishListener;
-    private MarkArrayList<MarkTable>  mMarks;
+    private final AppDatabase                   mDB;
+    private final onFinishListener              mOnFinishListener;
+    private final int                           mSelectedMarkPid;
+    private MarkArrayList<MarkTable>            mMarks;
+    private MarkDateArrayList<MarkDateTable>    mMarkDates;
 
     /*
      * コンストラクタ
      */
-    public AsyncReadMark(Context context, onFinishListener listener) {
+    public AsyncReadMark(Context context, int markPid, onFinishListener listener) {
         mDB               = AppDatabaseManager.getInstance(context);
+        mSelectedMarkPid  = markPid;
         mOnFinishListener = listener;
 
         mMarks = new MarkArrayList<>();
+        mMarkDates = new MarkDateArrayList<>();
     }
 
     /*
@@ -55,12 +58,25 @@ public class AsyncReadMark {
          */
         private void dbOperation(){
 
+            //MarkDateTableDao
+            MarkDateTableDao markDateTableDao = mDB.daoMarkDateTable();
             //MarkDao
             MarkTableDao markDao = mDB.daoMarkTable();
 
-            //ノードを挿入し、レコードに割り当てられたpidを取得
+            //登録中マークを全て取得
             List<MarkTable> marks = markDao.getAll();
             mMarks.addAll( marks );
+
+            //前回選択中マーク
+            int selectedPid = mSelectedMarkPid;
+            if( selectedPid == CalendarActivity.INVALID_SELECTED_MARK ){
+                //取得に失敗した場合は、先頭のマークにする
+                selectedPid = mMarks.get(0).getPid();
+            }
+
+            //前回選択中マークの日付マーク情報を全て取得
+            List<MarkDateTable> markDates = markDateTableDao.getMarkDateOfMark( selectedPid );
+            mMarkDates.addAll( markDates );
         }
     }
 
@@ -91,7 +107,7 @@ public class AsyncReadMark {
     void onPostExecute() {
 
         //読み取り完了
-        mOnFinishListener.onFinish( mMarks );
+        mOnFinishListener.onFinish( mMarks, mMarkDates );
     }
 
     /*
@@ -101,7 +117,7 @@ public class AsyncReadMark {
         /*
          * 生成完了時、コールされる
          */
-        void onFinish( MarkArrayList<MarkTable> marks );
+        void onFinish( MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDatess );
     }
 
 

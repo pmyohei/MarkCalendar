@@ -22,12 +22,12 @@ import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
 
-    private Context         mContext;                       //コンテキスト
-    private List<Date>      mDaysInMonth = new ArrayList(); //選択月の日リスト
-    private DateManager     mDateManager;                   //カレンダー管理用
-    private LayoutInflater  mLayoutInflater;                //描画高速化のために必要
-    //public int              mMarkColor;                     //マーク色
-    private MarkTable       mSelectedMark;
+    private final Context           mContext;                       //コンテキスト
+    private List<Date>              mDaysInMonth = new ArrayList(); //選択月の日リスト
+    private final DateManager       mDateManager;                   //カレンダー管理用
+    private final LayoutInflater    mLayoutInflater;                //描画高速化のために必要
+    //public int                    mMarkColor;                     //マーク色
+    private MarkTable               mSelectedMark;
 
     /*
      * 日付レイアウトクラス
@@ -346,7 +346,7 @@ public class CalendarAdapter extends BaseAdapter {
                 }
 
                 //保存対象データを生成
-                KeepMarkDate markedDate = new KeepMarkDate( mSelectedMark.getPid(), getDate( viewHolder.position ), preState, viewHolder.v_mark.getVisibility() );
+                KeepMarkDate markedDate = new KeepMarkDate( mSelectedMark.getPid(), getDate( viewHolder.position ), viewHolder.v_mark.getVisibility() );
 
                 //保存用キューに記録
                 CommonData commonData = (CommonData)((Activity) viewHolder.v_mark.getContext()).getApplication();
@@ -355,7 +355,6 @@ public class CalendarAdapter extends BaseAdapter {
                 //findViewById(R.id.tv_date).
 
                 Log.i("tap", "日付→" + getDate( viewHolder.position ) + " マーク→" + mSelectedMark.getName());
-
 
 
                 return true;

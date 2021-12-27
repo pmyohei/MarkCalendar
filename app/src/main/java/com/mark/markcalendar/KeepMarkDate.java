@@ -9,16 +9,16 @@ public class KeepMarkDate {
 
     private int     markPid;        //対象マーク
     private String  date;           //操作がはいった日付
-    private int     initState;      //日付の初期状態（Visible/Invisible）
+    //private int     initState;      //日付の初期状態（Visible/Invisible）
     private int     currentState;   //現在の状態（Visible/Invisible）
 
     /*
      * コンストラクタ
      */
-    public KeepMarkDate( int markPid, String date, int initState, int currentState ){
+    public KeepMarkDate( int markPid, String date, int currentState ){
         this.markPid      = markPid;
         this.date         = date;
-        this.initState    = initState;
+        //this.initState    = initState;
         this.currentState = currentState;
     }
 
@@ -54,12 +54,14 @@ public class KeepMarkDate {
         this.date = date;
     }
 
+/*
     public int getInitState() {
         return initState;
     }
     public void setInitState(int initState) {
         this.initState = initState;
     }
+*/
 
     public int getCurrentState() {
         return currentState;

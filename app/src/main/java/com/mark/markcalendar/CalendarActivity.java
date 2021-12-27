@@ -34,9 +34,9 @@ public class CalendarActivity extends AppCompatActivity {
 
     //SharedPreferences
     public static final String SHARED_DATA_NAME = "UIData";       //SharedPreferences保存名
-    private final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
+    private       final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
     public static final String SHARED_KEY_MARK_ORDER = "MarkOrder";    //マークの並び順
-    private final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
+    public static final int    INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
     public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
 
 
@@ -94,14 +94,17 @@ public class CalendarActivity extends AppCompatActivity {
                 }
         );
 
+
+        //前回の選択中マークを取得
+        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
+        int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
+
         //DB読み込み処理
-        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
+        AsyncReadMark db = new AsyncReadMark(this, selectedMarkPid, new AsyncReadMark.onFinishListener() {
 
             @Override
-            public void onFinish(MarkArrayList<MarkTable> marks) {
+            public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
 
-                //SharedPreferences
-                SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
                 //マーク並び順を取得
                 String order = spData.getString(SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER);
 
@@ -124,9 +127,6 @@ public class CalendarActivity extends AppCompatActivity {
                 if (marks.size() == 0) {
                     return;
                 }
-
-                //前回の選択中マークを取得
-                int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
 
                 MarkTable mark;
 
@@ -220,6 +220,24 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * ユーザーが前回アプリ使用時に選択していたマークのIndexを取得
+     */
+/*    private int getUserSelectedMarkIdx() {
+
+        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
+        int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
+
+        int selectedMarkIdx;
+        if (selectedMarkPid == INVALID_SELECTED_MARK) {
+            return
+        } else {
+            selectedMarkIdx.get
+        }
+
+
+
+    }*/
 
     /*
      * 次月を表示

@@ -14,11 +14,11 @@ public interface MarkDateTableDao {
     List<MarkDateTable> getAll();
 
     /*
-     * 取得：レコード
-     *   指定プライマリーキーのレコードを取得
+     * 取得
+     *   指定マークの日付マーク情報を全て取得
      */
-    @Query("SELECT * FROM mark_date WHERE pid=(:pid)")
-    MarkDateTable getMark(int pid);
+    @Query("SELECT * FROM mark_date WHERE pid_put_mark=(:pidPutMark)")
+    List<MarkDateTable> getMarkDateOfMark(int pidPutMark);
 
     @Insert
     long insert(MarkDateTable markDateTable);
