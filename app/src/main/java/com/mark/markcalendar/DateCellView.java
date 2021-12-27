@@ -1,5 +1,6 @@
 package com.mark.markcalendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -50,7 +51,7 @@ public class DateCellView extends LinearLayout {
         /*
          * コンストラクタ
          */
-        public RootNodeTouchListener() {
+        public RootNodeTouchListener(  ) {
             //ダブルタップリスナーを実装したGestureDetector
             mDoubleTapDetector = new GestureDetector(getContext(), new DoubleTapListener());
         }
@@ -89,6 +90,12 @@ public class DateCellView extends LinearLayout {
                 } else {
                     markView.setVisibility( View.INVISIBLE );
                 }
+
+                //保存用キューに記録
+                CommonData commonData = (CommonData)((Activity) getContext()).getApplication();
+
+                //findViewById(R.id.tv_date).
+
 
                 return true;
             }

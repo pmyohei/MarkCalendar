@@ -26,7 +26,7 @@ public class MarkDateTable {
 
     //外部キー：付与マーク
     @ColumnInfo(name = "pid_put_mark")
-    private String pidPutMark;
+    private int pidPutMark;
 
     //日付
     @ColumnInfo(name = "date")
@@ -41,10 +41,10 @@ public class MarkDateTable {
         this.pid = pid;
     }
 
-    public String getPidPutMark() {
+    public int getPidPutMark() {
         return pidPutMark;
     }
-    public void setPidPutMark(String pidPutMark) {
+    public void setPidPutMark(int pidPutMark) {
         this.pidPutMark = pidPutMark;
     }
 

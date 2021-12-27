@@ -23,8 +23,6 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 /*
  * カレンダーActivity
  */
@@ -35,11 +33,11 @@ public class CalendarActivity extends AppCompatActivity {
     public static String INTENT_MARK_PID = "MarkPid";
 
     //SharedPreferences
-    public  static final String SHARED_DATA_NAME         = "UIData";       //SharedPreferences保存名
-    private        final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
-    public  static final String SHARED_KEY_MARK_ORDER    = "MarkOrder";    //マークの並び順
-    private        final int    INVALID_SELECTED_MARK    = -1;             //選択中マーク（取得エラー時）
-    public  static final String INVALID_MARK_ORDER       = "";             //マークの並び順（取得エラー時）
+    public static final String SHARED_DATA_NAME = "UIData";       //SharedPreferences保存名
+    private final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
+    public static final String SHARED_KEY_MARK_ORDER = "MarkOrder";    //マークの並び順
+    private final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
+    public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
 
 
     //フリック検知
@@ -50,10 +48,10 @@ public class CalendarActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> mMarkListLauncher;
 
     //マークリスト
-    private MarkArrayList<MarkTable> mMarks;
+    //private MarkArrayList<MarkTable> mMarks;
     //選択中マーク
     //★pidにするかも（最後に見直しする）
-    private MarkTable                mSelectedMark;
+    private MarkTable mSelectedMark;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -105,12 +103,14 @@ public class CalendarActivity extends AppCompatActivity {
                 //SharedPreferences
                 SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
                 //マーク並び順を取得
-                String order = spData.getString( SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER );
+                String order = spData.getString(SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER);
 
-                //DBから読み込んだマークをリストとして保持
-                mMarks = new MarkArrayList<>();
-                //mMarks.addAll(marks);
-                mMarks.addInOrder( marks, order );
+                //DBから読み込んだマークを共通データとして保持
+                CommonData commonData = (CommonData) getApplication();
+                MarkArrayList<MarkTable> marksInOrder = commonData.createMarksInOrder(marks, order);
+
+                //mMarks = new MarkArrayList<>();
+                //mMarks.addInOrder( marks, order );
 
                 //カレンダーの表示
                 GridView calendarGridView = findViewById(R.id.gv_calendar);
@@ -121,7 +121,7 @@ public class CalendarActivity extends AppCompatActivity {
                 TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
                 tv_yearMonth.setText(mCalendarAdapter.getMonth());
 
-                if( marks.size() == 0 ){
+                if (marks.size() == 0) {
                     return;
                 }
 
@@ -131,22 +131,22 @@ public class CalendarActivity extends AppCompatActivity {
                 MarkTable mark;
 
                 //前回情報なし
-                if( selectedMarkPid == INVALID_SELECTED_MARK ){
+                if (selectedMarkPid == INVALID_SELECTED_MARK) {
                     //先頭のマークを選択中とする
-                    mark = mMarks.get(0);
+                    mark = marksInOrder.get(0);
 
                 } else {
                     //選択中マークを取得
-                    mark = mMarks.getMark(selectedMarkPid);
-                    if( mark == null ){
+                    mark = marksInOrder.getMark(selectedMarkPid);
+                    if (mark == null) {
                         //Failsafe
                         //もしなければ、先頭マークにする
-                        mark = mMarks.get(0);
+                        mark = marksInOrder.get(0);
                     }
                 }
 
                 //選択中マーク設定
-                setSelectedMark( mark );
+                setSelectedMark(mark);
             }
         });
         //非同期処理開始
@@ -180,7 +180,6 @@ public class CalendarActivity extends AppCompatActivity {
         );
         actionbar.setListNavigationCallbacks(adapter, this);
 */
-
 
 
         //前月に変更
@@ -222,11 +221,10 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
 
-
     /*
      * 次月を表示
      */
-    private void nextMonth(){
+    private void nextMonth() {
         //カレンダーを次月に変更
         mCalendarAdapter.nextMonth();
 
@@ -238,7 +236,7 @@ public class CalendarActivity extends AppCompatActivity {
     /*
      * 前月を表示
      */
-    private void previousMonth(){
+    private void previousMonth() {
         //カレンダーを前月に変更
         mCalendarAdapter.prevMonth();
 
@@ -250,37 +248,45 @@ public class CalendarActivity extends AppCompatActivity {
     /*
      * 次のマークに変更
      */
-    private void nextMark(){
+    private void nextMark() {
+
+        //共通データからマークリストを取得
+        CommonData commonData = (CommonData) getApplication();
+        MarkArrayList<MarkTable> marks = commonData.getMarks();
 
         //マークがなし or マーク1つ なら何もしない
-        if( mMarks.size() <= 1 ){
+        if (marks.size() <= 1) {
             return;
         }
 
         //選択中マークの変更
-        MarkTable mark = mMarks.getNextMark(mSelectedMark.getPid());
-        setSelectedMark( mark );
+        MarkTable mark = marks.getNextMark(mSelectedMark.getPid());
+        setSelectedMark(mark);
     }
 
     /*
      * 前のマークに変更
      */
-    private void previousMark(){
+    private void previousMark() {
+
+        //共通データからマークリストを取得
+        CommonData commonData = (CommonData) getApplication();
+        MarkArrayList<MarkTable> marks = commonData.getMarks();
 
         //マークがなし or マーク1つ なら何もしない
-        if( mMarks.size() <= 1 ){
+        if (marks.size() <= 1) {
             return;
         }
 
         //選択中マークの変更
-        MarkTable mark = mMarks.getPreviousMark( mSelectedMark.getPid() );
-        setSelectedMark( mark );
+        MarkTable mark = marks.getPreviousMark(mSelectedMark.getPid());
+        setSelectedMark(mark);
     }
 
     /*
      * 選択中マークの変更
      */
-    private void setSelectedMark(MarkTable mark){
+    private void setSelectedMark(MarkTable mark) {
 
         //選択中マークを更新
         mSelectedMark = mark;
@@ -296,26 +302,27 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         //カレンダーのマーク情報を変更
-        mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
+        //mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
+        mCalendarAdapter.setMark(mSelectedMark);
 
         //選択中マークを保存
         //★保存用クラスを作成して、それに任せた方がよいかも→現状、複数個所で保存処理あり
-        SharedPreferences spData = getSharedPreferences( SHARED_DATA_NAME, MODE_PRIVATE);
+        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = spData.edit();
-        editor.putInt( SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
+        editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
         editor.apply();
     }
 
     /*
      * 画面遷移-マークリスト画面
      */
-    private void transitionMarkList(){
+    private void transitionMarkList() {
         //画面遷移
         Intent intent = new Intent(this, MarkListActivity.class);
         //選択中マーク情報を渡す
         intent.putExtra(INTENT_MARK_PID, 0);
         //画面遷移
-        mMarkListLauncher.launch( intent );
+        mMarkListLauncher.launch(intent);
     }
 
     /*
@@ -328,11 +335,11 @@ public class CalendarActivity extends AppCompatActivity {
         private final int THRESHOLD_FLING_DETECTION = 100;
 
         //フリング方向
-        private final int FLING_NONE  = -1;
+        private final int FLING_NONE = -1;
         private final int FLING_RIGHT = 0;
-        private final int FLING_LEFT  = 1;
-        private final int FLING_UP    = 2;
-        private final int FLING_DOWN  = 3;
+        private final int FLING_LEFT = 1;
+        private final int FLING_UP = 2;
+        private final int FLING_DOWN = 3;
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -361,16 +368,16 @@ public class CalendarActivity extends AppCompatActivity {
             Log.i("onFling", "velocityX=" + velocityX + " velocityY=" + velocityY);
 
             //移動量
-            int distanceX = (int)(e1.getX() - e2.getX());
-            int distanceY = (int)(e1.getY() - e2.getY());
+            int distanceX = (int) (e1.getX() - e2.getX());
+            int distanceY = (int) (e1.getY() - e2.getY());
             //移動量（絶対値）
-            int distanceAbsX = Math.abs( distanceX );
-            int distanceAbsY = Math.abs( distanceY );
+            int distanceAbsX = Math.abs(distanceX);
+            int distanceAbsY = Math.abs(distanceY);
 
             //方向検出
             int direction = detectFlingDirection(distanceAbsX, distanceAbsY, distanceX, distanceY);
 
-            switch (direction){
+            switch (direction) {
 
                 case FLING_LEFT:
                     Log.i("onFling", "FLING_LEFT");
@@ -406,21 +413,21 @@ public class CalendarActivity extends AppCompatActivity {
          *   ※XY軸がどちらも検出閾値を超過している場合は、「フリングなし」とする。
          *   ※XY軸がどちらも検出閾値を超過していない場合は、「フリングなし」とする。
          */
-        public int detectFlingDirection(int distanceAbsX, int distanceAbsY, int distanceX, int distanceY){
+        public int detectFlingDirection(int distanceAbsX, int distanceAbsY, int distanceX, int distanceY) {
 
             //フリングなし
             int direction = FLING_NONE;
 
             //どちらも閾値未満 or どちらも閾値超過
-            if( ( (distanceAbsX <= THRESHOLD_FLING_DETECTION) && (distanceAbsY <= THRESHOLD_FLING_DETECTION) )
-                    || ( (distanceAbsX > THRESHOLD_FLING_DETECTION) && (distanceAbsY > THRESHOLD_FLING_DETECTION) ) ){
+            if (((distanceAbsX <= THRESHOLD_FLING_DETECTION) && (distanceAbsY <= THRESHOLD_FLING_DETECTION))
+                    || ((distanceAbsX > THRESHOLD_FLING_DETECTION) && (distanceAbsY > THRESHOLD_FLING_DETECTION))) {
                 return direction;
             }
 
-            if( distanceAbsX > THRESHOLD_FLING_DETECTION ){
+            if (distanceAbsX > THRESHOLD_FLING_DETECTION) {
                 //横方向のフリング発生
 
-                if( distanceX > 0 ){
+                if (distanceX > 0) {
                     //左にフリングが発生
                     direction = FLING_LEFT;
                 } else {
@@ -431,7 +438,7 @@ public class CalendarActivity extends AppCompatActivity {
             } else {
                 //縦方向のフリング発生
 
-                if( distanceY > 0 ){
+                if (distanceY > 0) {
                     //上にフリングが発生
                     direction = FLING_UP;
                 } else {
@@ -488,7 +495,36 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * onStop()
+     */
+    @Override
+    protected void onStop() {
+        //必須
+        super.onStop();
 
+        //DBから読み込んだマークを共通データとして保持
+        CommonData commonData = (CommonData) getApplication();
+        KeepMarkDateArrayList<KeepMarkDate> markedDate = commonData.getKeepMarkDates();
+
+        //DB更新
+        AsyncUpdateMarkDate db = new AsyncUpdateMarkDate(this, markedDate, new AsyncUpdateMarkDate.onFinishListener() {
+
+            @Override
+            public void onFinish() {
+
+                //★要検討
+                //既存のリストへマークをキューイングする必要あり？
+
+                //キュークリア
+
+            }
+        });
+        //非同期処理開始
+        db.execute();
+
+
+    }
 
 
 

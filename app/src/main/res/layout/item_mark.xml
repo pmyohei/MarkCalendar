@@ -22,22 +22,12 @@
 
         <TextView
             android:id="@+id/tv_markName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:fontFamily="serif"
             android:text="Sample"
             android:textColor="@color/primary"/>
-
-        <ImageButton
-            android:id="@+id/ib_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="12dp"
-            android:background="@color/substitute_light"
-            app:srcCompat="@drawable/baseline_order_24" />
 
     </LinearLayout>
 
