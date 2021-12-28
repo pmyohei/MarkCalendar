@@ -22,23 +22,27 @@ import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
 
-    private final Context           mContext;                       //コンテキスト
-    private List<Date>              mDaysInMonth = new ArrayList(); //選択月の日リスト
-    private final DateManager       mDateManager;                   //カレンダー管理用
-    private final LayoutInflater    mLayoutInflater;                //描画高速化のために必要
-    //public int                    mMarkColor;                     //マーク色
-    private MarkTable               mSelectedMark;
+    private final Context                       mContext;                       //コンテキスト
+    private List<Date>                          mDaysInMonth = new ArrayList(); //選択月の日リスト
+    private final DateManager                   mDateManager;                   //カレンダー管理用
+    private final LayoutInflater                mLayoutInflater;                //描画高速化のために必要
+    //public int                                mMarkColor;                     //マーク色
+    private MarkTable                           mSelectedMark;                  //選択中マーク
+    private MarkDateArrayList<MarkDateTable>    mMarkDates;                     //日付マーク（全情報）
+    private MarkDateArrayList<MarkDateTable>    mShowMarkDates;                 //日付マーク（選択中マーク）
+
 
     /*
      * 日付レイアウトクラス
      */
     private class ViewHolder {
+
+        //セル位置
+        private int position;
+        //日付セル内のビュー
         public LinearLayout ll_cell;
         public TextView tv_date;
         public MarkView v_mark;
-
-        private int position;
-        private int markPid;
 
         /*
          * ビューの設定
@@ -57,42 +61,75 @@ public class CalendarAdapter extends BaseAdapter {
         /*
          * 表示情報の初期化
          */
-        public void clearData( int color, int position, int markPid ){
-
-            //ビューの表示初期化
-            tv_date.setText("");
-            v_mark.setVisibility( View.INVISIBLE ); //★
-            v_mark.setColorHex( color );
+        public void clearData( int position  ){
 
             //セル位置
             this.position = position;
-            //マークPid
-            this.markPid = markPid;
 
-            //レイアウト全体にタッチリスナーを設定
-            ll_cell.setClickable(true);                             //！これがないとダブルタップが検知されない
-            ll_cell.setOnTouchListener(new DateTouchListener( this ));
+            //ビューの表示初期化
+            tv_date.setText("");
+            v_mark.setVisibility( View.INVISIBLE );
+
+            //マークが選択されている時だけ、以下を設定
+            if( mSelectedMark != null ){
+                //マーク色の設定
+                v_mark.setColorHex( mSelectedMark.getColor() );
+
+                //レイアウト全体にタッチリスナーを設定
+                ll_cell.setClickable(true);                             //！これがないとダブルタップが検知されない
+                ll_cell.setOnTouchListener(new DateTouchListener( this ));
+            }
         }
 
+        /*
+         * 日付情報の設定
+         */
+        public void setDateInfo( int position ){
 
+            //日付フォーマット
+            SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
+            //日付
+            tv_date.setText( sdf_d.format(mDaysInMonth.get(position)) );
+
+            //マークが選択されている場合
+            if( mSelectedMark != null ){
+
+                //対象の年月日情報
+                String date = getDate(position);
+
+                //マークの有無チェック①：DB内の情報
+                if( mShowMarkDates.hasMarkDate( date ) ){
+                    //対象日のデータがあれば、マークを表示
+                    v_mark.setVisibility( View.VISIBLE );
+                }
+
+                //マークの有無チェック②：ユーザー操作の情報
+                CommonData commonData = (CommonData)((Activity) v_mark.getContext()).getApplication();
+                KeepMarkDateArrayList<KeepMarkDate> keepMarkDates = commonData.getKeepMarkDates();
+
+                //当該日付に対するマーク状態を取得
+                int state = keepMarkDates.checkDateState( mSelectedMark.getPid(), date );
+
+                if( state != KeepMarkDateArrayList.NO_DATA ){
+                    //対象日のデータがあれば、マークに反映
+                    v_mark.setVisibility( state );
+                }
+            }
+        }
     }
 
     /*
      * コンストラクタ
      */
-    public CalendarAdapter(Context context){
+    public CalendarAdapter(Context context, MarkDateArrayList<MarkDateTable> markDates){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
         mDaysInMonth = mDateManager.getDays();
+        mMarkDates   = markDates;
 
-        //マーク色
-        //mMarkColor = markColor;
-
-        //日付マークリスト
-
-        //選択月の日付マークリスト
-
+        //本リストは、選択マーク設定時に更新する
+        mShowMarkDates = new MarkDateArrayList<>();
     }
 
     @Override
@@ -118,11 +155,6 @@ public class CalendarAdapter extends BaseAdapter {
             //ビューを生成。レイアウト内のビューを保持。
             holder = new ViewHolder();
             holder.setView( convertView );
-/*
-            holder.ll_cell = convertView.findViewById(R.id.ll_cell);
-            holder.tv_date = convertView.findViewById(R.id.tv_date);
-            holder.v_mark  = convertView.findViewById(R.id.v_mark);
-*/
 
             //タグ設定
             convertView.setTag(holder);
@@ -159,34 +191,21 @@ public class CalendarAdapter extends BaseAdapter {
         Log.i("CalendarAdapter", "weekNum=" + weekNum + " param.h=" + params.height);
 
         //日付フォーマット
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
+        //SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
 
         //日付セルを初期化
-        //holder.clearData( mMarkColor, position );
-        holder.clearData( mSelectedMark.getColor(), position, mSelectedMark.getPid() );
+        holder.clearData( position );
 
         //セルの日付が当月のものである場合
-        if (mDateManager.isCurrentMonth(mDaysInMonth.get(position))){
+        if (mDateManager.isCurrentMonth( mDaysInMonth.get(position)) ){
 
-            Log.i("CalendarAdapter", "position=" + position + " 日=" + dateFormat.format(mDaysInMonth.get(position)));
+            //Log.i("CalendarAdapter", "position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
 
-            //日付設定
-            holder.tv_date.setText(dateFormat.format(mDaysInMonth.get(position)));
-
-            //デザイン確認用----
-/*            if( dateFormat.format(mDaysInMonth.get(position)).equals("1") ){
-                holder.v_mark.setVisibility(View.VISIBLE);
-            }
-            if( dateFormat.format(mDaysInMonth.get(position)).equals("10") ){
-                holder.v_mark.setVisibility(View.VISIBLE);
-            }
-            if( dateFormat.format(mDaysInMonth.get(position)).equals("13") ){
-                holder.v_mark.setVisibility(View.VISIBLE);
-            }*/
-            //デザイン確認用-----
+            //日付情報の設定
+            holder.setDateInfo( position );
 
         } else{
-            Log.i("CalendarAdapter", "not month position=" + position + " 日=" + dateFormat.format(mDaysInMonth.get(position)));
+            //Log.i("CalendarAdapter", "not month position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
 
         }
 
@@ -197,13 +216,13 @@ public class CalendarAdapter extends BaseAdapter {
     //指定位置の日付を取得する
     public String getDate(int position){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
-        return format.format(mDaysInMonth.get(position));
+        return format.format( mDaysInMonth.get(position) );
     }
 
     //当月を取得
     public String getMonth(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
-        return format.format(mDateManager.mCalendar.getTime());
+        return format.format( mDateManager.mCalendar.getTime() );
     }
 
     //指定された日の位置を取得
@@ -250,23 +269,41 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     /*
-     * マーク色の設定
-     */
-    public void setMarkColor( int color ){
-        //設定変更
-        //mMarkColor = color;
-        //自身へ変更通知
-        this.notifyDataSetChanged();
-    }
-    /*
      * マークの設定
      */
     public void setMark( MarkTable mark ){
-        //設定変更
+        //選択中マークの変更
         mSelectedMark = mark;
+
+        //表示対象の日付マークリストを再生成
+        if( mSelectedMark != null ){
+            mShowMarkDates = mMarkDates.extractDesignatedMark( mSelectedMark.getPid() );
+        } else {
+            mShowMarkDates.clear();
+        }
+
         //自身へ変更通知
         this.notifyDataSetChanged();
     }
+
+    /*
+     * マークの設定
+     */
+    public void updateMarkDate( MarkDateArrayList<MarkDateTable> markDates){
+        //日付マーク更新
+        mMarkDates = markDates;
+
+        //表示対象の日付マークリストを再生成
+        if( mSelectedMark != null ){
+            mShowMarkDates = mMarkDates.extractDesignatedMark( mSelectedMark.getPid() );
+        } else {
+            mShowMarkDates.clear();
+        }
+
+        //自身へ変更通知
+        this.notifyDataSetChanged();
+    }
+
 
     @Override
     public long getItemId(int position) {
@@ -325,20 +362,18 @@ public class CalendarAdapter extends BaseAdapter {
                     return true;
                 }
 
-/*                //マークビュー
-                MarkView markView = findViewById( R.id.v_mark );
+                //共通データ
+                CommonData commonData = (CommonData)((Activity) viewHolder.v_mark.getContext()).getApplication();
 
-                //マークの付与・削除
-                if( markView.getVisibility() == View.INVISIBLE ){
-                    markView.setVisibility( View.VISIBLE );
-                } else {
-                    markView.setVisibility( View.INVISIBLE );
-                }*/
-                //マークビュー
+                //登録マークが0なら、マーク設定対象外
+                if( commonData.getMarks().size() == 0 ){
+                    return true;
+                }
 
-                //マークの付与・削除
+                //ダブルタップ時のマークの状態
                 int preState = viewHolder.v_mark.getVisibility();
 
+                //マークの付与・削除
                 if( preState == View.INVISIBLE ){
                     viewHolder.v_mark.setVisibility( View.VISIBLE );
                 } else {
@@ -349,7 +384,6 @@ public class CalendarAdapter extends BaseAdapter {
                 KeepMarkDate markedDate = new KeepMarkDate( mSelectedMark.getPid(), getDate( viewHolder.position ), viewHolder.v_mark.getVisibility() );
 
                 //保存用キューに記録
-                CommonData commonData = (CommonData)((Activity) viewHolder.v_mark.getContext()).getApplication();
                 commonData.enqueMarkedDate( markedDate );
 
                 //findViewById(R.id.tv_date).

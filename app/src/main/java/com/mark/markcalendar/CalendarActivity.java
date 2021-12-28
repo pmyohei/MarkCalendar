@@ -34,9 +34,9 @@ public class CalendarActivity extends AppCompatActivity {
 
     //SharedPreferences
     public static final String SHARED_DATA_NAME = "UIData";       //SharedPreferences保存名
-    private       final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
+    private final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
     public static final String SHARED_KEY_MARK_ORDER = "MarkOrder";    //マークの並び順
-    public static final int    INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
+    public static final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
     public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
 
 
@@ -71,53 +71,64 @@ public class CalendarActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
 
-                        Log.i("CalendarActivity", "画面リストからの戻り");
+                        Log.i("CalendarActivity", "マークリストからの戻り");
 
-                        //インテント
-                        Intent intent = result.getData();
-                        //リザルトコード
-                        int resultCode = result.getResultCode();
+                        //マークリストを取得
+                        CommonData commonData = (CommonData) getApplication();
+                        MarkArrayList<MarkTable> marks = commonData.getMarks();
 
-                        //新規作成結果
-                        if (resultCode == MarkEntryActivity.RESULT_CREATED) {
+                        //マークリストを更新
+                        TextView tv_selectedMark = findViewById( R.id.tv_selectedMark );
+                        //マーク未登録文字列
+                        String noMarkText = getResources().getString( R.string.no_mark );
 
-                            //Log.i("MarkInformationActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
+                        //登録マークなしの状態だったとき
+                        if( tv_selectedMark.getText().toString().equals( noMarkText ) ){
 
-                            //編集結果
-                        } else if (resultCode == MarkEntryActivity.RESULT_EDITED) {
+                            //マークが登録されれば
+                            if( marks.size() > 0 ){
+                                MarkTable mark = marks.get(0);
 
-                            //その他
+                                //先頭のマークを選択中マークとする
+                                tv_selectedMark.setText( mark.getName() );
+
+                                //アダプタの選択中マークを設定
+                                mCalendarAdapter.setMark( mark );
+                            }
+
                         } else {
-                            //do nothing
+
+                            //マークが全て削除されていれば
+                            if( marks.size() == 0 ){
+                                //マーク未登録状態にする
+                                tv_selectedMark.setText( noMarkText );
+
+                                //選択中マークなし
+                                mCalendarAdapter.setMark( null );
+                            }
                         }
                     }
                 }
         );
 
 
-        //前回の選択中マークを取得
-        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
-        int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
-
         //DB読み込み処理
-        AsyncReadMark db = new AsyncReadMark(this, selectedMarkPid, new AsyncReadMark.onFinishListener() {
+        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
 
             @Override
             public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
 
                 //マーク並び順を取得
+                SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
                 String order = spData.getString(SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER);
 
                 //DBから読み込んだマークを共通データとして保持
                 CommonData commonData = (CommonData) getApplication();
                 MarkArrayList<MarkTable> marksInOrder = commonData.createMarksInOrder(marks, order);
 
-                //mMarks = new MarkArrayList<>();
-                //mMarks.addInOrder( marks, order );
-
                 //カレンダーの表示
                 GridView calendarGridView = findViewById(R.id.gv_calendar);
-                mCalendarAdapter = new CalendarAdapter(calendarGridView.getContext());
+                mCalendarAdapter = new CalendarAdapter(calendarGridView.getContext(), markDates);
                 calendarGridView.setAdapter(mCalendarAdapter);
 
                 //アプリ起動時点の年月を表示
@@ -128,22 +139,8 @@ public class CalendarActivity extends AppCompatActivity {
                     return;
                 }
 
-                MarkTable mark;
-
-                //前回情報なし
-                if (selectedMarkPid == INVALID_SELECTED_MARK) {
-                    //先頭のマークを選択中とする
-                    mark = marksInOrder.get(0);
-
-                } else {
-                    //選択中マークを取得
-                    mark = marksInOrder.getMark(selectedMarkPid);
-                    if (mark == null) {
-                        //Failsafe
-                        //もしなければ、先頭マークにする
-                        mark = marksInOrder.get(0);
-                    }
-                }
+                //ユーザーの前回選択中マークを取得
+                MarkTable mark = getUserSelectedMark(marksInOrder);
 
                 //選択中マーク設定
                 setSelectedMark(mark);
@@ -221,23 +218,34 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /*
-     * ユーザーが前回アプリ使用時に選択していたマークのIndexを取得
+     * ユーザーが前回アプリ使用時に選択していたマークを取得
      */
-/*    private int getUserSelectedMarkIdx() {
+    private MarkTable getUserSelectedMark(MarkArrayList<MarkTable> marksInOrder) {
 
+        //前回の選択中マークを取得
         SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
         int selectedMarkPid = spData.getInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
 
-        int selectedMarkIdx;
+        //マーク
+        MarkTable mark;
+
+        //前回情報なし
         if (selectedMarkPid == INVALID_SELECTED_MARK) {
-            return
+            //先頭のマークを選択中とする
+            mark = marksInOrder.get(0);
+
         } else {
-            selectedMarkIdx.get
+            //選択中マークを取得
+            mark = marksInOrder.getMark(selectedMarkPid);
+            if (mark == null) {
+                //Failsafe
+                //もしなければ、先頭マークにする
+                mark = marksInOrder.get(0);
+            }
         }
 
-
-
-    }*/
+        return mark;
+    }
 
     /*
      * 次月を表示
@@ -312,12 +320,6 @@ public class CalendarActivity extends AppCompatActivity {
         //選択中マークビュー
         TextView tv_selectedMark = findViewById(R.id.tv_selectedMark);
         tv_selectedMark.setText(mSelectedMark.getName());
-
-        //選択マークの日付マーク情報を取得
-        //★
-
-        //★取得後、アダプタに日付マーク情報を渡す(更新させる)
-
 
         //カレンダーのマーク情報を変更
         //mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
@@ -521,6 +523,8 @@ public class CalendarActivity extends AppCompatActivity {
         //必須
         super.onStop();
 
+        Log.i("lifecycle", "onStop");
+
         //DBから読み込んだマークを共通データとして保持
         CommonData commonData = (CommonData) getApplication();
         KeepMarkDateArrayList<KeepMarkDate> markedDate = commonData.getKeepMarkDates();
@@ -535,15 +539,35 @@ public class CalendarActivity extends AppCompatActivity {
                 //既存のリストへマークをキューイングする必要あり？
 
                 //キュークリア
+                markedDate.clear();
+            }
+        });
+        //非同期処理開始
+        db.execute();
+    }
 
+    /*
+     * onRestart()
+     */
+    @Override
+    protected void onRestart() {
+        //必須
+        super.onRestart();
+
+        Log.i("lifecycle", "onRestart");
+
+        //DB読み込み処理
+        //★マークリストは不要
+        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
+
+            @Override
+            public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
+                //アダプタの日付マーク情報を更新
+                mCalendarAdapter.updateMarkDate( markDates );
             }
         });
         //非同期処理開始
         db.execute();
 
-
     }
-
-
-
 }

@@ -3,6 +3,9 @@
 
     <string name="sample_date">10</string>a
 
+    <!--  カレンダー画面  -->
+    <string name="no_mark">マーク未登録</string>
+
     <!--  曜日  -->
     <string name="week_sunday">Sun</string>
     <string name="week_monday">Mon</string>

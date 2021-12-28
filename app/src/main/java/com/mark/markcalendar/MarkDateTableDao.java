@@ -27,7 +27,7 @@ public interface MarkDateTableDao {
      * 削除：レコード
      *   マークPid／日付を指定
      */
-    @Query("SELECT * FROM mark_date WHERE pid_put_mark=(:pidPutMark) and date=(:date)")
+    @Query("DELETE FROM mark_date WHERE pid_put_mark=(:pidPutMark) and date=(:date)")
     void deleteByDate(int pidPutMark, String date);
 
     @Delete

@@ -25,8 +25,12 @@ public class MarkView extends View {
             //マーク色として設定
             paint.setColor( colorDrawable.getColor() );
 
-            //色なしを設定
+            //背景色自体には、色なしを設定
             this.setBackgroundColor( getResources().getColor( R.color.clear ) );
+
+        } else {
+            //色が未指定の場合、色なしを設定
+            paint.setColor( getResources().getColor( R.color.clear ) );
         }
 
     }
@@ -51,6 +55,9 @@ public class MarkView extends View {
         paint.setColor(colorHex);
         invalidate();
     }
+
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {

@@ -12,16 +12,16 @@ public class AsyncReadMark {
 
     private final AppDatabase                   mDB;
     private final onFinishListener              mOnFinishListener;
-    private final int                           mSelectedMarkPid;
+    //private final int                           mSelectedMarkPid;
     private MarkArrayList<MarkTable>            mMarks;
     private MarkDateArrayList<MarkDateTable>    mMarkDates;
 
     /*
      * コンストラクタ
      */
-    public AsyncReadMark(Context context, int markPid, onFinishListener listener) {
+    public AsyncReadMark(Context context, onFinishListener listener) {
         mDB               = AppDatabaseManager.getInstance(context);
-        mSelectedMarkPid  = markPid;
+        //mSelectedMarkPid  = markPid;
         mOnFinishListener = listener;
 
         mMarks = new MarkArrayList<>();
@@ -67,16 +67,21 @@ public class AsyncReadMark {
             List<MarkTable> marks = markDao.getAll();
             mMarks.addAll( marks );
 
+            //全日付マークを取得
+            List<MarkDateTable> markDates = markDateTableDao.getAll();
+            mMarkDates.addAll( markDates );
+
+
             //前回選択中マーク
-            int selectedPid = mSelectedMarkPid;
-            if( selectedPid == CalendarActivity.INVALID_SELECTED_MARK ){
-                //取得に失敗した場合は、先頭のマークにする
-                selectedPid = mMarks.get(0).getPid();
-            }
+            //int selectedPid = mSelectedMarkPid;
+            //if( selectedPid == CalendarActivity.INVALID_SELECTED_MARK ){
+            //    //取得に失敗した場合は、先頭のマークにする
+            //    selectedPid = mMarks.get(0).getPid();
+            //}
 
             //前回選択中マークの日付マーク情報を全て取得
-            List<MarkDateTable> markDates = markDateTableDao.getMarkDateOfMark( selectedPid );
-            mMarkDates.addAll( markDates );
+            //List<MarkDateTable> markDates = markDateTableDao.getMarkDateOfMark( selectedPid );
+            //mMarkDates.addAll( markDates );
         }
     }
 

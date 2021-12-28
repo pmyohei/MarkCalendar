@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class KeepMarkDateArrayList <E> extends ArrayList<KeepMarkDate> {
 
-    private final int NO_DATA = -1;
+    public static final int NO_DATA = -1;
 
     /*
      * コンストラクタ
@@ -50,7 +50,7 @@ public class KeepMarkDateArrayList <E> extends ArrayList<KeepMarkDate> {
     }
 
     /*
-     *　指定データの日付が既にリスト内に存在しているかを反映
+     *　指定マークの日付が既にリスト内に存在しているか
      *   あり：該当Index
      *   なし：NO_DATA
      */
@@ -70,6 +70,25 @@ public class KeepMarkDateArrayList <E> extends ArrayList<KeepMarkDate> {
         //リスト内になし
         return NO_DATA;
     }
+
+    /*
+     *　指定データの日付が既にリスト内に存在しているか
+     *   あり：該当Index
+     *   なし：NO_DATA
+     */
+    public int checkDateState( int markPid, String date ) {
+
+        int idx = getMarkedDate(markPid, date);
+
+        if( idx == NO_DATA ){
+            return idx;
+        }
+
+        return get(idx).getCurrentState();
+    }
+
+
+
 
 
 
