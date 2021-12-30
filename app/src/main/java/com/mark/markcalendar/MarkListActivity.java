@@ -47,7 +47,7 @@ public class MarkListActivity extends AppCompatActivity {
 
         //マーク新規作成・編集画面遷移ランチャー
         //※クリックリスナー内で定義しないこと！（ライフサイクルの関係でエラーになるため）
-        ActivityResultLauncher<Intent> MarkEntryLauncher = registerForActivityResult(
+        ActivityResultLauncher<Intent> markEntryLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
 
@@ -76,7 +76,13 @@ public class MarkListActivity extends AppCompatActivity {
 
                         //編集結果
                         } else if( resultCode == MarkEntryActivity.RESULT_EDITED) {
+                            //編集後のマーク
+                            MarkTable mark = (MarkTable) intent.getSerializableExtra(MarkListActivity.KEY_MARK);
 
+                            //リスト内のマークを更新
+                            int idx = marks.editMark( mark );
+                            //アダプタに変更を通知
+                            ((RecyclerView)findViewById(R.id.rv_markList)).getAdapter().notifyItemChanged( idx );
 
                         //その他
                         } else {
@@ -89,7 +95,7 @@ public class MarkListActivity extends AppCompatActivity {
 
         //マークリストを表示
         RecyclerView rv_markList = findViewById(R.id.rv_markList);
-        MarkListAdapter adapter = new MarkListAdapter((ArrayList<MarkTable>) marks);
+        MarkListAdapter adapter = new MarkListAdapter((ArrayList<MarkTable>) marks, markEntryLauncher);
         rv_markList.setAdapter(adapter);
         rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
 
@@ -132,7 +138,7 @@ public class MarkListActivity extends AppCompatActivity {
                 intent.putExtra(KEY_IS_CREATE, true);
 
                 //画面遷移開始
-                MarkEntryLauncher.launch( intent );
+                markEntryLauncher.launch( intent );
             }
         });
     }

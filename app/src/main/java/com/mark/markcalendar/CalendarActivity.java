@@ -73,40 +73,8 @@ public class CalendarActivity extends AppCompatActivity {
 
                         Log.i("CalendarActivity", "マークリストからの戻り");
 
-                        //マークリストを取得
-                        CommonData commonData = (CommonData) getApplication();
-                        MarkArrayList<MarkTable> marks = commonData.getMarks();
-
-                        //マークリストを更新
-                        TextView tv_selectedMark = findViewById( R.id.tv_selectedMark );
-                        //マーク未登録文字列
-                        String noMarkText = getResources().getString( R.string.no_mark );
-
-                        //登録マークなしの状態だったとき
-                        if( tv_selectedMark.getText().toString().equals( noMarkText ) ){
-
-                            //マークが登録されれば
-                            if( marks.size() > 0 ){
-                                MarkTable mark = marks.get(0);
-
-                                //先頭のマークを選択中マークとする
-                                tv_selectedMark.setText( mark.getName() );
-
-                                //アダプタの選択中マークを設定
-                                mCalendarAdapter.setMark( mark );
-                            }
-
-                        } else {
-
-                            //マークが全て削除されていれば
-                            if( marks.size() == 0 ){
-                                //マーク未登録状態にする
-                                tv_selectedMark.setText( noMarkText );
-
-                                //選択中マークなし
-                                mCalendarAdapter.setMark( null );
-                            }
-                        }
+                        //選択中マークの更新が必要かチェック
+                        checkUpdateSelectedMark();
                     }
                 }
         );
@@ -319,7 +287,25 @@ public class CalendarActivity extends AppCompatActivity {
 
         //選択中マークビュー
         TextView tv_selectedMark = findViewById(R.id.tv_selectedMark);
-        tv_selectedMark.setText(mSelectedMark.getName());
+
+        //★保存用クラスを作成して、それに任せた方がよいかも→現状、複数個所で保存処理あり
+        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = spData.edit();
+
+        if( mark == null ){
+            //マーク未登録文字列を設定
+            String noMarkText = getResources().getString( R.string.no_mark );
+            tv_selectedMark.setText(noMarkText);
+
+            //無効値を設定
+            editor.putInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
+        } else {
+            //指定マークを設定
+            tv_selectedMark.setText(mSelectedMark.getName());
+
+            //指定マークを設定
+            editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
+        }
 
         //カレンダーのマーク情報を変更
         //mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
@@ -327,9 +313,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         //選択中マークを保存
         //★保存用クラスを作成して、それに任せた方がよいかも→現状、複数個所で保存処理あり
-        SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = spData.edit();
-        editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
         editor.apply();
     }
 
@@ -344,6 +327,52 @@ public class CalendarActivity extends AppCompatActivity {
         //画面遷移
         mMarkListLauncher.launch(intent);
     }
+
+    /*
+     * 選択中マークの更新チェック
+     */
+    private void checkUpdateSelectedMark() {
+
+        //マークリストを取得
+        CommonData commonData = (CommonData) getApplication();
+        MarkArrayList<MarkTable> marks = commonData.getMarks();
+
+        //マークリストを更新
+        TextView tv_selectedMark = findViewById( R.id.tv_selectedMark );
+
+        //マーク未登録文字列
+        String noMarkText = getResources().getString( R.string.no_mark );
+
+        //登録マークなしの状態
+        if( tv_selectedMark.getText().toString().equals( noMarkText ) ){
+
+            //マークが登録されれば
+            if( marks.size() > 0 ){
+                //先頭のマークを選択中マークとする
+                MarkTable mark = marks.get(0);
+                //選択中マークの設定
+                setSelectedMark(mark);
+            }
+
+        } else {
+
+            //マークが全て削除されたなら
+            if( marks.size() == 0 ){
+                //マーク未登録状態にする
+                tv_selectedMark.setText( noMarkText );
+
+                //選択中マークなし
+                setSelectedMark( null );
+                //mCalendarAdapter.setMark( null );
+
+            } else {
+                //マークがまだあれば、選択中マークの表示を更新（編集された場合のため）
+                tv_selectedMark.setText( mSelectedMark.getName() );
+            }
+        }
+
+    }
+
 
     /*
      * スワイプ操作リスナー\

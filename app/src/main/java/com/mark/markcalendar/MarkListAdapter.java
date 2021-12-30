@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,8 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
 
     //マークリスト
     private final ArrayList<MarkTable> mData;
+    //編集画面遷移ランチャー
+    ActivityResultLauncher<Intent> mMarkEntryLauncher;
 
     /*
      * ViewHolder：リスト内の各アイテムのレイアウトを含む View のラッパー
@@ -72,7 +75,6 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                 }
             });
 
-
             //編集リスナー
             ib_edit.setOnClickListener( new View.OnClickListener() {
                 @Override
@@ -81,10 +83,10 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                     Context context = view.getContext();
 
                     //マーク画面へ遷移
-                    //Intent intent = new Intent(context, MarkActivity.class);
-                    //intent.putExtra(ResourceManager.INTENT_ID_MarkLIST_TO_Mark, mark.getPid());
+                    Intent intent = new Intent(context, MarkEntryActivity.class);
+                    intent.putExtra( MarkListActivity.KEY_MARK, mark);
 
-                    //context.startActivity(intent);
+                    mMarkEntryLauncher.launch( intent );
                 }
             });
 
@@ -110,8 +112,9 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
     /*
      * コンストラクタ
      */
-    public MarkListAdapter( ArrayList<MarkTable> data ) {
+    public MarkListAdapter( ArrayList<MarkTable> data, ActivityResultLauncher<Intent> markEntryLauncher ) {
         mData = data;
+        mMarkEntryLauncher = markEntryLauncher;
     }
 
     /*

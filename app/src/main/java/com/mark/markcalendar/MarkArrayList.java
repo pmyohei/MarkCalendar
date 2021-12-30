@@ -157,5 +157,24 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
         }
     }
 
+    /*
+     * リスト内の対象のマークを、指定されたマークの情報で更新する
+     */
+    public int editMark(MarkTable mark) {
 
+        //編集対象マークIndex
+        int idx = getMarkIdx( mark.getPid() );
+        if( idx == NO_DATA ){
+            return NO_DATA;
+        }
+
+        //編集対象マークを取得
+        MarkTable edittedMark = get( idx );
+
+        //情報更新
+        edittedMark.setName( mark.getName() );
+        edittedMark.setColor( mark.getColor() );
+
+        return idx;
+    }
 }
