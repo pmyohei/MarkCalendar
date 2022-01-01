@@ -135,6 +135,7 @@ public class CalendarAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         //その月の日数
+        Log.i("CalendarAdapter", "getCount()=" + mDaysInMonth.size());
         return mDaysInMonth.size();
     }
 
@@ -175,7 +176,7 @@ public class CalendarAdapter extends BaseAdapter {
             //週数が5を超えている場合は、5に丸める
             //(高さを統一するため。なお、2月が4週になっている場合は考慮外）
             //★2022.01 の場合、6行必要のため、要見直し
-            weekNum = MAX_WEKK_NUM;
+            //weekNum = MAX_WEKK_NUM;
         }
 
         //セルのサイズを指定
@@ -198,16 +199,14 @@ public class CalendarAdapter extends BaseAdapter {
 
         //セルの日付が当月のものである場合
         if (mDateManager.isCurrentMonth( mDaysInMonth.get(position)) ){
-
-            //Log.i("CalendarAdapter", "position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
-
             //日付情報の設定
             holder.setDateInfo( position );
-
-        } else{
-            //Log.i("CalendarAdapter", "not month position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
-
         }
+
+        //--log
+        SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
+        Log.i("CalendarAdapter", "position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
+        //--log
 
         //設定したビューを返す(このビューが日付セルとして表示される)
         return convertView;

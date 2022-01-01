@@ -68,11 +68,11 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
 
                     Context context = view.getContext();
 
-                    //マーク画面へ遷移
-                    //Intent intent = new Intent(context, MarkActivity.class);
-                    //intent.putExtra(, mark.getPid());
+                    //マーク統計画面へ遷移
+                    Intent intent = new Intent(context, MarkStatisticsActivity.class);
+                    intent.putExtra(MarkListActivity.KEY_MARK, mark.getPid());
 
-                    //context.startActivity(intent);
+                    context.startActivity(intent);
                 }
             });
 

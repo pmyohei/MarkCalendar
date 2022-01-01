@@ -20,6 +20,9 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/*
+ * マーク一覧画面
+ */
 public class MarkListActivity extends AppCompatActivity {
 
     /*-- 定数 --*/

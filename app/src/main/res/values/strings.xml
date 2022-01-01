@@ -2,6 +2,7 @@
     <string name="app_name">MarkCalendar</string>
 
     <string name="sample_date">10</string>a
+    <string name="sample_num">10</string>a
 
     <!--  カレンダー画面  -->
     <string name="no_mark">マーク未登録</string>
@@ -18,6 +19,8 @@
     <!--  マーク数  -->
     <string name="mark_slash">／</string>
     <string name="mark_unit">Marks</string>
+    <string name="mark_ratio_unit">%</string>
+    <string name="mark_total">Total</string>
 
     <!--  マークリスト  -->
     <string name="craate_mark">New</string>
@@ -26,6 +29,8 @@
     <!--  マーク作成  -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+
 
     <!--  Sample  -->
     <string name="sample">Sample</string>

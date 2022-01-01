@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".MarkStatisticsActivity"
+            android:exported="true" />
+        <activity
             android:name=".MarkEntryActivity"
             android:exported="true" />
         <activity

@@ -10,9 +10,12 @@ import java.util.concurrent.Executors;
 
 public class AsyncReadMark {
 
+    //マーク指定なし
+    private final int NO_MARK = -1;
+
     private final AppDatabase                   mDB;
     private final onFinishListener              mOnFinishListener;
-    //private final int                           mSelectedMarkPid;
+    private final int                           mMarkPid;
     private MarkArrayList<MarkTable>            mMarks;
     private MarkDateArrayList<MarkDateTable>    mMarkDates;
 
@@ -21,10 +24,20 @@ public class AsyncReadMark {
      */
     public AsyncReadMark(Context context, onFinishListener listener) {
         mDB               = AppDatabaseManager.getInstance(context);
-        //mSelectedMarkPid  = markPid;
+        mOnFinishListener = listener;
+        mMarkPid          = NO_MARK;
+        mMarks = new MarkArrayList<>();
+        mMarkDates = new MarkDateArrayList<>();
+    }
+
+    /*
+     * コンストラクタ
+     */
+    public AsyncReadMark(Context context, int markPid, onFinishListener listener) {
+        mDB               = AppDatabaseManager.getInstance(context);
+        mMarkPid          = markPid;
         mOnFinishListener = listener;
 
-        mMarks = new MarkArrayList<>();
         mMarkDates = new MarkDateArrayList<>();
     }
 
@@ -60,28 +73,26 @@ public class AsyncReadMark {
 
             //MarkDateTableDao
             MarkDateTableDao markDateTableDao = mDB.daoMarkDateTable();
-            //MarkDao
-            MarkTableDao markDao = mDB.daoMarkTable();
 
-            //登録中マークを全て取得
-            List<MarkTable> marks = markDao.getAll();
-            mMarks.addAll( marks );
+            //マーク指定なしの場合
+            if( mMarkPid == NO_MARK ){
+                //MarkDao
+                MarkTableDao markDao = mDB.daoMarkTable();
 
-            //全日付マークを取得
-            List<MarkDateTable> markDates = markDateTableDao.getAll();
-            mMarkDates.addAll( markDates );
+                //登録中マークを全て取得
+                List<MarkTable> marks = markDao.getAll();
+                mMarks.addAll( marks );
 
+                //全日付マークを取得
+                List<MarkDateTable> markDates = markDateTableDao.getAll();
+                mMarkDates.addAll( markDates );
 
-            //前回選択中マーク
-            //int selectedPid = mSelectedMarkPid;
-            //if( selectedPid == CalendarActivity.INVALID_SELECTED_MARK ){
-            //    //取得に失敗した場合は、先頭のマークにする
-            //    selectedPid = mMarks.get(0).getPid();
-            //}
+            } else {
+                //指定マークの日付マークを取得
+                List<MarkDateTable> markDates = markDateTableDao.getMarkDateOfMark( mMarkPid );
+                mMarkDates.addAll( markDates );
+            }
 
-            //前回選択中マークの日付マーク情報を全て取得
-            //List<MarkDateTable> markDates = markDateTableDao.getMarkDateOfMark( selectedPid );
-            //mMarkDates.addAll( markDates );
         }
     }
 
