@@ -337,7 +337,7 @@ public class CalendarActivity extends AppCompatActivity {
         CommonData commonData = (CommonData) getApplication();
         MarkArrayList<MarkTable> marks = commonData.getMarks();
 
-        //マークリストを更新
+        //表示中の選択中マークビュー
         TextView tv_selectedMark = findViewById( R.id.tv_selectedMark );
 
         //マーク未登録文字列
@@ -358,16 +358,21 @@ public class CalendarActivity extends AppCompatActivity {
 
             //マークが全て削除されたなら
             if( marks.size() == 0 ){
-                //マーク未登録状態にする
-                tv_selectedMark.setText( noMarkText );
-
                 //選択中マークなし
                 setSelectedMark( null );
-                //mCalendarAdapter.setMark( null );
 
             } else {
-                //マークがまだあれば、選択中マークの表示を更新（編集された場合のため）
-                tv_selectedMark.setText( mSelectedMark.getName() );
+                //マークはすべて削除されていない場合
+
+                //選択中マークが削除されている場合
+                if( marks.getMark( mSelectedMark.getPid() ) == null ){
+                    //先頭のマークを選択中に変更する
+                    setSelectedMark( marks.get(0) );
+
+                } else {
+                    //削除されていなくとも、編集されている場合を考慮し、選択中マークの表示を更新
+                    tv_selectedMark.setText( mSelectedMark.getName() );
+                }
             }
         }
 

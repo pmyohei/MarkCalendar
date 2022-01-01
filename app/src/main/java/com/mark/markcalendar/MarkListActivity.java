@@ -95,7 +95,7 @@ public class MarkListActivity extends AppCompatActivity {
 
         //マークリストを表示
         RecyclerView rv_markList = findViewById(R.id.rv_markList);
-        MarkListAdapter adapter = new MarkListAdapter((ArrayList<MarkTable>) marks, markEntryLauncher);
+        MarkListAdapter adapter = new MarkListAdapter((MarkArrayList<MarkTable>) marks, markEntryLauncher);
         rv_markList.setAdapter(adapter);
         rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
 

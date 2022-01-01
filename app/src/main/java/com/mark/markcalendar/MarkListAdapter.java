@@ -1,6 +1,8 @@
 package com.mark.markcalendar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkViewHolder>{
 
     //マークリスト
-    private final ArrayList<MarkTable> mData;
+    private final MarkArrayList<MarkTable> mData;
     //編集画面遷移ランチャー
     ActivityResultLauncher<Intent> mMarkEntryLauncher;
 
@@ -51,12 +53,11 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
         /*
          * ビューの設定
          */
-        public void setView( MarkTable mark ){
+        public void setView( MarkTable mark, int position ){
             //マーク名
             tv_MarkName.setText( mark.getName() );
             //マーク色
             v_mark.setColorHex( mark.getColor() );
-
 
             //マーク情報表示リスナー
             ib_markInfo.setOnClickListener( new View.OnClickListener() {
@@ -95,14 +96,33 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                 @Override
                 public void onClick(View view) {
 
-                    Context context = view.getContext();
+                    //削除確認ダイアログを表示
+                    new AlertDialog.Builder( view.getContext() )
+                            .setTitle("マーク削除確認")
+                            .setMessage("カレンダーにつけたマークも全て削除されます。\n本当に削除しますか？")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                    //確認ダイアログ
+                                    //DB削除処理
+                                    AsyncDeleteMark db = new AsyncDeleteMark(view.getContext(), mark, new AsyncDeleteMark.onFinishListener() {
 
-
-                    //DB非同期処理
-
-
+                                        @Override
+                                        public void onFinish() {
+                                            //削除マークのindexを取得
+                                            int idx = mData.getMarkIdx( mark.getPid() );
+                                            //自分自身をリストから削除
+                                            mData.remove( idx );
+                                            //アダプタに通知
+                                            notifyItemRemoved( idx );
+                                        }
+                                    });
+                                    //非同期処理開始
+                                    db.execute();
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
                 }
             });
         }
@@ -112,7 +132,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
     /*
      * コンストラクタ
      */
-    public MarkListAdapter( ArrayList<MarkTable> data, ActivityResultLauncher<Intent> markEntryLauncher ) {
+    public MarkListAdapter( MarkArrayList<MarkTable> data, ActivityResultLauncher<Intent> markEntryLauncher ) {
         mData = data;
         mMarkEntryLauncher = markEntryLauncher;
     }
@@ -144,12 +164,12 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
      *   表示内容等の設定を行う
      */
     @Override
-    public void onBindViewHolder(@NonNull MarkViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull MarkViewHolder viewHolder, final int position) {
         //対象マーク
-        MarkTable mark = mData.get(i);
+        MarkTable mark = mData.get(position);
 
         //ビューにマーク情報を反映
-        viewHolder.setView( mark );
+        viewHolder.setView( mark, position );
     }
 
     /*
