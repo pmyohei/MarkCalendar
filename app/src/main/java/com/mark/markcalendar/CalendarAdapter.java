@@ -30,7 +30,7 @@ public class CalendarAdapter extends BaseAdapter {
     private MarkTable                           mSelectedMark;                  //選択中マーク
     private MarkDateArrayList<MarkDateTable>    mMarkDates;                     //日付マーク（全情報）
     private MarkDateArrayList<MarkDateTable>    mShowMarkDates;                 //日付マーク（選択中マーク）
-
+    private MarkCountView                       mMarkCountView;                 //マーク数表示ビュー
 
     /*
      * 日付レイアウトクラス
@@ -105,12 +105,12 @@ public class CalendarAdapter extends BaseAdapter {
 
                 //マークの有無チェック②：ユーザー操作の情報
                 CommonData commonData = (CommonData)((Activity) v_mark.getContext()).getApplication();
-                KeepMarkDateArrayList<KeepMarkDate> keepMarkDates = commonData.getKeepMarkDates();
+                TapDataArrayList<TapData> tapData = commonData.getTapData();
 
                 //当該日付に対するマーク状態を取得
-                int state = keepMarkDates.checkDateState( mSelectedMark.getPid(), date );
+                int state = tapData.checkDateState( mSelectedMark.getPid(), date );
 
-                if( state != KeepMarkDateArrayList.NO_DATA ){
+                if( state != TapDataArrayList.NO_DATA ){
                     //対象日のデータがあれば、マークに反映
                     v_mark.setVisibility( state );
                 }
@@ -121,12 +121,13 @@ public class CalendarAdapter extends BaseAdapter {
     /*
      * コンストラクタ
      */
-    public CalendarAdapter(Context context, MarkDateArrayList<MarkDateTable> markDates){
+    public CalendarAdapter(Context context, MarkDateArrayList<MarkDateTable> markDates, MarkCountView markCountView){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
         mDaysInMonth = mDateManager.getDays();
         mMarkDates   = markDates;
+        mMarkCountView = markCountView;
 
         //本リストは、選択マーク設定時に更新する
         mShowMarkDates = new MarkDateArrayList<>();
@@ -371,24 +372,30 @@ public class CalendarAdapter extends BaseAdapter {
 
                 //ダブルタップ時のマークの状態
                 int preState = viewHolder.v_mark.getVisibility();
+                int countValue;
 
                 //マークの付与・削除
                 if( preState == View.INVISIBLE ){
                     viewHolder.v_mark.setVisibility( View.VISIBLE );
+                    countValue = MarkCountView.COUNT_UP;
+
                 } else {
                     viewHolder.v_mark.setVisibility( View.INVISIBLE );
+                    countValue = MarkCountView.COUNT_DOWN;
                 }
 
+                //マーク数反映
+                mMarkCountView.countUpDown(countValue);
+
                 //保存対象データを生成
-                KeepMarkDate markedDate = new KeepMarkDate( mSelectedMark.getPid(), getDate( viewHolder.position ), viewHolder.v_mark.getVisibility() );
+                TapData tapData = new TapData( mSelectedMark.getPid(), getDate( viewHolder.position ), viewHolder.v_mark.getVisibility() );
 
                 //保存用キューに記録
-                commonData.enqueMarkedDate( markedDate );
+                commonData.enqueMarkedDate( tapData );
 
                 //findViewById(R.id.tv_date).
 
                 Log.i("tap", "日付→" + getDate( viewHolder.position ) + " マーク→" + mSelectedMark.getName());
-
 
                 return true;
             }

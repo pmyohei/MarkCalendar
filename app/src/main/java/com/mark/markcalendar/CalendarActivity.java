@@ -49,6 +49,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     //マークリスト
     //private MarkArrayList<MarkTable> mMarks;
+    //日付マークリスト(全データ)
+    private MarkDateArrayList<MarkDateTable> mAllMarkDates;
     //選択中マーク
     //★pidにするかも（最後に見直しする）
     private MarkTable mSelectedMark;
@@ -86,6 +88,9 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
 
+                //全日付マークを保持
+                mAllMarkDates = markDates;
+
                 //マーク並び順を取得
                 SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
                 String order = spData.getString(SHARED_KEY_MARK_ORDER, INVALID_MARK_ORDER);
@@ -94,9 +99,12 @@ public class CalendarActivity extends AppCompatActivity {
                 CommonData commonData = (CommonData) getApplication();
                 MarkArrayList<MarkTable> marksInOrder = commonData.createMarksInOrder(marks, order);
 
+                //マーク数表示ビュー
+                MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
+
                 //カレンダーの表示
                 GridView calendarGridView = findViewById(R.id.gv_calendar);
-                mCalendarAdapter = new CalendarAdapter(calendarGridView.getContext(), markDates);
+                mCalendarAdapter = new CalendarAdapter(calendarGridView.getContext(), markDates, mv_markEria);
                 calendarGridView.setAdapter(mCalendarAdapter);
 
                 //アプリ起動時点の年月を表示
@@ -225,6 +233,9 @@ public class CalendarActivity extends AppCompatActivity {
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
+
+        //マーク数表示エリアの更新
+        setupMarkArea();
     }
 
     /*
@@ -237,6 +248,9 @@ public class CalendarActivity extends AppCompatActivity {
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
+
+        //マーク数表示エリアの更新
+        setupMarkArea();
     }
 
     /*
@@ -292,9 +306,9 @@ public class CalendarActivity extends AppCompatActivity {
         SharedPreferences spData = getSharedPreferences(SHARED_DATA_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = spData.edit();
 
-        if( mark == null ){
+        if (mark == null) {
             //マーク未登録文字列を設定
-            String noMarkText = getResources().getString( R.string.no_mark );
+            String noMarkText = getResources().getString(R.string.no_mark);
             tv_selectedMark.setText(noMarkText);
 
             //無効値を設定
@@ -314,6 +328,9 @@ public class CalendarActivity extends AppCompatActivity {
         //選択中マークを保存
         //★保存用クラスを作成して、それに任せた方がよいかも→現状、複数個所で保存処理あり
         editor.apply();
+
+        //表示するマーク数を設定
+        setupMarkArea();
     }
 
     /*
@@ -338,16 +355,16 @@ public class CalendarActivity extends AppCompatActivity {
         MarkArrayList<MarkTable> marks = commonData.getMarks();
 
         //表示中の選択中マークビュー
-        TextView tv_selectedMark = findViewById( R.id.tv_selectedMark );
+        TextView tv_selectedMark = findViewById(R.id.tv_selectedMark);
 
         //マーク未登録文字列
-        String noMarkText = getResources().getString( R.string.no_mark );
+        String noMarkText = getResources().getString(R.string.no_mark);
 
         //登録マークなしの状態
-        if( tv_selectedMark.getText().toString().equals( noMarkText ) ){
+        if (tv_selectedMark.getText().toString().equals(noMarkText)) {
 
             //マークが登録されれば
-            if( marks.size() > 0 ){
+            if (marks.size() > 0) {
                 //先頭のマークを選択中マークとする
                 MarkTable mark = marks.get(0);
                 //選択中マークの設定
@@ -357,27 +374,36 @@ public class CalendarActivity extends AppCompatActivity {
         } else {
 
             //マークが全て削除されたなら
-            if( marks.size() == 0 ){
+            if (marks.size() == 0) {
                 //選択中マークなし
-                setSelectedMark( null );
+                setSelectedMark(null);
 
             } else {
                 //マークはすべて削除されていない場合
 
                 //選択中マークが削除されている場合
-                if( marks.getMark( mSelectedMark.getPid() ) == null ){
+                if (marks.getMark(mSelectedMark.getPid()) == null) {
                     //先頭のマークを選択中に変更する
-                    setSelectedMark( marks.get(0) );
+                    setSelectedMark(marks.get(0));
 
                 } else {
                     //削除されていなくとも、編集されている場合を考慮し、選択中マークの表示を更新
-                    tv_selectedMark.setText( mSelectedMark.getName() );
+                    tv_selectedMark.setText(mSelectedMark.getName());
                 }
             }
         }
 
     }
 
+    /*
+     * マーク数表示エリアの表示
+     */
+    private void setupMarkArea() {
+
+        //マーク数表示エリアビュー
+        MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
+        mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates);
+    }
 
     /*
      * スワイプ操作リスナー\
@@ -561,19 +587,16 @@ public class CalendarActivity extends AppCompatActivity {
 
         //DBから読み込んだマークを共通データとして保持
         CommonData commonData = (CommonData) getApplication();
-        KeepMarkDateArrayList<KeepMarkDate> markedDate = commonData.getKeepMarkDates();
+        TapDataArrayList<TapData> tapData = commonData.getTapData();
 
         //DB更新
-        AsyncUpdateMarkDate db = new AsyncUpdateMarkDate(this, markedDate, new AsyncUpdateMarkDate.onFinishListener() {
+        AsyncUpdateMarkDate db = new AsyncUpdateMarkDate(this, tapData, new AsyncUpdateMarkDate.onFinishListener() {
 
             @Override
             public void onFinish() {
 
-                //★要検討
-                //既存のリストへマークをキューイングする必要あり？
-
                 //キュークリア
-                markedDate.clear();
+                tapData.clear();
             }
         });
         //非同期処理開始
@@ -598,6 +621,9 @@ public class CalendarActivity extends AppCompatActivity {
             public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
                 //アダプタの日付マーク情報を更新
                 mCalendarAdapter.updateMarkDate( markDates );
+
+                //マーク数エリアを更新
+                setupMarkArea();
             }
         });
         //非同期処理開始

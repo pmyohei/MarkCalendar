@@ -2,8 +2,6 @@ package com.mark.markcalendar;
 
 import android.app.Application;
 
-import androidx.annotation.Keep;
-
 /*
  * 共通データ
  */
@@ -12,7 +10,7 @@ public class CommonData extends Application {
     //マークリスト
     private MarkArrayList<MarkTable> mMarks;
     //マーク日付保存対象データリスト
-    private KeepMarkDateArrayList<KeepMarkDate> mKeepMarkDates;
+    private TapDataArrayList<TapData> mTapData;
 
     /*
      * アプリケーションの起動時に呼び出される
@@ -22,7 +20,7 @@ public class CommonData extends Application {
         super.onCreate();
 
         mMarks = new MarkArrayList<>();
-        mKeepMarkDates = new KeepMarkDateArrayList<>();
+        mTapData = new TapDataArrayList<>();
     }
 
     /**
@@ -33,7 +31,7 @@ public class CommonData extends Application {
         super.onTerminate();
 
         mMarks = null;
-        mKeepMarkDates = null;
+        mTapData = null;
     }
 
     /*
@@ -62,15 +60,15 @@ public class CommonData extends Application {
     /*
      *　マーク日付保存対象データリストを取得
      */
-    public KeepMarkDateArrayList<KeepMarkDate> getKeepMarkDates() {
-        return mKeepMarkDates;
+    public TapDataArrayList<TapData> getTapData() {
+        return mTapData;
     }
 
     /*
      *　マーク処理された日を保存用キューに格納
      */
-    public void enqueMarkedDate( KeepMarkDate markedDate ) {
-        mKeepMarkDates.enqueMarkedDate( markedDate );
+    public void enqueMarkedDate( TapData markedDate ) {
+        mTapData.enqueMarkedDate( markedDate );
     }
 
 }

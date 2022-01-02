@@ -73,6 +73,47 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
     }
 
     /*
+     *　指定月のマーク数を取得
+     */
+    public MarkDateArrayList<MarkDateTable> extractDesignatedMonth(String yearMonth) {
+
+        MarkDateArrayList<MarkDateTable> dates = new MarkDateArrayList<>();
+
+        for (MarkDateTable date : this) {
+            //年月のみ取得
+            String tmpYearMonth = date.getDate().substring(0, ResourceData.YEAR_MONTH_CHAR_NUM);
+
+            if (tmpYearMonth.equals(yearMonth)) {
+                //年月が一致すれば、リストに追加
+                dates.add(date);
+            }
+        }
+
+        return dates;
+    }
+
+    /*
+     *　指定月のマーク数を取得
+     */
+    public int getMonthNum(String yearMonth) {
+
+        int count = 0;
+
+        for (MarkDateTable date : this) {
+            //年月のみ取得
+            String tmpYearMonth = date.getDate().substring(0, ResourceData.YEAR_MONTH_CHAR_NUM);
+
+            if (tmpYearMonth.equals(yearMonth)) {
+                //年月が一致すれば、カウント
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+    /*
      * 月ごとのマーク数情報リストを生成する
      */
     public MonthMarkArrayList<MonthMarkInformation> createMonthMarkData(){
@@ -83,7 +124,7 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
         //日付マーク数分繰り返し
         for( MarkDateTable markDate: this ){
 
-            //年月に変換
+            //年月のみ取得
             String yearMonth = markDate.getDate().substring(0, ResourceData.YEAR_MONTH_CHAR_NUM);
 
             //日付マークの日付の年月を既にリストに格納しているかチェック

@@ -5,7 +5,7 @@ import android.view.View;
 /*
  * マーク日付保存対象データ
  */
-public class KeepMarkDate {
+public class TapData {
 
     private int     markPid;        //対象マーク
     private String  date;           //操作がはいった日付
@@ -15,7 +15,7 @@ public class KeepMarkDate {
     /*
      * コンストラクタ
      */
-    public KeepMarkDate( int markPid, String date, int currentState ){
+    public TapData(int markPid, String date, int currentState ){
         this.markPid      = markPid;
         this.date         = date;
         //this.initState    = initState;

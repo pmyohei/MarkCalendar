@@ -9,17 +9,17 @@ import java.util.concurrent.Executors;
 
 public class AsyncUpdateMarkDate {
 
-    private final AppDatabase                           mDB;
-    private final KeepMarkDateArrayList<KeepMarkDate>   mMarkedDates;
-    private final onFinishListener                      mOnFinishListener;
+    private final AppDatabase               mDB;
+    private final TapDataArrayList<TapData> mTapData;
+    private final onFinishListener          mOnFinishListener;
 
     /*
      * コンストラクタ
      */
-    public AsyncUpdateMarkDate(Context context, KeepMarkDateArrayList<KeepMarkDate> markedDates, onFinishListener listener) {
+    public AsyncUpdateMarkDate(Context context, TapDataArrayList<TapData> tapData, onFinishListener listener) {
         mDB               = AppDatabaseManager.getInstance(context);
         mOnFinishListener = listener;
-        mMarkedDates      = markedDates;
+        mTapData          = tapData;
     }
 
     /*
@@ -56,22 +56,22 @@ public class AsyncUpdateMarkDate {
             MarkDateTableDao markDateTableDao =  mDB.daoMarkDateTable();
 
             //マーク状態の更新
-            for( KeepMarkDate markedDate: mMarkedDates ){
+            for( TapData tapData: mTapData){
 
-                if( markedDate.isMarked() ){
+                if( tapData.isMarked() ){
                     //マークが付けられたなら、追加
 
                     //日付マーク生成
                     MarkDateTable date = new MarkDateTable();
-                    date.setDate( markedDate.getDate() );
-                    date.setPidPutMark( markedDate.getMarkPid() );
+                    date.setDate( tapData.getDate() );
+                    date.setPidPutMark( tapData.getMarkPid() );
 
                     //挿入
                     markDateTableDao.insert( date );
 
                 } else {
                     //マークが消されたなら、削除
-                    markDateTableDao.deleteByDate( markedDate.getMarkPid(), markedDate.getDate() );
+                    markDateTableDao.deleteByDate( tapData.getMarkPid(), tapData.getDate() );
                 }
             }
         }
