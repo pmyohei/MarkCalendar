@@ -33,11 +33,15 @@ public class CalendarActivity extends AppCompatActivity {
     public static String INTENT_MARK_PID = "MarkPid";
 
     //SharedPreferences
-    public static final String SHARED_DATA_NAME = "UIData";       //SharedPreferences保存名
+    public static final String SHARED_DATA_NAME = "UIData";         //SharedPreferences保存名
     private final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
-    public static final String SHARED_KEY_MARK_ORDER = "MarkOrder";    //マークの並び順
+    public static final String SHARED_KEY_MARK_ORDER = "MarkOrder"; //マークの並び順
     public static final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
     public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
+
+    //マーク数更新対象
+    private final int ALL_MARK   = 0;                               //合計マーク数／月のマーク数
+    private final int MONTH_MARK = 1;                               //月のマーク数のみ
 
 
     //フリック検知
@@ -230,12 +234,13 @@ public class CalendarActivity extends AppCompatActivity {
         //カレンダーを次月に変更
         mCalendarAdapter.nextMonth();
 
+        //マーク数表示エリアの更新
+        setupMonthMarkNum( MarkCountView.LEFT );
+
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
 
-        //マーク数表示エリアの更新
-        setupMarkArea();
     }
 
     /*
@@ -245,12 +250,12 @@ public class CalendarActivity extends AppCompatActivity {
         //カレンダーを前月に変更
         mCalendarAdapter.prevMonth();
 
+        //マーク数表示エリアの更新
+        setupMonthMarkNum( MarkCountView.RIGTH );
+
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
-
-        //マーク数表示エリアの更新
-        setupMarkArea();
     }
 
     /*
@@ -330,7 +335,7 @@ public class CalendarActivity extends AppCompatActivity {
         editor.apply();
 
         //表示するマーク数を設定
-        setupMarkArea();
+        setupMarkArea( ALL_MARK, true );
     }
 
     /*
@@ -398,12 +403,25 @@ public class CalendarActivity extends AppCompatActivity {
     /*
      * マーク数表示エリアの表示
      */
-    private void setupMarkArea() {
+    private void setupMarkArea( int target, boolean animation ) {
 
         //マーク数表示エリアビュー
         MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
-        mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates);
+        //合計、月のマーク数の表示設定
+        mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, animation);
     }
+
+    /*
+     * マーク数表示エリアの月のマーク数の表示
+     */
+    private void setupMonthMarkNum( int direction ) {
+
+        //マーク数表示エリアビュー
+        MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
+        //月のマーク数のみを変更
+        mv_markEria.slideChangeMarkNumInMonth(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, direction);
+    }
+
 
     /*
      * スワイプ操作リスナー\
@@ -623,7 +641,7 @@ public class CalendarActivity extends AppCompatActivity {
                 mCalendarAdapter.updateMarkDate( markDates );
 
                 //マーク数エリアを更新
-                setupMarkArea();
+                setupMarkArea( ALL_MARK, false );
             }
         });
         //非同期処理開始
