@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 /*
  * マーク一覧画面
@@ -43,6 +45,18 @@ public class MarkListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_list);
+
+        //ステータスバーの設定
+        int color = getResources().getColor(R.color.primary);
+        getWindow().setStatusBarColor(color);
+
+        //ツールバー設定
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle( getResources().getString( R.string.title_mark_list ) );
+        setSupportActionBar(toolbar);
+        //戻るボタンの表示設定
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //共通データからマークリストを取得
         CommonData commonData = (CommonData)getApplication();
@@ -220,5 +234,14 @@ public class MarkListActivity extends AppCompatActivity {
         helper.attachToRecyclerView(rv_markList);
     }
 
+    /*
+     * ツールバー 戻るボタン押下処理
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        //アクティビティ終了
+        finish();
 
+        return super.onSupportNavigateUp();
+    }
 }

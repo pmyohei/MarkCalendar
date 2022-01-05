@@ -1,6 +1,7 @@
 package com.mark.markcalendar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
  * マーク統計情報画面
@@ -21,6 +23,7 @@ public class MarkStatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_statistics);
 
+        //マークなし
         final int NO_MARK = -1;
 
         Intent intent = getIntent();
@@ -30,7 +33,19 @@ public class MarkStatisticsActivity extends AppCompatActivity {
             finish();
         }
 
-        //
+        //ステータスバーの設定
+        int color = getResources().getColor(R.color.primary);
+        getWindow().setStatusBarColor(color);
+
+        //ツールバー設定
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle( getResources().getString( R.string.title_mark_statistic ) );
+        setSupportActionBar(toolbar);
+        //戻るボタンの表示設定
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         //DB読み込み処理
         //★マークリストは不要
         AsyncReadMark db = new AsyncReadMark(this, markPid, new AsyncReadMark.onFinishListener() {
@@ -56,5 +71,16 @@ public class MarkStatisticsActivity extends AppCompatActivity {
         //非同期処理開始
         db.execute();
 
+    }
+
+    /*
+     * ツールバー 戻るボタン押下処理
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        //アクティビティ終了
+        finish();
+
+        return super.onSupportNavigateUp();
     }
 }

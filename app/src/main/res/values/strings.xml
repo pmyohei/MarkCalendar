@@ -30,7 +30,10 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
-
+    <!--  ツールバータイトル  -->
+    <string name="title_mark_entry">マークの登録</string>
+    <string name="title_mark_list">マーク一覧</string>
+    <string name="title_mark_statistic">マーク数の確認</string>
 
     <!--  Sample  -->
     <string name="sample">Sample</string>

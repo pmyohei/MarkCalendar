@@ -1,6 +1,8 @@
 package com.mark.markcalendar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import java.util.Objects;
 
 public class MarkEntryActivity extends AppCompatActivity {
 
@@ -25,6 +29,19 @@ public class MarkEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_entry);
+
+        //ステータスバーの設定
+        int color = getResources().getColor(R.color.primary);
+        getWindow().setStatusBarColor(color);
+
+        //ツールバー設定
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle( getResources().getString( R.string.title_mark_entry ) );
+        setSupportActionBar(toolbar);
+        //戻るボタンの表示設定
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //遷移元からの情報
         Intent intent = getIntent();
@@ -113,7 +130,16 @@ public class MarkEntryActivity extends AppCompatActivity {
     }
 
 
+    /*
+     * ツールバー 戻るボタン押下処理
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        //アクティビティ終了
+        finish();
 
+        return super.onSupportNavigateUp();
+    }
 
 
     /*
