@@ -402,7 +402,14 @@ public class CalendarActivity extends AppCompatActivity {
 
         //マーク数表示エリアビュー
         MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
-        mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates);
+
+        //選択中マークがあるか
+        if( mSelectedMark == null ){
+            mv_markEria.initMarkArea();
+        } else{
+            mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates);
+        }
+
     }
 
     /*

@@ -1,5 +1,7 @@
 package com.mark.markcalendar;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,12 +22,14 @@ public class DateManager {
      * コンストラクタ
      */
     public DateManager(){
-        //インスタンス生成時は、現在の日付と時間で初期化する
+        //インスタンス生成時は、現在の日付と時間で初期化される
         mCalendar = Calendar.getInstance();
 
         //今日の日付を保持
         msdf_date = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         mCurrentDay = msdf_date.format(mCalendar.getTime());
+
+        Log.i("getDays", "mCurrentDay=" + mCurrentDay);
     }
 
     /*
@@ -35,16 +39,20 @@ public class DateManager {
         //現在日時を保持
         Date startDate = mCalendar.getTime();
 
-        //当月のカレンダーに表示される前月分の日数を計算
-        mCalendar.set(Calendar.DATE, 1);                            //表示する月の月初めの年月日に設定
-        int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK) - 1;    //月初めの曜日の一つ前の曜日 を取得 = この値は、1行目の前の月の表示日数になる。
+        //Log.i("getDays", "startDate=" + msdf_date.format( startDate ));
+
+        //GridViewに表示するセル数を計算
+        int count = getWeeks() * 7;
+
+        //当月のカレンダーに表示される前月分の日数を計算し、カレンダーに反映
+        mCalendar.set(Calendar.DATE, 1);                            //年月日を表示月の1日にセット
+        int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK) - 1;    //「1日の曜日の前日の曜日」を取得 = この値は、1行目の前の月の表示日数になる。
         mCalendar.add(Calendar.DATE, -dayOfWeek);                   //セルの描画の開始日時を、表示数分だけ遡る。
 
         //当月カレンダーとして表示する日付リスト（先月後半／次月前半も含む）
         List<Date> days = new ArrayList<>();
 
-        //GridViewに表示するマスの合計を計算
-        int count = getWeeks() * 7 ;
+        //Log.i("getDays", "count=" + count + " getWeeks()=" + getWeeks() + " dayOfWeek=" + dayOfWeek);
 
         //セルの描画数分だけリストに格納する。
         for (int i = 0; i < count; i ++){

@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class MarkCountView extends LinearLayout {
 
     //カウントアップ／ダウン
-    public static final int COUNT_UP   = 1;
+    public static final int COUNT_UP = 1;
     public static final int COUNT_DOWN = -1;
 
     /*
@@ -29,6 +29,13 @@ public class MarkCountView extends LinearLayout {
         inflater.inflate(R.layout.mark_count_area, this, true);
     }
 
+    /*
+     * 表示するマーク数の初期化
+     */
+    public void initMarkArea() {
+        ((TextView)findViewById(R.id.tv_markNumTotal)).setText("0");
+        ((TextView)findViewById(R.id.tv_markNumMonth)).setText("0");
+    }
 
     /*
      * 表示中のマーク数の設定
