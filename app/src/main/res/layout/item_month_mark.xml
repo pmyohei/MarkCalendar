@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/substitute_light"
     tools:context=".MarkListActivity">
 
     <TextView
@@ -45,6 +46,14 @@
             android:fontFamily="serif"
             android:text="@string/mark_unit"
             android:textColor="@color/primary"/>
+
+        <!-- 表示位置調整用文字（必要に応じて表示） -->
+        <TextView
+            android:id="@+id/tv_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/tv_markRatio"
