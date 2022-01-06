@@ -377,11 +377,11 @@ public class CalendarAdapter extends BaseAdapter {
                 //マークの付与・削除
                 if( preState == View.INVISIBLE ){
                     viewHolder.v_mark.setVisibility( View.VISIBLE );
-                    countValue = MarkCountView.COUNT_UP;
+                    countValue = MarkCountView.UP;
 
                 } else {
                     viewHolder.v_mark.setVisibility( View.INVISIBLE );
-                    countValue = MarkCountView.COUNT_DOWN;
+                    countValue = MarkCountView.DOWN;
                 }
 
                 //マーク数反映

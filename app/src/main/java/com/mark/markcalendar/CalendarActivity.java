@@ -19,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,11 +40,6 @@ public class CalendarActivity extends AppCompatActivity {
     public static final String SHARED_KEY_MARK_ORDER = "MarkOrder"; //マークの並び順
     public static final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
     public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
-
-    //マーク数更新対象
-    private final int ALL_MARK   = 0;                               //合計マーク数／月のマーク数
-    private final int MONTH_MARK = 1;                               //月のマーク数のみ
-
 
     //フリック検知
     private GestureDetector mFlingDetector;
@@ -123,7 +120,7 @@ public class CalendarActivity extends AppCompatActivity {
                 MarkTable mark = getUserSelectedMark(marksInOrder);
 
                 //選択中マーク設定
-                setSelectedMark(mark);
+                setSelectedMark(mark, MarkCountView.NONE);
             }
         });
         //非同期処理開始
@@ -140,24 +137,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayShowTitleEnabled(false);
-
-
-/*
-        actionbar.setDisplayShowTitleEnabled(false);
-        actionbar.setNavigationMode(
-                ActionBar.NAVIGATION_MODE_LIST
-        );
-        ArrayAdapter<CharSequence> adapter =
-                ArrayAdapter.createFromResource(
-                        this,
-                        R.array.planets_array,
-                        R.layout.actionbar_spinner);
-        adapter.setDropDownViewResource(
-                R.layout.actionbar_spinner_dropdown
-        );
-        actionbar.setListNavigationCallbacks(adapter, this);
-*/
-
 
         //前月に変更
         findViewById(R.id.ib_preMonth).setOnClickListener(new View.OnClickListener() {
@@ -240,7 +219,6 @@ public class CalendarActivity extends AppCompatActivity {
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
         tv_yearMonth.setText(mCalendarAdapter.getMonth());
-
     }
 
     /*
@@ -251,7 +229,7 @@ public class CalendarActivity extends AppCompatActivity {
         mCalendarAdapter.prevMonth();
 
         //マーク数表示エリアの更新
-        setupMonthMarkNum( MarkCountView.RIGTH );
+        setupMonthMarkNum( MarkCountView.RIGHT);
 
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
@@ -274,7 +252,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         //選択中マークの変更
         MarkTable mark = marks.getNextMark(mSelectedMark.getPid());
-        setSelectedMark(mark);
+        setSelectedMark(mark, MarkCountView.UP);
     }
 
     /*
@@ -293,13 +271,13 @@ public class CalendarActivity extends AppCompatActivity {
 
         //選択中マークの変更
         MarkTable mark = marks.getPreviousMark(mSelectedMark.getPid());
-        setSelectedMark(mark);
+        setSelectedMark(mark, MarkCountView.DOWN);
     }
 
     /*
      * 選択中マークの変更
      */
-    private void setSelectedMark(MarkTable mark) {
+    private void setSelectedMark(MarkTable mark, int direction) {
 
         //選択中マークを更新
         mSelectedMark = mark;
@@ -319,15 +297,21 @@ public class CalendarActivity extends AppCompatActivity {
             //無効値を設定
             editor.putInt(SHARED_KEY_SELECTED_MARK, INVALID_SELECTED_MARK);
         } else {
-            //指定マークを設定
-            tv_selectedMark.setText(mSelectedMark.getName());
+
+            //フェードアウトアニメーション
+            int out = ( (direction == MarkCountView.UP) ? R.anim.fade_out_up : R.anim.fade_out_down);
+            Animation outAnim = AnimationUtils.loadAnimation(this, out);;
+
+            //アニメーション開始
+            tv_selectedMark.startAnimation(outAnim);
+            //アニメーションリスナーの設定
+            outAnim.setAnimationListener( new FadeUpDownAnimationListener( tv_selectedMark, mSelectedMark.getName(), direction ) );
 
             //指定マークを設定
             editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
         }
 
         //カレンダーのマーク情報を変更
-        //mCalendarAdapter.setMarkColor( mSelectedMark.getColor() );
         mCalendarAdapter.setMark(mSelectedMark);
 
         //選択中マークを保存
@@ -335,7 +319,7 @@ public class CalendarActivity extends AppCompatActivity {
         editor.apply();
 
         //表示するマーク数を設定
-        setupMarkArea( ALL_MARK, true );
+        setupMarkArea( direction, true );
     }
 
     /*
@@ -373,7 +357,7 @@ public class CalendarActivity extends AppCompatActivity {
                 //先頭のマークを選択中マークとする
                 MarkTable mark = marks.get(0);
                 //選択中マークの設定
-                setSelectedMark(mark);
+                setSelectedMark(mark, MarkCountView.NONE);
             }
 
         } else {
@@ -381,7 +365,7 @@ public class CalendarActivity extends AppCompatActivity {
             //マークが全て削除されたなら
             if (marks.size() == 0) {
                 //選択中マークなし
-                setSelectedMark(null);
+                setSelectedMark(null, MarkCountView.NONE);
 
             } else {
                 //マークはすべて削除されていない場合
@@ -389,7 +373,7 @@ public class CalendarActivity extends AppCompatActivity {
                 //選択中マークが削除されている場合
                 if (marks.getMark(mSelectedMark.getPid()) == null) {
                     //先頭のマークを選択中に変更する
-                    setSelectedMark(marks.get(0));
+                    setSelectedMark(marks.get(0), MarkCountView.NONE);
 
                 } else {
                     //削除されていなくとも、編集されている場合を考慮し、選択中マークの表示を更新
@@ -403,7 +387,7 @@ public class CalendarActivity extends AppCompatActivity {
     /*
      * マーク数表示エリアの表示
      */
-    private void setupMarkArea( int target, boolean animation ) {
+    private void setupMarkArea( int direction, boolean animation ) {
 
         //マーク数表示エリアビュー
         MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
@@ -412,7 +396,7 @@ public class CalendarActivity extends AppCompatActivity {
         if( mSelectedMark == null ){
             mv_markEria.initMarkArea();
         } else{
-            mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, animation);
+            mv_markEria.setMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, animation, direction);
         }
     }
 
@@ -421,10 +405,12 @@ public class CalendarActivity extends AppCompatActivity {
      */
     private void setupMonthMarkNum( int direction ) {
 
-        //マーク数表示エリアビュー
-        MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
-        //月のマーク数のみを変更
-        mv_markEria.slideChangeMarkNumInMonth(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, direction);
+        if( mSelectedMark != null ){
+            //マーク数表示エリアビュー
+            MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
+            //月のマーク数のみを変更
+            mv_markEria.slideChangeMarkNumInMonth(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, direction);
+        }
     }
     
     /*
@@ -645,7 +631,7 @@ public class CalendarActivity extends AppCompatActivity {
                 mCalendarAdapter.updateMarkDate( markDates );
 
                 //マーク数エリアを更新
-                setupMarkArea( ALL_MARK, false );
+                setupMarkArea( MarkCountView.UP, false );
             }
         });
         //非同期処理開始

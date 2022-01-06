@@ -18,6 +18,7 @@
 
     <!--  マーク数  -->
     <string name="mark_slash">／</string>
+    <string name="mark_init_num">0</string>
     <string name="mark_unit">Marks</string>
     <string name="mark_ratio_unit">%</string>
     <string name="mark_total">Total</string>

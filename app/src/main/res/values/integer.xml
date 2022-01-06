@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  フェードアニメーションの時間  -->
+    <integer name="fade_animation_duration">100</integer>
+
+</resources>
