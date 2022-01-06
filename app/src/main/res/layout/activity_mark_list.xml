@@ -8,6 +8,19 @@
     android:background="@color/substitute_light"
     tools:context=".MarkListActivity">
 
+    <!--  ツールバー  -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/primary"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/Toolbar.TitleText"/>
+
     <!--  マークリスト  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_markList"
@@ -16,7 +29,7 @@
         android:background="@color/substitute_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
         android:id="@+id/tv_create"

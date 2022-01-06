@@ -190,7 +190,7 @@ public class CalendarAdapter extends BaseAdapter {
                 //parent.getHeight());
         convertView.setLayoutParams(params);
 
-        Log.i("CalendarAdapter", "weekNum=" + weekNum + " param.h=" + params.height);
+        Log.i("CalendarAdapter", "weekNum=" + weekNum + " param.height=" + params.height);
 
         //日付フォーマット
         //SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);

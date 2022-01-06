@@ -24,6 +24,7 @@ public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.Mont
         private final TextView tv_month;
         private final TextView tv_markNum;
         private final TextView tv_markRatio;
+        private final TextView tv_padding;
 
         /*
          * コンストラクタ
@@ -34,6 +35,7 @@ public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.Mont
             tv_month     = itemView.findViewById(R.id.tv_month);
             tv_markNum   = itemView.findViewById(R.id.tv_markNum);
             tv_markRatio = itemView.findViewById(R.id.tv_markRatio);
+            tv_padding   = itemView.findViewById(R.id.tv_padding);
         }
 
         /*
@@ -47,9 +49,20 @@ public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.Mont
             int monthNum = month.getMarkNum();
             tv_markNum.setText( Integer.toString(monthNum) );
 
-            //月のマーク数の割合
+            //月のマーク数の割合（3桁表示（前方は空白埋め））
             int ratio = (int)(((float)monthNum / (float)mTotalNum) * 100f);
             tv_markRatio.setText( Integer.toString(ratio) );
+
+            //表示位置の調整
+            if( ratio < 10 ){
+                //1桁なら、数値2桁分を表示
+                tv_padding.setText("00");
+                tv_padding.setVisibility(View.INVISIBLE);
+            } else if( ratio < 100 ) {
+                //2桁なら、数値1桁分を表示
+                tv_padding.setText("0");
+                tv_padding.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

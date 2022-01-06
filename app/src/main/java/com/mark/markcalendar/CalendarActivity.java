@@ -407,8 +407,13 @@ public class CalendarActivity extends AppCompatActivity {
 
         //マーク数表示エリアビュー
         MarkCountView mv_markEria = findViewById(R.id.mv_markEria);
-        //合計、月のマーク数の表示設定
-        mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, animation);
+
+        //選択中マークがあるか
+        if( mSelectedMark == null ){
+            mv_markEria.initMarkArea();
+        } else{
+            mv_markEria.setupMarkNum(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, animation);
+        }
     }
 
     /*
@@ -421,8 +426,7 @@ public class CalendarActivity extends AppCompatActivity {
         //月のマーク数のみを変更
         mv_markEria.slideChangeMarkNumInMonth(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, direction);
     }
-
-
+    
     /*
      * スワイプ操作リスナー\
      *   ・フリング

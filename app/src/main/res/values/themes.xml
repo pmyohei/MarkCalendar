@@ -1,17 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--  ツールバー  -->
+    <!--  タイトル文字列のデザイン設定  -->
     <!--  ※デフォルトの文字サイズは20dp(abc_text_size_title_material_toolbar)  -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/substitute_middle</item>
     </style>
-
-
-
-
-
-
-
+    <!--  戻るボタン用デザイン設定  -->
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColorPrimary">@color/substitute_middle</item>
+        <item name="android:textColorSecondary">@color/substitute_middle</item>
+    </style>
 
     <!-- Base application theme. -->
     <style name="Theme.MarkCalendar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
