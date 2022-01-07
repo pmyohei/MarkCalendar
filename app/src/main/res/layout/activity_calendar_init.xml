@@ -56,7 +56,7 @@
             android:layout_marginEnd="12dp"
             android:layout_gravity="end"
             android:background="@color/primary"
-            app:srcCompat="@drawable/baseline_chevron_left_24" />
+            app:srcCompat="@drawable/baseline_pre_month" />
 
         <ImageButton
             android:id="@+id/ib_nextMonth"
@@ -65,7 +65,7 @@
             android:layout_marginEnd="12dp"
             android:layout_gravity="end"
             android:background="@color/primary"
-            app:srcCompat="@drawable/baseline_chevron_right_24" />
+            app:srcCompat="@drawable/baseline_next_month_24" />
 
     </LinearLayout>
 

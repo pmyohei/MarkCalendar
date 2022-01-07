@@ -47,13 +47,10 @@ public class CalendarActivity extends AppCompatActivity {
     private CalendarAdapter mCalendarAdapter;
     //画面遷移ランチャー
     private ActivityResultLauncher<Intent> mMarkListLauncher;
-
-    //マークリスト
-    //private MarkArrayList<MarkTable> mMarks;
     //日付マークリスト(全データ)
     private MarkDateArrayList<MarkDateTable> mAllMarkDates;
     //選択中マーク
-    //★pidにするかも（最後に見直しする）
+    //★pidにするかも（最後に見直し）
     private MarkTable mSelectedMark;
 
     @SuppressLint("ClickableViewAccessibility")

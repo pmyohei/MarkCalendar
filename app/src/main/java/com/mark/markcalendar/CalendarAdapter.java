@@ -48,10 +48,10 @@ public class CalendarAdapter extends BaseAdapter {
          * ビューの設定
          */
         @SuppressLint("ClickableViewAccessibility")
-        public void setView(View view ){
+        public void setView(View view) {
             ll_cell = view.findViewById(R.id.ll_cell);
             tv_date = view.findViewById(R.id.tv_date);
-            v_mark  = view.findViewById(R.id.v_mark);
+            v_mark = view.findViewById(R.id.v_mark);
 
             //レイアウト全体にタッチリスナーを設定
             //ll_cell.setClickable(true);                             //！これがないとダブルタップが検知されない
@@ -61,60 +61,71 @@ public class CalendarAdapter extends BaseAdapter {
         /*
          * 表示情報の初期化
          */
-        public void clearData( int position  ){
+        public void clearData(int position) {
 
             //セル位置
             this.position = position;
 
             //ビューの表示初期化
             tv_date.setText("");
-            v_mark.setVisibility( View.INVISIBLE );
+            tv_date.setBackground( null );
+            v_mark.setVisibility(View.INVISIBLE);
 
             //マークが選択されている時だけ、以下を設定
-            if( mSelectedMark != null ){
+            if (mSelectedMark != null) {
                 //マーク色の設定
-                v_mark.setColorHex( mSelectedMark.getColor() );
+                v_mark.setColorHex(mSelectedMark.getColor());
 
                 //レイアウト全体にタッチリスナーを設定
                 ll_cell.setClickable(true);                             //！これがないとダブルタップが検知されない
-                ll_cell.setOnTouchListener(new DateTouchListener( this ));
+                ll_cell.setOnTouchListener(new DateTouchListener(this));
             }
         }
 
         /*
          * 日付情報の設定
          */
-        public void setDateInfo( int position ){
+        public void setDateInfo(int position) {
 
             //日付フォーマット
             SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
             //日付
-            tv_date.setText( sdf_d.format(mDaysInMonth.get(position)) );
+            tv_date.setText(sdf_d.format(mDaysInMonth.get(position)));
 
             //マークが選択されている場合
-            if( mSelectedMark != null ){
+            if (mSelectedMark != null) {
 
                 //対象の年月日情報
                 String date = getDate(position);
 
                 //マークの有無チェック①：DB内の情報
-                if( mShowMarkDates.hasMarkDate( date ) ){
+                if (mShowMarkDates.hasMarkDate(date)) {
                     //対象日のデータがあれば、マークを表示
-                    v_mark.setVisibility( View.VISIBLE );
+                    v_mark.setVisibility(View.VISIBLE);
                 }
 
                 //マークの有無チェック②：ユーザー操作の情報
-                CommonData commonData = (CommonData)((Activity) v_mark.getContext()).getApplication();
+                CommonData commonData = (CommonData) ((Activity) v_mark.getContext()).getApplication();
                 TapDataArrayList<TapData> tapData = commonData.getTapData();
 
                 //当該日付に対するマーク状態を取得
-                int state = tapData.checkDateState( mSelectedMark.getPid(), date );
+                int state = tapData.checkDateState(mSelectedMark.getPid(), date);
 
-                if( state != TapDataArrayList.NO_DATA ){
+                if (state != TapDataArrayList.NO_DATA) {
                     //対象日のデータがあれば、マークに反映
-                    v_mark.setVisibility( state );
+                    v_mark.setVisibility(state);
                 }
             }
+        }
+
+        /*
+         * セルの本日設定
+         */
+        public void setTodayCell( int position ){
+            //Padding設定
+            tv_date.setPadding(24, 1, 24, 1);
+            //サークル設定
+            tv_date.setBackgroundResource(R.drawable.today_circle);
         }
     }
 
@@ -172,14 +183,6 @@ public class CalendarAdapter extends BaseAdapter {
         //当月の週数
         int weekNum = mDateManager.getWeeks();
 
-        final int MAX_WEKK_NUM = 5;
-        if( weekNum >= MAX_WEKK_NUM ){
-            //週数が5を超えている場合は、5に丸める
-            //(高さを統一するため。なお、2月が4週になっている場合は考慮外）
-            //★2022.01 の場合、6行必要のため、要見直し
-            //weekNum = MAX_WEKK_NUM;
-        }
-
         //セルのサイズを指定
         //画面解像度の比率を取得
         float dp = mContext.getResources().getDisplayMetrics().density;
@@ -187,26 +190,29 @@ public class CalendarAdapter extends BaseAdapter {
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
                 parent.getWidth() / WEEK_DAYS - (int)dp,
                 (parent.getHeight() - (int)dp * weekNum ) / weekNum);
-                //parent.getHeight());
         convertView.setLayoutParams(params);
 
-        Log.i("CalendarAdapter", "weekNum=" + weekNum + " param.height=" + params.height);
-
-        //日付フォーマット
-        //SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
+        //Log.i("CalendarAdapter", "weekNum=" + weekNum + " param.height=" + params.height);
 
         //日付セルを初期化
         holder.clearData( position );
 
+        Date date = mDaysInMonth.get(position);
+
         //セルの日付が当月のものである場合
-        if (mDateManager.isCurrentMonth( mDaysInMonth.get(position)) ){
+        if (mDateManager.isCurrentMonth( date ) ){
             //日付情報の設定
             holder.setDateInfo( position );
+
+            //今日の日付のみ、太字
+            if(mDateManager.isCurrentDay( date )) {
+                holder.setTodayCell( position );
+            }
         }
 
         //--log
-        SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
-        Log.i("CalendarAdapter", "position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
+        //SimpleDateFormat sdf_d = new SimpleDateFormat("d", Locale.US);
+        //Log.i("CalendarAdapter", "position=" + position + " 日=" + sdf_d.format(mDaysInMonth.get(position)));
         //--log
 
         //設定したビューを返す(このビューが日付セルとして表示される)
