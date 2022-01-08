@@ -13,10 +13,7 @@ import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 
 public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkViewHolder>{
 
@@ -154,7 +151,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
 
         //ビューを生成
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.item_mark, viewGroup, false);
+        View view = inflater.inflate(R.layout.item_mark_list, viewGroup, false);
 
         return new MarkViewHolder(view);
     }

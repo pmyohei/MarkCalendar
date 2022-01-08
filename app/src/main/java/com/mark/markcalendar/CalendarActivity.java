@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -537,17 +539,12 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-/*    public boolean onTouchEvent(MotionEvent motionEvent) {
-        Log.i("onTouchEvent", "parent onTouch");
-
-        return false;
-    }*/
-
     /*
      * ツールバーオプションメニュー生成
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //メニューをインフレート
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_calendar, menu);
 
@@ -565,7 +562,26 @@ public class CalendarActivity extends AppCompatActivity {
             //選択中マーク変更
             case R.id.action_markPullDown:
 
+                //マークリスト
+                CommonData commonData = (CommonData) getApplication();
+                MarkArrayList<MarkTable> marks = commonData.getMarks();
+
                 //プルダウン表示
+                MarkSpinnerDialog dialog = new MarkSpinnerDialog( marks );
+
+                dialog.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //選択マーク
+                        MarkTable mark = marks.get(position);
+
+                        //選択中のマークと異なれば、変更
+                        if( mark.getPid() != mSelectedMark.getPid() ){
+                            setSelectedMark( mark, MarkCountView.UP );
+                        }
+                    }
+                });
+                dialog.show( getSupportFragmentManager(), "mark");
 
                 return true;
 
@@ -574,9 +590,13 @@ public class CalendarActivity extends AppCompatActivity {
                 transitionMarkList();
                 return true;
 
+            //ヘルプボタン
+            case R.id.action_help:
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 

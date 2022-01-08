@@ -1,13 +1,15 @@
 package com.mark.markcalendar;
 
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MarkArrayList<E> extends ArrayList<MarkTable> {
 
     /* 定数 */
-    public static final int     NO_DATA = -1;               //データなし
-    public static final String  DELIMITER_ORDER = ",";      //マーク並び順の文字列のデリミタ
+    public static final int NO_DATA = -1;               //データなし
+    public static final String DELIMITER_ORDER = ",";      //マーク並び順の文字列のデリミタ
 
 
     /*
@@ -71,8 +73,8 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
     public void addInOrder(MarkArrayList<MarkTable> marks, String order) {
 
         //並び情報がないなら、テーブル格納順でリストを作成
-        if( order.equals( CalendarActivity.INVALID_MARK_ORDER ) ){
-            addAll( marks );
+        if (order.equals(CalendarActivity.INVALID_MARK_ORDER)) {
+            addAll(marks);
             return;
         }
 
@@ -80,8 +82,8 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
         String[] pidArr = order.split(DELIMITER_ORDER);
 
         //数が一致しないなら、テーブル格納順でリストを作成
-        if( marks.size() != pidArr.length ){
-            addAll( marks );
+        if (marks.size() != pidArr.length) {
+            addAll(marks);
             return;
         }
 
@@ -109,9 +111,9 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
 
         StringBuilder order = new StringBuilder();
 
-        for( MarkTable mark: this ){
+        for (MarkTable mark : this) {
             //pidを文字列に変換
-            String pidStr = Integer.toString( mark.getPid() );
+            String pidStr = Integer.toString(mark.getPid());
             //pidとデリミタを連結
             order.append(pidStr).append(DELIMITER_ORDER);
         }
@@ -128,13 +130,13 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
         //指定マークのIndexを取得
         int idx = getMarkIdx(pid);
 
-        if( idx == getLastIdx() ){
+        if (idx == getLastIdx()) {
             //指定マークが最後の要素なら、リスト先頭のマークを返す
             return get(0);
 
-        } else{
+        } else {
             //指定マークが最後でなければ、次のマークを返す
-            return get( idx + 1 );
+            return get(idx + 1);
         }
     }
 
@@ -147,13 +149,13 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
         //指定マークのIndexを取得
         int idx = getMarkIdx(pid);
 
-        if( idx == 0 ){
+        if (idx == 0) {
             //指定マークが先頭なら、リスト最後のマークを返す
-            return get( getLastIdx() );
+            return get(getLastIdx());
 
-        } else{
+        } else {
             //指定マークが最後でなければ、前のマークを返す
-            return get( idx - 1 );
+            return get(idx - 1);
         }
     }
 
@@ -163,18 +165,33 @@ public class MarkArrayList<E> extends ArrayList<MarkTable> {
     public int editMark(MarkTable mark) {
 
         //編集対象マークIndex
-        int idx = getMarkIdx( mark.getPid() );
-        if( idx == NO_DATA ){
+        int idx = getMarkIdx(mark.getPid());
+        if (idx == NO_DATA) {
             return NO_DATA;
         }
 
         //編集対象マークを取得
-        MarkTable edittedMark = get( idx );
+        MarkTable edittedMark = get(idx);
 
         //情報更新
-        edittedMark.setName( mark.getName() );
-        edittedMark.setColor( mark.getColor() );
+        edittedMark.setName(mark.getName());
+        edittedMark.setColor(mark.getColor());
 
         return idx;
+    }
+
+    /*
+     * リスト内のマーク名をリストにして返す
+     */
+    public ArrayList<String> getMarkNames() {
+
+        ArrayList<String> markNames = new ArrayList<>();
+
+        for( MarkTable mark: this ){
+            //マーク名をリストに追加
+            markNames.add( mark.getName() );
+        }
+
+        return markNames;
     }
 }
