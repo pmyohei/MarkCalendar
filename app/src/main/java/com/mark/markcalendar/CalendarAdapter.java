@@ -1,8 +1,13 @@
 package com.mark.markcalendar;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -13,6 +18,8 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +33,6 @@ public class CalendarAdapter extends BaseAdapter {
     private List<Date>                          mDaysInMonth = new ArrayList(); //選択月の日リスト
     private final DateManager                   mDateManager;                   //カレンダー管理用
     private final LayoutInflater                mLayoutInflater;                //描画高速化のために必要
-    //public int                                mMarkColor;                     //マーク色
     private MarkTable                           mSelectedMark;                  //選択中マーク
     private MarkDateArrayList<MarkDateTable>    mMarkDates;                     //日付マーク（全情報）
     private MarkDateArrayList<MarkDateTable>    mShowMarkDates;                 //日付マーク（選択中マーク）
@@ -310,12 +316,10 @@ public class CalendarAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-
     @Override
     public long getItemId(int position) {
         return 0;
     }
-
     @Override
     public Object getItem(int position) {
         return null;
@@ -395,13 +399,23 @@ public class CalendarAdapter extends BaseAdapter {
 
                 //保存対象データを生成
                 TapData tapData = new TapData( mSelectedMark.getPid(), getDate( viewHolder.position ), viewHolder.v_mark.getVisibility() );
-
                 //保存用キューに記録
                 commonData.enqueMarkedDate( tapData );
 
-                //findViewById(R.id.tv_date).
+                //振動設定
+                final int VIBRATION_MILLS = 20;
 
-                Log.i("tap", "日付→" + getDate( viewHolder.position ) + " マーク→" + mSelectedMark.getName());
+                Vibrator vibrator = ((Vibrator)viewHolder.v_mark.getContext().getSystemService(VIBRATOR_SERVICE));
+                if (Build.VERSION.SDK_INT < 26) {
+                    //26未満
+                    vibrator.vibrate(VIBRATION_MILLS);
+                } else {
+                    //26以上
+                    VibrationEffect effect = VibrationEffect.createOneShot(VIBRATION_MILLS, VibrationEffect.DEFAULT_AMPLITUDE);
+                    vibrator.vibrate(effect);
+                }
+
+                //Log.i("tap", "日付→" + getDate( viewHolder.position ) + " マーク→" + mSelectedMark.getName());
 
                 return true;
             }

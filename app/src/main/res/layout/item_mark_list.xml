@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:fontFamily="serif"
             android:text="Sample"
             android:textColor="@color/primary"/>
 

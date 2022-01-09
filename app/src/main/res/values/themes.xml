@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--  ツールバー  -->
+    <!--  アクションバーなしのスタイルをカスタム  -->
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--  アプリ全体にフォントを適用  -->
+        <item name="android:typeface">serif</item>
+    </style>
     <!--  タイトル文字列のデザイン設定  -->
     <!--  ※デフォルトの文字サイズは20dp(abc_text_size_title_material_toolbar)  -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

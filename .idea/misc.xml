@@ -24,15 +24,23 @@
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12604166666666666" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.14074074074074075" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_calendar_init.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_entry.xml" value="0.20901639344262296" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_information.xml" value="0.1911231884057971" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_list.xml" value="0.10815602836879433" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/activity_mark_statistics.xml" value="0.10815602836879433" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_cell.xml" value="0.152" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/calendar_day_cell.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/entry_mark_dialog.xml" value="0.12817028985507245" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/item_mark.xml" value="0.1911231884057971" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/item_mark_list.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/item_mark_pulldown.xml" value="0.161231884057971" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/item_month_mark.xml" value="0.10815602836879433" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/mark_count_area.xml" value="0.10815602836879433" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/layout/mark_spinner_dialog.xml" value="0.1094224924012158" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/menu/toolbar.xml" value="0.13072916666666667" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/menu/toolbar_calendar.xml" value="0.22239583333333332" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/mipmap-anydpi-v26/ic_app.xml" value="0.15185185185185185" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1140625" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/MarkCalendar/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1140625" />
         <entry key="..\:/Users/takahashi_yhi/AndroidStudioProjects/MarkCalendar/app/src/main/res/drawable/baseline_arrow_down_24_for_mark.xml" value="0.16510416666666666" />

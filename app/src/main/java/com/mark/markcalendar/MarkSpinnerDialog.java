@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MarkSpinnerDialog extends DialogFragment {
 
     //マーク名リスト
-    private ArrayList<String> mMarkNameList;
+    private final ArrayList<String> mMarkNameList;
     //アイテムクリックリスナー
     private AdapterView.OnItemClickListener itemClickListener;
 
