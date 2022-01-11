@@ -7,6 +7,11 @@
     <!--  カレンダー画面  -->
     <string name="no_mark">マーク未登録</string>
 
+    <!--  カレンダー画面（マーク未登録時の操作誘導）  -->
+    <string name="no_mark_title">マーク未登録</string>
+    <string name="no_mark_content">マークが未登録です。\n初めにマークを登録しましょう。</string>
+    <string name="no_mark_induction_button">マーク登録画面へ</string>
+
     <!--  曜日  -->
     <string name="week_sunday">Sun</string>
     <string name="week_monday">Mon</string>
@@ -23,9 +28,15 @@
     <string name="mark_ratio_unit">%</string>
     <string name="mark_total">Total</string>
 
-    <!--  マークリスト  -->
+    <!--  マークリスト画面  -->
     <string name="craate_mark">New</string>
     <string name="craate_mark_hint">マーク名(最大16文字)</string>
+
+    <!--  マークリスト画面（マーク削除ダイアログ）  -->
+    <string name="delete_mark_title">マーク削除確認</string>
+    <string name="delete_mark_content">カレンダーにつけたマークも全て削除されます。\n本当に削除しますか？</string>
+    <string name="delete_mark_positive">OK</string>
+    <string name="delete_mark_negative">CANCEL</string>
 
     <!--  マーク作成  -->
     <string name="ok">OK</string>

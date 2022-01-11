@@ -83,21 +83,14 @@ public class MarkListActivity extends AppCompatActivity {
 
                         //新規作成結果
                         if(resultCode == MarkEntryActivity.RESULT_CREATED) {
-                            //生成マーク
-                            MarkTable mark = (MarkTable) intent.getSerializableExtra(MarkEntryActivity.KEY_MARK);
-                            Log.i("MarkListActivity", "新規生成 mark=" + mark.getName() + " 色=" + mark.getColor());
-
                             //リストに追加し、アダプタに追加を通知
-                            marks.add( mark );
-                            ((RecyclerView)findViewById(R.id.rv_markList)).getAdapter().notifyItemInserted(marks.size() - 1);
+                            ((RecyclerView)findViewById(R.id.rv_markList)).getAdapter().notifyItemInserted( marks.getLastIdx() );
 
                         //編集結果
                         } else if( resultCode == MarkEntryActivity.RESULT_EDITED) {
-                            //編集後のマーク
-                            MarkTable mark = (MarkTable) intent.getSerializableExtra(MarkListActivity.KEY_MARK);
-
                             //リスト内のマークを更新
-                            int idx = marks.editMark( mark );
+                            int idx = intent.getIntExtra( MarkListActivity.KEY_MARK, 0 );
+
                             //アダプタに変更を通知
                             ((RecyclerView)findViewById(R.id.rv_markList)).getAdapter().notifyItemChanged( idx );
 
@@ -118,32 +111,6 @@ public class MarkListActivity extends AppCompatActivity {
 
         //ソート可能にする
         attachItemTouchHelper();
-
-/*        //DB読み込み処理
-        AsyncReadMark db = new AsyncReadMark(this, new AsyncReadMark.onFinishListener() {
-
-            @Override
-            public void onFinish(MarkArrayList<MarkTable> marks) {
-
-                //DBから読み込んだマークをリストとして保持
-                mMarks = marks;
-
-                //レイアウトからリストビューを取得
-                RecyclerView rv_markList = findViewById(R.id.rv_markList);
-                //アダプタの生成
-                mAdapter = new MarkListAdapter((ArrayList<MarkTable>) mMarks);
-                //アダプタの設定
-                rv_markList.setAdapter(mAdapter);
-                //レイアウトマネージャの設定
-                rv_markList.setLayoutManager( new LinearLayoutManager(rv_markList.getContext()) );
-
-                //ソート可能にする
-                attachItemTouchHelper();
-            }
-        });
-        //非同期処理開始
-        db.execute();*/
-
 
         //マーク新規作成ボタンリスナー
         findViewById(R.id.tv_create).setOnClickListener(new View.OnClickListener() {

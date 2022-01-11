@@ -42,7 +42,6 @@ public class MarkEntryActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         //遷移元からの情報
         Intent intent = getIntent();
         boolean isCreate = intent.getBooleanExtra( MarkListActivity.KEY_IS_CREATE, false );
@@ -217,11 +216,16 @@ public class MarkEntryActivity extends AppCompatActivity {
                     //データ挿入されたため、レコードに割り当てられたpidをノードに設定
                     mark.setPid(pid);
 
-                    //resultコード設定
-                    intent.putExtra(KEY_MARK, mark);
-                    setResult(RESULT_CREATED, intent);
+                    //共通データからマークリストを取得
+                    CommonData commonData = (CommonData)getApplication();
+                    MarkArrayList<MarkTable> marks = commonData.getMarks();
+                    //マークをリストに追加
+                    marks.add( mark );
 
-                    Log.i("Map", "マーク新規生成完了。リスト画面へ戻る");
+                    //resultコード設定
+                    setResult(RESULT_CREATED);
+
+                    Log.i("Mark", "マーク新規生成完了。リスト画面へ戻る");
 
                     //元の画面へ戻る
                     finish();
@@ -242,11 +246,17 @@ public class MarkEntryActivity extends AppCompatActivity {
                 @Override
                 public void onFinish() {
 
+                    //共通データからマークリストを取得
+                    CommonData commonData = (CommonData)getApplication();
+                    MarkArrayList<MarkTable> marks = commonData.getMarks();
+                    //リスト内のマークを更新
+                    int idx = marks.editMark( mark );
+
                     //resultコード設定
-                    intent.putExtra(KEY_MARK, mark);
+                    intent.putExtra(MarkListActivity.KEY_MARK, idx);
                     setResult(RESULT_EDITED, intent);
 
-                    Log.i("Map", "マーク編集完了。リスト画面へ戻る");
+                    Log.i("Mark", "マーク編集完了。リスト画面へ戻る");
 
                     //元の画面へ戻る
                     finish();

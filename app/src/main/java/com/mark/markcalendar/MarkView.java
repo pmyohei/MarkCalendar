@@ -56,9 +56,6 @@ public class MarkView extends View {
         invalidate();
     }
 
-
-
-
     @Override
     protected void onDraw(Canvas canvas) {
 

@@ -10,6 +10,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -112,6 +115,8 @@ public class CalendarActivity extends AppCompatActivity {
                 tv_yearMonth.setText(mCalendarAdapter.getMonth());
 
                 if (marks.size() == 0) {
+                    //マーク未登録の場合は、操作誘導ダイアログを表示
+                    noMarkOperation();
                     return;
                 }
 
@@ -327,10 +332,36 @@ public class CalendarActivity extends AppCompatActivity {
     private void transitionMarkList() {
         //画面遷移
         Intent intent = new Intent(this, MarkListActivity.class);
-        //選択中マーク情報を渡す
-        intent.putExtra(INTENT_MARK_PID, 0);
         //画面遷移
         mMarkListLauncher.launch(intent);
+    }
+
+    /*
+     * マーク未登録時の操作誘導ダイアログの表示
+     */
+    private void noMarkOperation() {
+
+        String title   = getString( R.string.no_mark_title );
+        String content = getString( R.string.no_mark_content );
+        String bt_ok   = getString( R.string.no_mark_induction_button );
+
+        //本アクティビティ
+        Activity activity = this;
+
+        //マーク登録誘導用のダイアログを表示
+        new AlertDialog.Builder( this, R.style.AlertDialogStyle )
+                .setTitle(title)
+                .setMessage(content)
+                .setPositiveButton(bt_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //マーク登録画面へ遷移
+                        Intent intent = new Intent( activity, MarkEntryActivity.class );
+                        intent.putExtra(MarkListActivity.KEY_IS_CREATE, true);
+                        mMarkListLauncher.launch( intent );
+                    }
+                })
+                .show();
     }
 
     /*
@@ -565,6 +596,12 @@ public class CalendarActivity extends AppCompatActivity {
                 //マークリスト
                 CommonData commonData = (CommonData) getApplication();
                 MarkArrayList<MarkTable> marks = commonData.getMarks();
+
+                if( marks.size() == 0 ){
+                    //マーク未登録の場合は、操作誘導ダイアログを表示
+                    noMarkOperation();
+                    return true;
+                }
 
                 //プルダウン表示
                 MarkSpinnerDialog dialog = new MarkSpinnerDialog( marks );

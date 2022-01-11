@@ -93,11 +93,16 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                 @Override
                 public void onClick(View view) {
 
+                    String title       = view.getContext().getString( R.string.delete_mark_title );
+                    String content     = view.getContext().getString( R.string.delete_mark_content );
+                    String bt_positive = view.getContext().getString( R.string.delete_mark_positive );
+                    String bt_negative = view.getContext().getString( R.string.delete_mark_negative );
+
                     //削除確認ダイアログを表示
-                    new AlertDialog.Builder( view.getContext() )
-                            .setTitle("マーク削除確認")
-                            .setMessage("カレンダーにつけたマークも全て削除されます。\n本当に削除しますか？")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder( view.getContext(), R.style.AlertDialogStyle  )
+                            .setTitle(title)
+                            .setMessage(content)
+                            .setPositiveButton(bt_positive, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -118,7 +123,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                                     db.execute();
                                 }
                             })
-                            .setNegativeButton("Cancel", null)
+                            .setNegativeButton(bt_negative, null)
                             .show();
                 }
             });
