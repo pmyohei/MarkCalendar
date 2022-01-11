@@ -47,6 +47,20 @@
     <string name="title_mark_list">マーク一覧</string>
     <string name="title_mark_statistic">マーク数の確認</string>
 
+    <!--  ヘルプダイアログ  -->
+    <string name="help_title">操作ガイド</string>
+    <string name="help_annotation">この内容は、右上の「？」アイコンからいつでも参照できます</string>
+    <string name="help_mark">マークの付与・削除</string>
+    <string name="help_explanation_mark">日付をダブルタップ</string>
+    <string name="help_under_calendar">カレンダー下のフリック操作</string>
+    <string name="help_under_calendar_annotation">カレンダー下のエリアでは、以下の操作をすることができます</string>
+    <string name="help_change_month">参照中の月の変更</string>
+    <string name="help_explanation_flick_hor">フリック（左右）</string>
+    <string name="help_change_mark">選択中のマークの変更</string>
+    <string name="help_explanation_flick_ver">フリック（上下）</string>
+    <string name="help_show_list">マーク一覧画面の表示</string>
+    <string name="help_explanation_double_tap">ダブルタップ</string>
+
     <!--  Sample  -->
     <string name="sample">Sample</string>
 

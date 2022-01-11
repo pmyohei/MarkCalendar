@@ -388,6 +388,9 @@ public class CalendarActivity extends AppCompatActivity {
                 MarkTable mark = marks.get(0);
                 //選択中マークの設定
                 setSelectedMark(mark, MarkCountView.NONE);
+
+                //初回のマーク登録とみなし、ヘルプを表示
+                showHelpDialog();
             }
 
         } else {
@@ -442,7 +445,16 @@ public class CalendarActivity extends AppCompatActivity {
             mv_markEria.slideChangeMarkNumInMonth(mSelectedMark.getPid(), mCalendarAdapter.getMonth(), mAllMarkDates, direction);
         }
     }
-    
+
+    /*
+     * ヘルプダイアログの表示
+     */
+    private void showHelpDialog() {
+        DialogFragment helpDialog = new HelpDialog();
+        helpDialog.show( getSupportFragmentManager(), "");
+    }
+
+
     /*
      * スワイプ操作リスナー\
      *   ・フリング
@@ -630,6 +642,8 @@ public class CalendarActivity extends AppCompatActivity {
             //ヘルプボタン
             case R.id.action_help:
 
+                //ヘルプダイアログの表示
+                showHelpDialog();
                 return true;
 
             default:

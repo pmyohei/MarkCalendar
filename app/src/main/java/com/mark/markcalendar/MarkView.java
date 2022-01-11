@@ -2,6 +2,7 @@ package com.mark.markcalendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,11 +27,11 @@ public class MarkView extends View {
             paint.setColor( colorDrawable.getColor() );
 
             //背景色自体には、色なしを設定
-            this.setBackgroundColor( getResources().getColor( R.color.clear ) );
+            this.setBackgroundColor( Color.TRANSPARENT );
 
         } else {
             //色が未指定の場合、色なしを設定
-            paint.setColor( getResources().getColor( R.color.clear ) );
+            paint.setColor( Color.TRANSPARENT );
         }
 
     }
