@@ -18,6 +18,9 @@ public class MarkView extends View {
     public MarkView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        //※影の描画に必要な設定
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
         paint = new Paint();
 
         //背景色が設定されているなら、マーク色として設定する
@@ -41,6 +44,10 @@ public class MarkView extends View {
      */
     public MarkView(Context context) {
         super(context);
+
+        //※影の描画に必要な設定
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
         paint = new Paint();
     }
 
@@ -62,8 +69,16 @@ public class MarkView extends View {
 
         int width = getWidth();
 
+        float radius = (width / 5f);
+        float shaodowRadius = (width / 10f);
+
+        //影の設定
+        //paint.setShadowLayer( shaodowRadius, 0, 0, paint.getColor() );
+        paint.setShadowLayer( shaodowRadius, 0, 0 + 4f, getResources().getColor(R.color.shadowa));
+        //paint.setShadowLayer( shaodowRadius, 0, 0, Color.GRAY);
+
         //paint.setColor(getResources().getColor(R.color.mark_5));
         paint.setAntiAlias(true);
-        canvas.drawCircle(width / 2, getHeight() / 2, (width / 5), paint);
+        canvas.drawCircle(width / 2f, getHeight() / 2f, radius, paint);
     }
 }
