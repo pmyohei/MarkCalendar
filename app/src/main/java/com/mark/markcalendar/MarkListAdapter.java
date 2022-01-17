@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                     String bt_negative = view.getContext().getString( R.string.negative);
 
                     //削除確認ダイアログを表示
-                    new AlertDialog.Builder( view.getContext(), R.style.AlertDialogStyle  )
+                    AlertDialog dialog = new AlertDialog.Builder( view.getContext(), R.style.AlertDialogStyle  )
                             .setTitle(title)
                             .setMessage(content)
                             .setPositiveButton(bt_positive, new DialogInterface.OnClickListener() {
@@ -125,6 +126,10 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                             })
                             .setNegativeButton(bt_negative, null)
                             .show();
+
+                    //メッセージ文は、Styleのフォントが適用されないため個別に設定
+                    TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+                    textView.setTypeface( Typeface.SERIF );
                 }
             });
         }

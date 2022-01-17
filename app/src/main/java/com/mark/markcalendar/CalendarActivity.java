@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -397,7 +398,7 @@ public class CalendarActivity extends AppCompatActivity {
         Activity activity = this;
 
         //マーク登録誘導用のダイアログを表示
-        new AlertDialog.Builder( this, R.style.AlertDialogStyle )
+        AlertDialog dialog = new AlertDialog.Builder( this, R.style.AlertDialogStyle )
                 .setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(bt_ok, new DialogInterface.OnClickListener() {
@@ -410,6 +411,10 @@ public class CalendarActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+
+        //メッセージ文は、Styleのフォントが適用されないため個別に設定
+        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        textView.setTypeface( Typeface.SERIF );
     }
 
     /*
