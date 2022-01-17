@@ -1,16 +1,19 @@
 <resources>
+    <!--  アプリケーション名  -->
     <string name="app_name">MarkCalendar</string>
 
+    <!--  サンプル  -->
     <string name="sample_date">10</string>a
     <string name="sample_num">10</string>a
+    <string name="sample">Sample</string>
 
     <!--  カレンダー画面  -->
-    <string name="no_mark">マーク未登録</string>
+    <string name="no_mark">No Mark</string>
 
     <!--  カレンダー画面（マーク未登録時の操作誘導）  -->
-    <string name="no_mark_title">マーク未登録</string>
-    <string name="no_mark_content">マークが未登録です。\n初めにマークを登録しましょう。</string>
-    <string name="no_mark_induction_button">マーク登録画面へ</string>
+    <string name="no_mark_title">No mark registration</string>
+    <string name="no_mark_content">The mark is not registered. \nLet\'s register the mark first.</string>
+    <string name="no_mark_induction_button">Register the mark.</string>
 
     <!--  曜日  -->
     <string name="week_sunday">Sun</string>
@@ -30,39 +33,45 @@
 
     <!--  マークリスト画面  -->
     <string name="craate_mark">New</string>
-    <string name="craate_mark_hint">マーク名(最大16文字)</string>
+    <string name="craate_mark_hint">Mark name (up to 16 characters)</string>
 
     <!--  マークリスト画面（マーク削除ダイアログ）  -->
-    <string name="delete_mark_title">マーク削除確認</string>
-    <string name="delete_mark_content">カレンダーにつけたマークも全て削除されます。\n本当に削除しますか？</string>
-    <string name="delete_mark_positive">OK</string>
-    <string name="delete_mark_negative">CANCEL</string>
+    <string name="delete_mark_title">Deletion confirmation</string>
+    <string name="delete_mark_content">All marks on the calendar will also be deleted.\nDo you really want to delete this?</string>
 
-    <!--  マーク作成  -->
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    <!--  ボタン  -->
+    <string name="positive">OK</string>
+    <string name="negative">CANCEL</string>
 
     <!--  ツールバータイトル  -->
-    <string name="title_mark_entry">マークの登録</string>
-    <string name="title_mark_list">マーク一覧</string>
-    <string name="title_mark_statistic">マーク数の確認</string>
+    <string name="title_mark_list">Mark list</string>
+    <string name="title_mark_entry">Mark registration</string>
+    <string name="title_mark_statistic">Mark number information</string>
 
     <!--  ヘルプダイアログ  -->
-    <string name="help_title">操作ガイド</string>
-    <string name="help_annotation">この内容は、右上の「？」アイコンからいつでも参照できます</string>
-    <string name="help_mark">マークの付与・削除</string>
-    <string name="help_explanation_mark">日付をダブルタップ</string>
-    <string name="help_under_calendar">カレンダー下のフリック操作</string>
-    <string name="help_under_calendar_annotation">カレンダー下のエリアでは、以下の操作をすることができます</string>
-    <string name="help_change_month">参照中の月の変更</string>
-    <string name="help_explanation_flick_hor">フリック（左右）</string>
-    <string name="help_change_mark">選択中のマークの変更</string>
-    <string name="help_explanation_flick_ver">フリック（上下）</string>
-    <string name="help_show_list">マーク一覧画面の表示</string>
-    <string name="help_explanation_double_tap">ダブルタップ</string>
+    <string name="help_title">Operation guide</string>
+    <string name="help_annotation">This content can be viewed at any time from the "?" Icon at the top right of the screen.</string>
+    <string name="help_mark">Mark / Remove the calendar</string>
+    <string name="help_explanation_mark">Double tap the date.</string>
+    <string name="help_under_calendar">Flick operation under the calendar</string>
+    <string name="help_under_calendar_annotation">In the area under the calendar, the following flick operations are possible.</string>
+    <string name="help_change_month">Change the referenced month</string>
+    <string name="help_explanation_flick_hor">Flick (left and right)</string>
+    <string name="help_change_mark">Change the selected mark</string>
+    <string name="help_explanation_flick_ver">Flick (up and down)</string>
+    <string name="help_show_list">Display mark list screen</string>
+    <string name="help_explanation_double_tap">Double tap</string>
 
-    <!--  Sample  -->
-    <string name="sample">Sample</string>
+    <!-- Admod（アプリID） -->
+    <string name="admob_app_id">ca-app-pub-8046295810838892~9587230341</string>
+
+    <!-- リリース時とテスト時で切り替える -->
+    <!--  テストID（バナー広告）  -->
+    <string name="admob_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- リリース用 -->
+<!--
+    <string name="admob_unit_id">ca-app-pub-8046295810838892/1749102926</string>
+-->
 
 
 </resources>

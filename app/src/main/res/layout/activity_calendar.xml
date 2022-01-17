@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/substitute_middle">
+    android:orientation="vertical">
 
     <!--  ツールバー  -->
     <androidx.appcompat.widget.Toolbar
@@ -14,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:background="@color/primary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:titleTextAppearance="@style/Toolbar.TitleText"
         app:menu="@menu/toolbar_calendar">
 
@@ -31,6 +29,7 @@
 
     <!--  年月情報  -->
     <LinearLayout
+        android:id="@+id/ll_yearMonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_gravity="end"
-            android:background="@color/primary"
+            android:background="@android:color/transparent"
             app:srcCompat="@drawable/baseline_pre_month" />
 
         <ImageButton
@@ -63,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_gravity="end"
-            android:background="@color/primary"
+            android:background="@android:color/transparent"
             app:srcCompat="@drawable/baseline_next_month_24" />
 
     </LinearLayout>
@@ -76,6 +75,7 @@
 
     <!--  曜日行  -->
     <LinearLayout
+        android:id="@+id/ll_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

@@ -95,8 +95,8 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
 
                     String title       = view.getContext().getString( R.string.delete_mark_title );
                     String content     = view.getContext().getString( R.string.delete_mark_content );
-                    String bt_positive = view.getContext().getString( R.string.delete_mark_positive );
-                    String bt_negative = view.getContext().getString( R.string.delete_mark_negative );
+                    String bt_positive = view.getContext().getString( R.string.positive);
+                    String bt_negative = view.getContext().getString( R.string.negative);
 
                     //削除確認ダイアログを表示
                     new AlertDialog.Builder( view.getContext(), R.style.AlertDialogStyle  )

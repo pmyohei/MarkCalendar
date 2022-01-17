@@ -15,6 +15,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -29,6 +31,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import java.util.Objects;
 
 /*
  * カレンダーActivity
@@ -142,6 +152,13 @@ public class CalendarActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayShowTitleEnabled(false);
 
+        //AdMob初期化
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
         //前月に変更
         findViewById(R.id.ib_preMonth).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +235,7 @@ public class CalendarActivity extends AppCompatActivity {
         mCalendarAdapter.nextMonth();
 
         //マーク数表示エリアの更新
-        setupMonthMarkNum( MarkCountView.LEFT );
+        setupMonthMarkNum(MarkCountView.LEFT);
 
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
@@ -233,7 +250,7 @@ public class CalendarActivity extends AppCompatActivity {
         mCalendarAdapter.prevMonth();
 
         //マーク数表示エリアの更新
-        setupMonthMarkNum( MarkCountView.RIGHT);
+        setupMonthMarkNum(MarkCountView.RIGHT);
 
         //表示年月の変更
         TextView tv_yearMonth = findViewById(R.id.tv_yearMonth);
@@ -303,17 +320,21 @@ public class CalendarActivity extends AppCompatActivity {
         } else {
 
             //フェードアウトアニメーション
-            int out = ( (direction == MarkCountView.UP) ? R.anim.fade_out_up : R.anim.fade_out_down);
-            Animation outAnim = AnimationUtils.loadAnimation(this, out);;
+            int out = ((direction == MarkCountView.UP) ? R.anim.fade_out_up : R.anim.fade_out_down);
+            Animation outAnim = AnimationUtils.loadAnimation(this, out);
+            ;
 
             //アニメーション開始
             tv_selectedMark.startAnimation(outAnim);
             //アニメーションリスナーの設定
-            outAnim.setAnimationListener( new FadeUpDownAnimationListener( tv_selectedMark, mSelectedMark.getName(), direction ) );
+            outAnim.setAnimationListener(new FadeUpDownAnimationListener(tv_selectedMark, mSelectedMark.getName(), direction));
 
             //指定マークを設定
             editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
         }
+
+        //画面カラーをマークカラーに
+        setMainColor();
 
         //カレンダーのマーク情報を変更
         mCalendarAdapter.setMark(mSelectedMark);
@@ -323,7 +344,34 @@ public class CalendarActivity extends AppCompatActivity {
         editor.apply();
 
         //表示するマーク数を設定
-        setupMarkArea( direction, true );
+        setupMarkArea(direction, true);
+    }
+
+    /*
+     * メインカラーの変更
+     */
+    private void setMainColor() {
+
+        int color;
+
+        if( mSelectedMark == null ){
+            //デフォルトカラー
+            color = getResources().getColor(R.color.primary);
+        } else {
+            color = mSelectedMark.getColor();
+        }
+
+        //ステータスバー
+        getWindow().setStatusBarColor(color);
+        //ツールバー
+        findViewById(R.id.toolbar).setBackgroundColor( color );
+        //年月バー
+        findViewById(R.id.ll_yearMonth).setBackgroundColor( color );
+        //曜日バー
+        findViewById(R.id.ll_week).setBackgroundColor( color );
+        //マーク数エリア
+        int clearColor = (color & 0x4DFFFFFF );
+        findViewById(R.id.ll_markEria).setBackgroundColor( clearColor );
     }
 
     /*
