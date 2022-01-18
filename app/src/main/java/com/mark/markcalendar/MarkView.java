@@ -73,9 +73,7 @@ public class MarkView extends View {
         float shaodowRadius = (width / 10f);
 
         //影の設定
-        //paint.setShadowLayer( shaodowRadius, 0, 0, paint.getColor() );
         paint.setShadowLayer( shaodowRadius, 0, 0 + 4f, getResources().getColor(R.color.shadowa));
-        //paint.setShadowLayer( shaodowRadius, 0, 0, Color.GRAY);
 
         //paint.setColor(getResources().getColor(R.color.mark_5));
         paint.setAntiAlias(true);

@@ -7,9 +7,6 @@
     <color name="substitute_middle">#eeeeee</color>
     <color name="substitute_light">#f9f7f7</color>
 
-    <color name="shadowa">#cccccc</color>
-
-
     <!--  マークカラー  -->
     <color name="mark_1">#3e92a3</color>
     <color name="mark_2">#f95959</color>
@@ -22,12 +19,17 @@
     <color name="mark_8">#e99b9b</color>
 
     <color name="mark_9">#4ecca3</color>
-<!--    <color name="mark_10">#93deff</color>-->
+    <!--    <color name="mark_10">#93deff</color>-->
     <color name="mark_10">#d65a31</color>
     <color name="mark_11">#363540</color>
     <color name="mark_12">#a80038</color>
 
+    <!--  マーク影  -->
+    <color name="shadowa">#cccccc</color>
 
+
+
+    <!--  未使用  -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
