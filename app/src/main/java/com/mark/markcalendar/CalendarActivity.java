@@ -157,6 +157,7 @@ public class CalendarActivity extends AppCompatActivity {
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
+                //※本画面では何もしない
             }
         });
 
@@ -323,7 +324,6 @@ public class CalendarActivity extends AppCompatActivity {
             //フェードアウトアニメーション
             int out = ((direction == MarkCountView.UP) ? R.anim.fade_out_up : R.anim.fade_out_down);
             Animation outAnim = AnimationUtils.loadAnimation(this, out);
-            ;
 
             //アニメーション開始
             tv_selectedMark.startAnimation(outAnim);
@@ -335,7 +335,8 @@ public class CalendarActivity extends AppCompatActivity {
         }
 
         //画面カラーをマークカラーに
-        setMainColor();
+        //★ユーザー選択可能にする
+        //setMainColor();
 
         //カレンダーのマーク情報を変更
         mCalendarAdapter.setMark(mSelectedMark);
@@ -750,6 +751,9 @@ public class CalendarActivity extends AppCompatActivity {
             public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
                 //アダプタの日付マーク情報を更新
                 mCalendarAdapter.updateMarkDate( markDates );
+
+                //全日付マークを更新
+                mAllMarkDates = markDates;
 
                 //マーク数エリアを更新
                 setupMarkArea( MarkCountView.UP, false );
