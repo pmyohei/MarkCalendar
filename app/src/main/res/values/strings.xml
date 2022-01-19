@@ -44,9 +44,9 @@
     <string name="negative">CANCEL</string>
 
     <!--  ツールバータイトル  -->
-    <string name="title_mark_list">Mark list</string>
-    <string name="title_mark_entry">Mark registration</string>
-    <string name="title_mark_statistic">Mark number information</string>
+    <string name="title_mark_list">Mark List</string>
+    <string name="title_mark_entry">Mark Registration</string>
+    <string name="title_mark_statistic">Mark Number Information</string>
 
     <!--  ヘルプダイアログ  -->
     <string name="help_title">Operation Guide</string>
