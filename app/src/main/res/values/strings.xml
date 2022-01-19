@@ -11,7 +11,7 @@
     <string name="no_mark">No Mark</string>
 
     <!--  カレンダー画面（マーク未登録時の操作誘導）  -->
-    <string name="no_mark_title">No mark registration</string>
+    <string name="no_mark_title">No Mark Registration</string>
     <string name="no_mark_content">The mark is not registered. \nLet\'s register the mark first.</string>
     <string name="no_mark_induction_button">Register the mark.</string>
 
@@ -49,7 +49,7 @@
     <string name="title_mark_statistic">Mark number information</string>
 
     <!--  ヘルプダイアログ  -->
-    <string name="help_title">Operation guide</string>
+    <string name="help_title">Operation Guide</string>
     <string name="help_annotation">This content can be viewed at any time from the "?" Icon at the top right of the screen.</string>
     <string name="help_mark">Mark / Remove the calendar</string>
     <string name="help_explanation_mark">Double tap the date.</string>
