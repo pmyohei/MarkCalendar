@@ -44,12 +44,12 @@
     <string name="negative">CANCEL</string>
 
     <!--  ツールバータイトル  -->
-    <string name="title_mark_list">Mark List</string>
-    <string name="title_mark_entry">Mark Registration</string>
-    <string name="title_mark_statistic">Mark Number Information</string>
+    <string name="title_mark_list">Mark list</string>
+    <string name="title_mark_entry">Mark registration</string>
+    <string name="title_mark_statistic">Mark number information</string>
 
     <!--  ヘルプダイアログ  -->
-    <string name="help_title">Operation Guide</string>
+    <string name="help_title">Operation guide</string>
     <string name="help_annotation">This content can be viewed at any time from the "?" Icon at the top right of the screen.</string>
     <string name="help_mark">Mark / Remove the calendar</string>
     <string name="help_explanation_mark">Double tap the date.</string>

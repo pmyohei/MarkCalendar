@@ -69,7 +69,7 @@ public class MarkView extends View {
 
         int width = getWidth();
 
-        float markRadius = (width / 5f);
+        float radius = (width / 5f);
         float shaodowRadius = (width / 10f);
 
         //影の設定
@@ -77,6 +77,6 @@ public class MarkView extends View {
 
         //paint.setColor(getResources().getColor(R.color.mark_5));
         paint.setAntiAlias(true);
-        canvas.drawCircle(width / 2f, getHeight() / 2f, markRadius, paint);
+        canvas.drawCircle(width / 2f, getHeight() / 2f, radius, paint);
     }
 }
