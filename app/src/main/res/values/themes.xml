@@ -13,7 +13,7 @@
         <item name="android:textColor">@color/substitute_middle</item>
     </style>
     <!--  戻るボタン用デザイン設定  -->
-    <style name="ToolbarTheme" parent="Theme.AppCompat.Light">
+    <style name="Toolbar.ToolbarTheme" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/primary</item>
         <item name="android:textColorPrimary">@color/substitute_middle</item>
         <item name="android:textColorSecondary">@color/substitute_middle</item>

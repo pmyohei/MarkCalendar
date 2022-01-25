@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -42,7 +43,7 @@ public class MarkEntryActivity extends AppCompatActivity {
 
         //ツールバー設定
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle( getResources().getString( R.string.title_mark_entry ) );
+        toolbar.setTitle( "" );
         setSupportActionBar(toolbar);
         //戻るボタンの表示設定
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -96,9 +97,6 @@ public class MarkEntryActivity extends AppCompatActivity {
 
         //色選択リストの設定
         setSelectColor();
-
-        //
-
     }
 
     /*
@@ -174,6 +172,7 @@ public class MarkEntryActivity extends AppCompatActivity {
 
             //入力チェック
             if (verifyInputData()) {
+                Toast.makeText(view.getContext(), R.string.toast_no_mark_name, Toast.LENGTH_SHORT).show();
                 return;
             }
 

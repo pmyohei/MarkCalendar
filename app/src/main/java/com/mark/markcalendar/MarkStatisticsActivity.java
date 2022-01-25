@@ -45,7 +45,7 @@ public class MarkStatisticsActivity extends AppCompatActivity {
 
         //ツールバー設定
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle( getResources().getString( R.string.title_mark_statistic ) );
+        toolbar.setTitle( "" );
         setSupportActionBar(toolbar);
         //戻るボタンの表示設定
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);

@@ -128,7 +128,7 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.MarkVi
                             .show();
 
                     //メッセージ文は、Styleのフォントが適用されないため個別に設定
-                    TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+                    TextView textView = dialog.findViewById(android.R.id.message);
                     textView.setTypeface( Typeface.SERIF );
                 }
             });

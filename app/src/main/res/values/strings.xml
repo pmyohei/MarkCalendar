@@ -51,16 +51,19 @@
     <!--  ヘルプダイアログ  -->
     <string name="help_title">Operation Guide</string>
     <string name="help_annotation">This content can be viewed at any time from the "?" Icon at the top right of the screen.</string>
-    <string name="help_mark">Mark / Remove the calendar</string>
+    <string name="help_mark">＜Mark / Remove the calendar＞</string>
     <string name="help_explanation_mark">Double tap the date.</string>
     <string name="help_under_calendar">Flick operation under the calendar</string>
     <string name="help_under_calendar_annotation">In the area under the calendar, the following flick operations are possible.</string>
-    <string name="help_change_month">Change the referenced month</string>
+    <string name="help_change_month">＜Change the referenced month＞</string>
     <string name="help_explanation_flick_hor">Flick (left and right)</string>
-    <string name="help_change_mark">Change the selected mark</string>
+    <string name="help_change_mark">＜Change the selected mark＞</string>
     <string name="help_explanation_flick_ver">Flick (up and down)</string>
-    <string name="help_show_list">Display mark list screen</string>
+    <string name="help_show_list">＜Display mark list screen＞</string>
     <string name="help_explanation_double_tap">Double tap</string>
+
+    <!--  トースト  -->
+    <string name="toast_no_mark_name">Please enter the mark name.</string>
 
     <!-- Admod（アプリID） -->
     <string name="admob_app_id">ca-app-pub-8046295810838892~9587230341</string>

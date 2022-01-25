@@ -19,15 +19,12 @@
     <color name="mark_8">#e99b9b</color>
 
     <color name="mark_9">#4ecca3</color>
-    <!--    <color name="mark_10">#93deff</color>-->
     <color name="mark_10">#d65a31</color>
     <color name="mark_11">#363540</color>
     <color name="mark_12">#a80038</color>
 
     <!--  マーク影  -->
     <color name="shadowa">#cccccc</color>
-
-
 
     <!--  未使用  -->
     <color name="purple_200">#FFBB86FC</color>

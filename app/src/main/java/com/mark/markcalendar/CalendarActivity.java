@@ -147,7 +147,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         //ツールバー設定
         Toolbar toolbar = findViewById(R.id.toolbar);
-        //toolbar.setTitle("選択中マークを表示");
         setSupportActionBar(toolbar);
 
         ActionBar actionbar = getSupportActionBar();
@@ -414,7 +413,7 @@ public class CalendarActivity extends AppCompatActivity {
                 .show();
 
         //メッセージ文は、Styleのフォントが適用されないため個別に設定
-        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        TextView textView = dialog.findViewById(android.R.id.message);
         textView.setTypeface( Typeface.SERIF );
     }
 
@@ -671,10 +670,14 @@ public class CalendarActivity extends AppCompatActivity {
 
                 //プルダウン表示
                 MarkSpinnerDialog dialog = new MarkSpinnerDialog( marks );
-
-                dialog.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+                dialog.setOnItemClickListener( new View.OnClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onClick(View view) {
+
+                        //positionを取得
+                        TextView tv_positoin = view.findViewById(R.id.tv_positoin);
+                        int position = Integer.parseInt( tv_positoin.getText().toString() );
+
                         //選択マーク
                         MarkTable mark = marks.get(position);
 
@@ -682,8 +685,12 @@ public class CalendarActivity extends AppCompatActivity {
                         if( mark.getPid() != mSelectedMark.getPid() ){
                             setSelectedMark( mark, MarkCountView.UP );
                         }
+
+                        //閉じる
+                        dialog.dismiss();
                     }
                 });
+
                 dialog.show( getSupportFragmentManager(), "mark");
 
                 return true;
