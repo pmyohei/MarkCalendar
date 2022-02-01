@@ -58,7 +58,7 @@ public class MarkStatisticsActivity extends AppCompatActivity {
             @Override
             public void onFinish(MarkArrayList<MarkTable> marks, MarkDateArrayList<MarkDateTable> markDates) {
                 //月毎リストを作成
-                MonthMarkArrayList<MonthMarkInformation> monthData = markDates.createMonthMarkData();
+                MonthMarkArrayList<MonthMarkInformation> monthData = markDates.createStatisticsMonths();
 
                 //合計マーク数
                 int total = markDates.size();

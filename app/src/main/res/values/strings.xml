@@ -46,7 +46,7 @@
     <!--  ツールバータイトル  -->
     <string name="title_mark_list">Mark List</string>
     <string name="title_mark_entry">Mark Registration</string>
-    <string name="title_mark_statistic">Mark Number Information</string>
+    <string name="title_mark_statistic">Mark\'s statistics</string>
 
     <!--  ヘルプダイアログ  -->
     <string name="help_title">Operation Guide</string>

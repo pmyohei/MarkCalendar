@@ -20,8 +20,8 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:paddingTop="20dp"
-            android:paddingLeft="44dp"
-            android:paddingRight="44dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
             android:orientation="vertical">
 
             <TextView
@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:textStyle="bold"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:text="@string/help_mark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:textSize="16sp"
                 android:text="@string/help_explanation_mark" />
 
@@ -85,14 +85,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:textStyle="bold"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:text="@string/help_change_month" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:textSize="16sp"
                 android:text="@string/help_explanation_flick_hor" />
 
@@ -107,14 +107,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:textStyle="bold"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:text="@string/help_change_mark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:textSize="16sp"
                 android:text="@string/help_explanation_flick_ver" />
 
@@ -129,14 +129,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:textStyle="bold"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:text="@string/help_show_list" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/substitute_dark"
+                android:textColor="@color/substitute_accent"
                 android:textSize="16sp"
                 android:text="@string/help_explanation_double_tap" />
 

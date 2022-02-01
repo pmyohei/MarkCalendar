@@ -18,11 +18,11 @@
 
         <TextView
             android:id="@+id/tv_selectedMark"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/no_mark"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/substitute_middle"/>
 
     </androidx.appcompat.widget.Toolbar>

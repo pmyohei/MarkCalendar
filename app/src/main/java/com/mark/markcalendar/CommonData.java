@@ -50,6 +50,7 @@ public class CommonData extends Application {
     public MarkArrayList<MarkTable> createMarksInOrder(MarkArrayList<MarkTable> marks, String order) {
 
         //指定順通りに生成
+        mMarks.clear();
         mMarks.addInOrder( marks, order );
 
         //生成したマークリストを返す

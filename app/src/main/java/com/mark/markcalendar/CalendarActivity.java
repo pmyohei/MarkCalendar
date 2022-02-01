@@ -47,13 +47,11 @@ import java.util.Objects;
 public class CalendarActivity extends AppCompatActivity {
 
     /*-- 定数 --*/
-    //画面遷移-キー
-    public static String INTENT_MARK_PID = "MarkPid";
-
     //SharedPreferences
     public static final String SHARED_DATA_NAME = "UIData";         //SharedPreferences保存名
     private final String SHARED_KEY_SELECTED_MARK = "SelectedMark"; //選択中マーク
     public static final String SHARED_KEY_MARK_ORDER = "MarkOrder"; //マークの並び順
+
     public static final int INVALID_SELECTED_MARK = -1;             //選択中マーク（取得エラー時）
     public static final String INVALID_MARK_ORDER = "";             //マークの並び順（取得エラー時）
 
@@ -66,7 +64,6 @@ public class CalendarActivity extends AppCompatActivity {
     //日付マークリスト(全データ)
     private MarkDateArrayList<MarkDateTable> mAllMarkDates;
     //選択中マーク
-    //★pidにするかも（最後に見直し）
     private MarkTable mSelectedMark;
 
     @SuppressLint("ClickableViewAccessibility")

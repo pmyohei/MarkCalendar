@@ -116,7 +116,7 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
     /*
      * 月ごとのマーク数統計リストを生成する
      */
-    public MonthMarkArrayList<MonthMarkInformation> createMonthMarkData() {
+    public MonthMarkArrayList<MonthMarkInformation> createStatisticsMonths() {
 
         //月ごとマーク数情報リスト
         MonthMarkArrayList<MonthMarkInformation> monthMarks = new MonthMarkArrayList<>();
@@ -158,7 +158,7 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
     /*
      * マーク数のない月をマーク数0件のデータで埋める
      */
-    public MonthMarkArrayList<MonthMarkInformation> paddingNoMarkMonth( MonthMarkArrayList<MonthMarkInformation> onMarkMonths ) {
+    private MonthMarkArrayList<MonthMarkInformation> paddingNoMarkMonth( MonthMarkArrayList<MonthMarkInformation> onMarkMonths ) {
         //----
         //for (MonthMarkInformation tmp : onMarkMonths) {
         //    Log.i("MonthMark", "ソート後 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
