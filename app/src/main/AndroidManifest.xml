@@ -22,6 +22,7 @@
             android:exported="true" />
         <activity
             android:name=".MarkEntryActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".MarkListActivity"

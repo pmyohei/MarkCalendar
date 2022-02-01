@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 public class MonthMarkInformation {
 
-    private String yearMonth;
-    private int    markNum;
+    private final String yearMonth;   //年月（yyyy.mm）
+    private int          markNum;     //文字列
 
     public MonthMarkInformation( String yearMonth, int markNum ){
         this.yearMonth = yearMonth;
@@ -23,15 +23,8 @@ public class MonthMarkInformation {
     public String getYearMonth() {
         return yearMonth;
     }
-    public void setYearMonth(String yearMonth) {
-        this.yearMonth = yearMonth;
-    }
-
     public int getMarkNum() {
         return markNum;
-    }
-    public void setMarkNum(int markNum) {
-        this.markNum = markNum;
     }
 }
 

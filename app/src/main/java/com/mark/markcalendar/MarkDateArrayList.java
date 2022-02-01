@@ -114,26 +114,26 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
 
 
     /*
-     * 月ごとのマーク数情報リストを生成する
+     * 月ごとのマーク数統計リストを生成する
      */
-    public MonthMarkArrayList<MonthMarkInformation> createMonthMarkData(){
+    public MonthMarkArrayList<MonthMarkInformation> createMonthMarkData() {
 
         //月ごとマーク数情報リスト
         MonthMarkArrayList<MonthMarkInformation> monthMarks = new MonthMarkArrayList<>();
 
         //日付マーク数分繰り返し
-        for( MarkDateTable markDate: this ){
+        for (MarkDateTable markDate : this) {
 
-            //年月のみ取得
+            //年月文字列のみ取得(先頭から切り取る形で取得)
             String yearMonth = markDate.getDate().substring(0, ResourceData.YEAR_MONTH_CHAR_NUM);
 
             //日付マークの日付の年月を既にリストに格納しているかチェック
-            int idx = monthMarks.hasMonth( yearMonth );
-            if( idx == MonthMarkArrayList.NO_DATA ){
+            int idx = monthMarks.hasMonth(yearMonth);
+            if (idx == MonthMarkArrayList.NO_DATA) {
                 //年月マーク情報を生成
-                MonthMarkInformation month = new MonthMarkInformation( yearMonth, 1 );
+                MonthMarkInformation month = new MonthMarkInformation(yearMonth, 1);
                 //リストに追加
-                monthMarks.add( month );
+                monthMarks.add(month);
 
             } else {
                 //既にリストに格納済みであれば、マーク数を加算
@@ -142,74 +142,101 @@ public class MarkDateArrayList<E> extends ArrayList<MarkDateTable> {
         }
 
         //----
-        for( MonthMarkInformation tmp: monthMarks ){
-            Log.i("MonthMark", "ソート前 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
-        }
-        Log.i("MonthMark", "-------------");
+        //for (MonthMarkInformation tmp : monthMarks) {
+        //    Log.i("MonthMark", "ソート前 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
+        //}
+        //Log.i("MonthMark", "-------------");
         //----
 
         //生成されたリストを年月で降順にする
         Collections.sort(monthMarks, new MonthComparator());
 
+        //マーク数のない月をマーク数0件のデータで埋める
+        return paddingNoMarkMonth(monthMarks);
+    }
+
+    /*
+     * マーク数のない月をマーク数0件のデータで埋める
+     */
+    public MonthMarkArrayList<MonthMarkInformation> paddingNoMarkMonth( MonthMarkArrayList<MonthMarkInformation> onMarkMonths ) {
         //----
-        for( MonthMarkInformation tmp: monthMarks ){
-            Log.i("MonthMark", "ソート後 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
-        }
-        Log.i("MonthMark", "-------------");
+        //for (MonthMarkInformation tmp : onMarkMonths) {
+        //    Log.i("MonthMark", "ソート後 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
+        //}
+        //Log.i("MonthMark", "-------------");
         //----
 
-        //現時点の年月
-        Date now = new Date();
-        Calendar afterCal = Calendar.getInstance();
-        afterCal.setTime( now );
-
-        //空いた年月にマーク数なしを追加
+        //完成予定リスト
         MonthMarkArrayList<MonthMarkInformation> fullMonthMarks = new MonthMarkArrayList<>();
-        for( MonthMarkInformation monthMark: monthMarks ){
 
-            Date monthDate;
-            try {
-                //リストの年月をDateに変換
-                monthDate = ResourceData.sdf_yearMonth.parse( monthMark.getYearMonth() );
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
+        //マーク数なしなら空のリストを返す
+        if (onMarkMonths.size() == 0) {
+            return fullMonthMarks;
+        }
+
+        //現時点の年月をチェック対象の年月とする
+        Date now = new Date();
+        Calendar checkMonth = Calendar.getInstance();
+        checkMonth.setTime(now);
+
+        Date monthDate;
+        try {
+            //リスト先頭（最新の）年月を取得
+            monthDate = ResourceData.sdf_yearMonth.parse(onMarkMonths.get(0).getYearMonth());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return fullMonthMarks;
+        }
+
+        //一番最新の年月をカレンダー化
+        Calendar latestMonth = Calendar.getInstance();
+        latestMonth.setTime(monthDate);
+
+        //最新年月が、現在年月よりも新しければ、チェック年月を持ち替え
+        if (latestMonth.after(checkMonth)) {
+            checkMonth = latestMonth;
+        }
+
+        //空いた年月にマーク数0件のデータを追加していく
+        for ( int i = 0; i < onMarkMonths.size(); ) {
+
+            MonthMarkInformation markMonth = onMarkMonths.get(i);
+
+            //チェック年月を文字列に変換
+            String checkMonthStr = ResourceData.sdf_yearMonth.format( checkMonth.getTime() );
+
+            //Log.i("MonthMark", "チェック年月 loop→" + checkMonthStr);
+            //Log.i("MonthMark", "マーク年月 loop→" + markMonth.getYearMonth());
+
+            //チェック年月の方が、マークあり年月よりも未来
+            if( checkMonthStr.compareTo( markMonth.getYearMonth() )  > 0 ){
+
+                //マーク数0件の年月マーク情報を生成
+                Date date = checkMonth.getTime();
+                String checkDateStr = ResourceData.sdf_yearMonth.format(date);
+                MonthMarkInformation month = new MonthMarkInformation(checkDateStr, 0);
+
+                //Log.i("MonthMark", "マーク年月 loop 空");
+
+                //マーク0件の年月の情報を追加
+                fullMonthMarks.add(month);
+
+            } else {
+
+                //マークあり年月をリストに追加
+                fullMonthMarks.add(markMonth);
+                //次のマークあり年月へ
+                i++;
             }
 
-            //カレンダーに変換
-            Calendar beforeCal = Calendar.getInstance();
-            beforeCal.setTime( monthDate );
-
-            //月差を取得
-            int diffMonth = ResourceData.diffMonth( afterCal, beforeCal );
-
-            Log.i("MonthMark", "diffMonth()=" + diffMonth);
-
-            for( int i = 0; i < diffMonth; i++ ){
-
-                //年月マーク情報を生成
-                Date date = afterCal.getTime();
-                String checkDateStr = ResourceData.sdf_yearMonth.format( date );
-                MonthMarkInformation month = new MonthMarkInformation( checkDateStr, 0 );
-
-                //リストに追加
-                fullMonthMarks.add( month );
-
-                //前の月へ
-                afterCal.add( Calendar.MONTH, -1 );
-            }
-
-            //前の月へ
-            afterCal.add( Calendar.MONTH, -1 );
-
-            //マーク数ありのデータを追加
-            fullMonthMarks.add( monthMark );
+            //チェック年月を前の月へ
+            checkMonth.add(Calendar.MONTH, -1);
         }
 
         //----
-        for( MonthMarkInformation tmp: fullMonthMarks ){
-            Log.i("MonthMark", "完成形 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
-        }
+        //for (MonthMarkInformation tmp : fullMonthMarks) {
+        //    Log.i("MonthMark", "完成形 年月→" + tmp.getYearMonth() + " マーク→" + tmp.getMarkNum());
+        //}
         //----
 
         return fullMonthMarks;

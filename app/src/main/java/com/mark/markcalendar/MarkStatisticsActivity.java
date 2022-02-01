@@ -7,16 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -70,8 +65,7 @@ public class MarkStatisticsActivity extends AppCompatActivity {
 
                 //月ごとのマーク情報を表示
                 RecyclerView rv_monthList = findViewById(R.id.rv_monthList);
-                MonthMarkAdapter adapter = new MonthMarkAdapter( monthData, total );
-                rv_monthList.setAdapter(adapter);
+                rv_monthList.setAdapter( new MarkStatisticsAdapter( monthData, total ) );
                 rv_monthList.setLayoutManager( new LinearLayoutManager(rv_monthList.getContext()) );
 
                 //合計マーク数を表示
@@ -80,7 +74,6 @@ public class MarkStatisticsActivity extends AppCompatActivity {
         });
         //非同期処理開始
         db.execute();
-
     }
 
     /*

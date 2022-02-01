@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.MonthViewHolder>{
+public class MarkStatisticsAdapter extends RecyclerView.Adapter<MarkStatisticsAdapter.MonthViewHolder>{
 
     //月ごとマーク情報リスト
     private final MonthMarkArrayList<MonthMarkInformation> mData;
@@ -49,11 +49,12 @@ public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.Mont
             int monthNum = month.getMarkNum();
             tv_markNum.setText( Integer.toString(monthNum) );
 
-            //月のマーク数の割合（3桁表示（前方は空白埋め））
-            int ratio = (int)(((float)monthNum / (float)mTotalNum) * 100f);
-            tv_markRatio.setText( Integer.toString(ratio) );
+            //月のマーク数の割合（小数点第一位まで表示）
+            float ratio = ((float)monthNum / (float)mTotalNum) * 100f;
+            ratio = Math.round( ratio * 10 ) / 10f;
+            tv_markRatio.setText( String.valueOf( ratio ) );
 
-            //表示位置の調整
+            //表示位置の調整（前方に見えない文字を置くことで、割合が揃っているように見せる）
             if( ratio < 10 ){
                 //1桁なら、数値2桁分を表示
                 tv_padding.setText("00");
@@ -69,8 +70,8 @@ public class MonthMarkAdapter extends RecyclerView.Adapter<MonthMarkAdapter.Mont
     /*
      * コンストラクタ
      */
-    public MonthMarkAdapter( MonthMarkArrayList<MonthMarkInformation> data, int total ) {
-        mData = data;
+    public MarkStatisticsAdapter(MonthMarkArrayList<MonthMarkInformation> data, int total ) {
+        mData     = data;
         mTotalNum = total;
     }
 
