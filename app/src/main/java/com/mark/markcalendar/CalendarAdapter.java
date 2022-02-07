@@ -75,7 +75,7 @@ public class CalendarAdapter extends BaseAdapter {
             //ビューの表示初期化
             tv_date.setText("");
             tv_date.setBackground( null );
-            v_mark.setVisibility(View.INVISIBLE);
+            v_mark.setVisibility(View.GONE);
 
             //マークが選択されている時だけ、以下を設定
             if (mSelectedMark != null) {
@@ -115,9 +115,8 @@ public class CalendarAdapter extends BaseAdapter {
                 TapDataArrayList<TapData> tapData = commonData.getTapData();
 
                 //当該日付に対するマーク状態を取得
-                int state = tapData.checkDateState(mSelectedMark.getPid(), date);
-
-                if (state != TapDataArrayList.NO_DATA) {
+                Integer state = tapData.checkDateState(mSelectedMark.getPid(), date);
+                if (state != null) {
                     //対象日のデータがあれば、マークに反映
                     v_mark.setVisibility(state);
                 }
@@ -235,29 +234,6 @@ public class CalendarAdapter extends BaseAdapter {
     public String getMonth(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
         return format.format( mDateManager.mCalendar.getTime() );
-    }
-
-    //指定された日の位置を取得
-    public int getPositionDate(String target){
-        //日付フォーマット
-        String format = "yyyy.MM.dd";
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.JAPAN);
-
-        //現在表示している日を、文字列型としてリスト化
-        List<String> dateArrayString = new ArrayList();
-
-        //リスト生成
-        for(int i = 0; i < mDaysInMonth.size(); i++){
-            dateArrayString.add(sdf.format(mDaysInMonth.get(i)));
-        }
-
-        //指定された日付けの位置を返す。
-        return  dateArrayString.indexOf(target);
-    }
-
-    //当月の日を取得
-    public List<Date> getMonthDays(){
-        return mDaysInMonth;
     }
 
     //翌月表示
@@ -385,12 +361,15 @@ public class CalendarAdapter extends BaseAdapter {
                 int countValue;
 
                 //マークの付与・削除
-                if( preState == View.INVISIBLE ){
+                if( preState == View.GONE ){
                     viewHolder.v_mark.setVisibility( View.VISIBLE );
                     countValue = MarkCountView.UP;
 
                 } else {
-                    viewHolder.v_mark.setVisibility( View.INVISIBLE );
+                    //削除は、Invisibleではなく、Goneで行う
+                    //※Invisibleだと非表示反映されないケースがあるため（
+                    // 例）６行あるカレンダーの先頭の日 2022.01.30 など）
+                    viewHolder.v_mark.setVisibility( View.GONE );
                     countValue = MarkCountView.DOWN;
                 }
 

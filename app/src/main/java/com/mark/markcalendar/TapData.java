@@ -9,8 +9,7 @@ public class TapData {
 
     private int     markPid;        //対象マーク
     private String  date;           //操作がはいった日付
-    //private int     initState;      //日付の初期状態（Visible/Invisible）
-    private int     currentState;   //現在の状態（Visible/Invisible）
+    private int     currentState;   //現在の状態（Visible/Gone）
 
     /*
      * コンストラクタ
@@ -18,28 +17,19 @@ public class TapData {
     public TapData(int markPid, String date, int currentState ){
         this.markPid      = markPid;
         this.date         = date;
-        //this.initState    = initState;
         this.currentState = currentState;
     }
 
 
     /*
-     * マークを付ける
-     *   true ：マーク付与
-     *   false：マーク削除
+     * マークの有無
+     *   true ：マークあり
+     *   false：マークなし
      */
     public boolean isMarked() {
-
-        if( getCurrentState() == View.VISIBLE ){
-            //マークが付けられた状態
-            return true;
-        } else {
-            //マークが消された状態
-            return false;
-        }
+        //マークの有無を返す
+        return getCurrentState() == View.VISIBLE;
     }
-
-
 
 
     /*-- getter／setter --*/
@@ -57,14 +47,6 @@ public class TapData {
         this.date = date;
     }
 
-/*
-    public int getInitState() {
-        return initState;
-    }
-    public void setInitState(int initState) {
-        this.initState = initState;
-    }
-*/
 
     public int getCurrentState() {
         return currentState;

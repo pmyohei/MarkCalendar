@@ -43,10 +43,10 @@ public class TapDataArrayList<E> extends ArrayList<TapData> {
         }
 
         //----
-        for( TapData keep: this ){
-            Log.i("enqueMarkedDate", "日付→" + keep.getDate() + " マーク→" + keep.getMarkPid());
-        }
-        Log.i("enqueMarkedDate", "--------------");
+        //for( TapData keep: this ){
+        //    Log.i("enqueMarkedDate", "日付→" + keep.getDate() + " マーク→" + keep.getMarkPid());
+        //}
+        //Log.i("enqueMarkedDate", "--------------");
         //----
     }
 
@@ -75,42 +75,16 @@ public class TapDataArrayList<E> extends ArrayList<TapData> {
     /*
      *　指定データの日付が既にリスト内に存在しているか
      *   あり：該当Index
-     *   なし：NO_DATA
+     *   なし：null
      */
-    public int checkDateState( int markPid, String date ) {
+    public Integer checkDateState( int markPid, String date ) {
 
         int idx = getMarkedDate(markPid, date);
-
         if( idx == NO_DATA ){
-            return idx;
+            return null;
         }
 
         return get(idx).getCurrentState();
-    }
-
-    /*
-     *　リスト中の指定マーク数を取得（マイナスあり）
-     */
-    public int getMarkedDateNum( int markPid ) {
-
-        int count = 0;
-
-        for( TapData tap: this ){
-
-            if( tap.getMarkPid() != markPid ){
-                //指定マーク以外なら、次のデータへ
-                continue;
-            }
-
-            //表示中なら加算、非表示なら減算
-            if( tap.getCurrentState() == View.VISIBLE ){
-                count++;
-            } else{
-                count--;
-            }
-        }
-
-        return count;
     }
 
     /*
