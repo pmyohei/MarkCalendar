@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
@@ -15,9 +16,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -28,18 +27,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-
-import java.util.Objects;
 
 /*
  * カレンダーActivity
@@ -323,8 +317,8 @@ public class CalendarActivity extends AppCompatActivity {
 
             //アニメーション開始
             tv_selectedMark.startAnimation(outAnim);
-            //アニメーションリスナーの設定
-            outAnim.setAnimationListener(new FadeUpDownAnimationListener(tv_selectedMark, mSelectedMark.getName(), direction));
+            //フェードアウトアニメーション終了時、フェードインアニメーションを開始
+            outAnim.setAnimationListener(new FadeOutAnimationListener(tv_selectedMark, mSelectedMark.getName(), direction));
 
             //指定マークを設定
             editor.putInt(SHARED_KEY_SELECTED_MARK, mSelectedMark.getPid());
@@ -461,6 +455,12 @@ public class CalendarActivity extends AppCompatActivity {
                 } else {
                     //削除されていなくとも、編集されている場合を考慮し、選択中マークの表示を更新
                     tv_selectedMark.setText(mSelectedMark.getName());
+/*                    TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+                            tv_selectedMark,
+                            (int)getResources().getDimension(R.dimen.autoSizeMinTextSize),
+                            (int)getResources().getDimension(R.dimen.autoSizeMaxTextSize),
+                            (int)getResources().getDimension(R.dimen.autoSizeStepGranularity),
+                            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);*/
                 }
             }
         }

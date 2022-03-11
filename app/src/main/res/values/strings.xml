@@ -33,7 +33,7 @@
 
     <!--  マークリスト画面  -->
     <string name="craate_mark">New</string>
-    <string name="craate_mark_hint">Mark name (up to 16 characters)</string>
+    <string name="craate_mark_hint">Mark Name (max 16 text)</string>
 
     <!--  マークリスト画面（マーク削除ダイアログ）  -->
     <string name="delete_mark_title">Deletion confirmation</string>
@@ -47,6 +47,11 @@
     <string name="title_mark_list">Mark List</string>
     <string name="title_mark_entry">Mark Registration</string>
     <string name="title_mark_statistic">Mark\'s statistics</string>
+
+    <!--  オプションメニュー  -->
+    <string name="optionMenu_changeMark">Select Mark</string>
+    <string name="optionMenu_toMarkList">To the Mark List</string>
+    <string name="optionMenu_help">Help</string>
 
     <!--  ヘルプダイアログ  -->
     <string name="help_title">Operation Guide</string>

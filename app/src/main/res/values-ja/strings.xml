@@ -48,6 +48,11 @@
     <string name="title_mark_entry">マークの登録</string>
     <string name="title_mark_statistic">マーク数の確認</string>
 
+    <!--  オプションメニュー  -->
+    <string name="optionMenu_changeMark">マーク選択</string>
+    <string name="optionMenu_toMarkList">マークリスト画面へ</string>
+    <string name="optionMenu_help">ヘルプ</string>
+
     <!--  ヘルプダイアログ  -->
     <string name="help_title">操作ガイド</string>
     <string name="help_annotation">この内容は、右上の「？」アイコンからいつでも参照できます</string>

@@ -102,17 +102,36 @@ public class MarkEntryActivity extends AppCompatActivity {
     /*
      * 色選択エリアの設定
      */
-    private void setSelectColor(){
+    private void setSelectColor() {
         //色選択エリア
-        LinearLayout ll_colorSelectArea = findViewById(R.id.ll_colorSelectArea);
+        ViewGroup cl_colorSelectArea = findViewById(R.id.cl_colorSelectArea);
         //選択マーク
         MarkView mv_selectedMark = findViewById(R.id.mv_selectedMark);
 
         //選択エリアビューの直下のビューを取得
-        int parentNum = ll_colorSelectArea.getChildCount();
+        int childNum = cl_colorSelectArea.getChildCount();
+        for( int i = 0; i < childNum; i++ ){
+            //子ビュー
+            View selectMark = cl_colorSelectArea.getChildAt(i);
+
+            //MarkViewに対して、クリックリスナーを設定
+            if( selectMark instanceof MarkView ){
+                selectMark.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //クリックマークの色を取得
+                        int color = ((MarkView)view).getColorHex();
+                        //選択中マークに色を反映
+                        mv_selectedMark.setColorHex(color);
+                    }
+                });
+            }
+        }
+
+/*        int parentNum = cl_colorSelectArea.getChildCount();
         for( int i = 0; i < parentNum; i++ ){
 
-            View v_parent = ll_colorSelectArea.getChildAt(i);
+            View v_parent = cl_colorSelectArea.getChildAt(i);
             //親ビューの場合、その直下のビューを設定
             if( v_parent instanceof ViewGroup) {
                 int colorNum = ((ViewGroup)v_parent).getChildCount();
@@ -133,7 +152,7 @@ public class MarkEntryActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
+        }*/
 
     }
 

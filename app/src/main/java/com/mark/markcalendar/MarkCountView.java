@@ -68,8 +68,8 @@ public class MarkCountView extends LinearLayout {
 
         //アニメーション開始
         tv_markNumMonth.startAnimation(outAnim);
-        //アニメーションリスナーの設定
-        outAnim.setAnimationListener( new FadeUpDownAnimationListener( tv_markNumMonth, Integer.toString( monthNum ), direction ) );
+        //フェードアウトアニメーション終了時、フェードインアニメーションを開始
+        outAnim.setAnimationListener( new FadeOutAnimationListener( tv_markNumMonth, Integer.toString( monthNum ), direction ) );
     }
 
 
@@ -152,8 +152,8 @@ public class MarkCountView extends LinearLayout {
 
         //アニメーション開始
         tv_markNumMonth.startAnimation(outAnim);
-        //アニメーションリスナーの設定
-        outAnim.setAnimationListener( new FadeUpDownAnimationListener( tv_markNumMonth, Integer.toString( monthNum ), value ) );
+        //フェードアウトアニメーション終了時、フェードインアニメーションを開始
+        outAnim.setAnimationListener( new FadeOutAnimationListener( tv_markNumMonth, Integer.toString( monthNum ), value ) );
 
     }
 

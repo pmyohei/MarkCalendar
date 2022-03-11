@@ -2,5 +2,15 @@
 <resources>
     <dimen name="duration_fade_animation">100</dimen>
 
+    <!--  カレンダー画面　選択中マーク  -->
+    <dimen name="toolbar_selectedMarkTextSize">18sp</dimen>
+    <dimen name="toolbar_selectedMarkTextSizeMin">14sp</dimen>
+
+    <!--  テキストサイズ自動調整（未使用）  -->
+<!--
+    <dimen name="autoSizeMaxTextSize">18sp</dimen>
+    <dimen name="autoSizeMinTextSize">12sp</dimen>
+    <dimen name="autoSizeStepGranularity">2sp</dimen>
+-->
 
 </resources>

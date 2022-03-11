@@ -46,11 +46,154 @@
         android:textColor="@color/primary"
         android:backgroundTint="@color/primary"
         android:hint="@string/craate_mark_hint"
+        android:inputType="text"
         android:maxLength="16"/>
 
     <!--  カラー選択エリア  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_colorSelectArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_1"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_2"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_3"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--    ２行目    -->
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_5"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_1" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_6"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_7"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_5"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_1" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_7"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_7"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_8"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_6"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_1" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_8"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_7"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_1" />
+
+        <!--    3行目    -->
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_9"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_9"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_5" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_10"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_10"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_11"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_9"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_5" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_11"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_11"
+            app:layout_constraintEnd_toStartOf="@+id/v_markColor_12"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_10"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_5" />
+
+        <com.mark.markcalendar.MarkView
+            android:id="@+id/v_markColor_12"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@color/mark_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/v_markColor_11"
+            app:layout_constraintTop_toBottomOf="@+id/v_markColor_5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--
+
     <LinearLayout
-        android:id="@+id/ll_colorSelectArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -66,8 +209,8 @@
                 android:id="@+id/v_markColor_1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="20dp"
+                
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_1"/>
 
@@ -75,8 +218,8 @@
                 android:id="@+id/v_markColor_2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_2"/>
 
@@ -84,8 +227,8 @@
                 android:id="@+id/v_markColor_3"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_3"/>
 
@@ -93,8 +236,8 @@
                 android:id="@+id/v_markColor_4"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_edge"
                 android:layout_gravity="center"
                 android:background="@color/mark_4"/>
 
@@ -110,8 +253,8 @@
                 android:id="@+id/v_markColor_5"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="20dp"
+                
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_5"/>
 
@@ -119,8 +262,8 @@
                 android:id="@+id/v_markColor_6"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_6"/>
 
@@ -128,8 +271,8 @@
                 android:id="@+id/v_markColor_7"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_7"/>
 
@@ -137,8 +280,8 @@
                 android:id="@+id/v_markColor_8"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_edge"
                 android:layout_gravity="center"
                 android:background="@color/mark_8"/>
 
@@ -154,8 +297,8 @@
                 android:id="@+id/v_markColor_9"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="20dp"
+                
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_9"/>
 
@@ -163,8 +306,8 @@
                 android:id="@+id/v_markColor_10"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_10"/>
 
@@ -172,8 +315,8 @@
                 android:id="@+id/v_markColor_11"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_space"
                 android:layout_gravity="center"
                 android:background="@color/mark_11"/>
 
@@ -181,8 +324,8 @@
                 android:id="@+id/v_markColor_12"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="@dimen/markList_space"
+                android:layout_marginEnd="@dimen/markList_edge"
                 android:layout_gravity="center"
                 android:background="@color/mark_12"/>
 
@@ -190,7 +333,8 @@
 
     </LinearLayout>
 
-    <!--  ボタンエリア  -->
+-->
+    <!-- ボタンエリア -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
