@@ -4,6 +4,7 @@
     <!--  アクションバーなしのスタイルをカスタム  -->
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!--  アプリ全体にフォントを適用  -->
+        <!--  ※toolbar配下のテキストに適用させる（ツールバーのタイトルには適用されないため注意） -->
         <item name="android:typeface">serif</item>
     </style>
     <!--  タイトル文字列のデザイン設定  -->
