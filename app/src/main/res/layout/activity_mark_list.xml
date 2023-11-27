@@ -16,6 +16,7 @@
         android:layout_gravity="top"
         android:background="@color/primary"
         android:theme="@style/Toolbar.ToolbarTheme"
+        app:menu="@menu/toolbar_mark_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

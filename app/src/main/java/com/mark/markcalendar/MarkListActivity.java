@@ -16,7 +16,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -210,5 +216,43 @@ public class MarkListActivity extends AppCompatActivity {
         finish();
 
         return super.onSupportNavigateUp();
+    }
+
+    /*
+     * ツールバーオプションメニュー生成
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //メニューをインフレート
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_mark_list, menu);
+
+        return true;
+    }
+
+    /*
+     * ツールバーアクション選択
+     */
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            // ライセンス表示
+            case R.id.action_licenses:
+                showLicenses();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /*
+     * licenses表示
+     */
+    public void showLicenses() {
+        Intent intent = new Intent(this, OssLicensesMenuActivity.class);
+        startActivity(intent);
     }
 }

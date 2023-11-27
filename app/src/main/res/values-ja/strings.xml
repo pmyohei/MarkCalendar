@@ -52,6 +52,7 @@
     <string name="optionMenu_changeMark">マーク選択</string>
     <string name="optionMenu_toMarkList">マークリスト画面へ</string>
     <string name="optionMenu_help">ヘルプ</string>
+    <string name="optionMenu_licenses">ライセンス</string>
 
     <!--  ヘルプダイアログ  -->
     <string name="help_title">操作ガイド</string>
