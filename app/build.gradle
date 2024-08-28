@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.mark.markcalendar"
         minSdk 21
-        targetSdk 33
-        versionCode 4       // !2023/11/27 ライセンス対応
-        versionName "3.1"
+        targetSdk 34
+        versionCode 5       // !2024/08/28 API34対応
+        versionName "3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
